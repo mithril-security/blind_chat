@@ -126,11 +126,10 @@ You can contribute our code by forking our project on [GitHub](https://github.co
 
 Share our project on social media!
 
-[![share-on-linkedin][linkedin-shield]][linkedin-share]
 [![share-on-twitter][twitter]][twitter-share]
 [![share-on-fb][fb-shield]][facebook-share]
 [![share-on-reddit][reddit-shield]][reddit-share]
-
+[![share-on-linkedin][linkedin-shield]][linkedin-share]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
