@@ -9,7 +9,6 @@
 
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
-[![Docs][docs-shield]][docs-url]
 </div>
 
  <p align="center">
@@ -128,9 +127,7 @@ You can contribute our code by forking our project on [GitHub](https://github.co
 Share our project on social media!
 
 [![share-on-linkedin][linkedin-shield]][linkedin-share]
-
 [![Blog][twitter]][twitter-share]
-
 [![Docs][fb-shield]][facebook-share]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
