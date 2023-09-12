@@ -149,6 +149,11 @@ Thank you for your support!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## References
+
+[1] Carlini, N., Ippolito, D., Jagielski, M., Lee, K., Tramer, F., & Zhang, C. (2022). Quantifying Memorization Across Neural Language Models. ArXiv. /abs/2202.07646
+
+
 <!-- MARKDOWN LINKS & IMAGES -->
 [project-url]: https://github.com/mithril-security/blind_chat
 [twitter-url]: https://twitter.com/MithrilSecurity
