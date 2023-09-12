@@ -71,7 +71,7 @@ We offer two modes to ensure users’ data remains private:
 #### On-device inference
 
 ![on-device-mode-dark](./assets/on-device-dark.png#gh-dark-mode-only)
-![on-device-mode-light](./assets/om-device-light.png#gh-light-mode-only)
+![on-device-mode-light](./assets/on-device-light.png#gh-light-mode-only)
 
 With the on-device mode, the model is sent locally to the users’ browser, and **inference is performed on-device**.
 
