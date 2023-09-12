@@ -74,7 +74,10 @@ With the on-device mode, the model is sent locally to the users’ browser, and 
 
 This mode is **generally suitable for smaller models** as large models may require too much bandwidth and computational resources.
 
-#### Zero-trust AI APIs with enclaves 
+#### Zero-trust AI APIs with enclaves
+
+![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
+![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
 
 With the Zero-trust AI APIs mode, data is sent to a **secure environment** called an **enclave** containing the model for remote inference. 
 
