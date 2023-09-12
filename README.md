@@ -76,8 +76,8 @@ This mode is **generally suitable for smaller models** as large models may requi
 
 #### Zero-trust AI APIs with enclaves
 
-![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
-![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
+![zero-trust-mode-dark](./assets/zero-trust-dark-border.png#gh-dark-mode-only)
+![zero-trust-mode-light](./assets/zero-trust-light-border.png#gh-light-mode-only)
 
 With the Zero-trust AI APIs mode, data is sent to a **secure environment** called an **enclave** containing the model for remote inference. 
 
