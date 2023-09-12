@@ -127,8 +127,10 @@ You can contribute our code by forking our project on [GitHub](https://github.co
 Share our project on social media!
 
 [![share-on-linkedin][linkedin-shield]][linkedin-share]
-[![Blog][twitter]][twitter-share]
-[![Docs][fb-shield]][facebook-share]
+[![share-on-twitter][twitter]][twitter-share]
+[![share-on-fb][fb-shield]][facebook-share]
+[![share-on-reddit][reddit-shield]][reddit-share]
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -157,6 +159,7 @@ Thank you for your support!
 [contact]: https://img.shields.io/badge/Contact_us-000000?style=for-the-badge&colorB=555
 [project]: https://img.shields.io/badge/Project-000000?style=for-the-badge&colorB=555
 [linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white&colorB=555
+[reddit-shield]: https://img.shields.io/badge/reddit-0077B5?style=for-the-badge&logo=reddit&logoColor=white&colorB=FF4500
 [twitter]: https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white
 [fb-shield]: https://img.shields.io/badge/Facebook-0077B5?style=for-the-badge&logo=facebook&logoColor=white&colorB=3b5998
 [linkedin-url]: https://www.linkedin.com/company/mithril-security-company/
@@ -165,6 +168,7 @@ Thank you for your support!
 [website-shield]: https://img.shields.io/badge/website-000000?style=for-the-badge&colorB=555
 [blog-url]: https://blog.mithrilsecurity.io/
 [blog-shield]: https://img.shields.io/badge/Blog-000?style=for-the-badge&logo=ghost&logoColor=yellow&colorB=555
-[facebook-share]:https://www.facebook.com/sharer/sharer.php?u=https%3A//github.com/mithril-security/blind_chat
-[twitter-share]: https://twitter.com/intent/tweet?text=Check%20out%20the%20open-source%20project%20to%20build%20a%20private%20Conversational%20AI%20app%20running%20fully%20in%20browser%3A%20%0Ahttps%3A//github.com/mithril-security/blind_chat
-[linkedin-share]: https://www.linkedin.com/shareArticle?mini=true&url=https%3A//github.com/mithril-security/blind_chat
+[facebook-share]: https://www.facebook.com/sharer/sharer.php?u=https%3A//github.com/mithril-security/blind_chat
+[twitter-share]: https://twitter.com/intent/tweet?url=https://github.com/mithril-security/blind_chat&text=Check%20out%20the%20open-source%20project%20to%20build%20a%20private%20Conversational%20AI%20app%20running%20fully%20in-browser
+[linkedin-share]: https://www.linkedin.com/sharing/share-offsite/?url=https://github.com/mithril-security/blind_chat
+[reddit-share]: https://www.reddit.com/submit?url=github.com%2Fmithril-security%2Fblind_chat&title=Private%20in-browser%20Conversational%20AI%20with%20BlindChat
