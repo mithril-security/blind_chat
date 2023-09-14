@@ -54,7 +54,7 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 ### Demo
 
-👩‍💻  You can try out BlindChat [here](mithrilsecurity.io/chat)!
+👩‍💻  You can try out BlindChat [here](https://chat.mithrilsecurity.io/)!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
