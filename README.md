@@ -56,6 +56,16 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 👩‍💻  You can try out BlindChat [here](https://chat.mithrilsecurity.io/)!
 
+### Features
+
+-  ̶L̶o̶c̶a̶l̶ ̶c̶a̶c̶h̶i̶n̶g̶ ̶o̶f̶ ̶c̶h̶a̶t̶ ̶s̶e̶s̶s̶i̶o̶n̶s̶ ✅
+-  ̶I̶n̶t̶e̶g̶r̶a̶t̶i̶o̶n̶ ̶o̶f̶ ̶p̶r̶i̶v̶a̶c̶y̶-̶b̶y̶-̶d̶e̶s̶i̶g̶n̶ ̶i̶n̶f̶e̶r̶e̶n̶c̶e̶ ̶w̶i̶t̶h̶ ̶l̶o̶c̶a̶l̶ ̶m̶o̶d̶e̶l̶ ✅
+-  ̶N̶o̶ ̶t̶e̶l̶e̶m̶e̶t̶r̶y̶ ̶r̶e̶c̶o̶r̶d̶e̶d̶ ✅
+- Integration of privacy-by-design inference with remote enclave using [BlindLlama](https://blindllama.mithrilsecurity.io/en/latest/) ⌛
+- [Whisper](https://openai.com/research/whisper) integration for speech-to-text ⌛
+- Upload and interact with documents ⌛
+- Internet search ⌛
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🧑‍🎨 Design
