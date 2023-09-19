@@ -80,6 +80,7 @@ BlindChat aims to serve two users:
 
 ## 🔧 Setup
 
+[test](https://github.com/mithrilsecurity/badlink.md)
 Before going any further, please make sure you have [Node JS 18.0](https://nodejs.org/en) installed on your system.
 
 To run the chat user interface in dev/debug mode for testing purposes, execute the following commands in the root folder of your BlindChat code repo.
