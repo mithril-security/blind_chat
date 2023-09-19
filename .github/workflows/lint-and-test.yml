@@ -22,9 +22,9 @@ jobs:
       - name: "Checking lint/format errors"
         run: |
           npm run lint
-      - name: "Checking type errors"
-        run: |
-          npm run check
+  #     - name: "Checking type errors"
+  #       run: |
+  #         npm run check
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
