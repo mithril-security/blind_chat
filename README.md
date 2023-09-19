@@ -53,7 +53,7 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 ### Demo
 
-👩‍💻 You can try out BlindChat [here](chat.mithrilsecurity.io)! We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
+👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)! We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
 
 ### Who is BlindChat for?
 
@@ -67,17 +67,12 @@ BlindChat aims to serve two users:
 
 ## Roadmap
 
-Done:
-
 - Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.) ✅
 - Integration of privacy-by-design inference with local model ✅
-
-Coming soon:
-
 - Local caching of conversations ⌛
-- Integration of more advanced local models (e.g. phi-1.5) and more advanced inference (e.g. Web LLM) ⌛
-- Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as Llama 2 70b & Falcon 180b ⌛
-- Integration with LlamaIndex TS for local Retrieval Augmented Generation (RAG) ⌛
+- Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm)) ⌛
+- Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B) ⌛
+- Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG) ⌛
 - Internet search ⌛
 - Connectors to pull data from different sources ⌛
 
