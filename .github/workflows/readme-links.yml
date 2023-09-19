@@ -10,6 +10,6 @@ jobs:
       with:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'yes'
-          folder-path: '.'
           check-modified-files-only: 'yes'
+          base-branch: main
           max-depth: 1
