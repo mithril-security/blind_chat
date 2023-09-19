@@ -1,15 +1,15 @@
 name: readme link testing
-on: push
+on: [push]
 
 jobs:
   markdown-link-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - uses: gaurav-nelson/github-action-markdown-link-check@v1
-      with:
-          use-quiet-mode: 'yes'
-          use-verbose-mode: 'yes'
-          folder-path: '.'
-          check-modified-files-only: 'yes'
+      - uses: actions/checkout@v3
+      - uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: "yes"
+          use-verbose-mode: "yes"
+          check-modified-files-only: "yes"
+          base-branch: main
           max-depth: 1
