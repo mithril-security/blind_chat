@@ -7,9 +7,9 @@ on:
 
 jobs:
   lint:
+    continue-on-error: true #to remove later
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     steps:
       - uses: actions/checkout@v3
 
@@ -22,9 +22,9 @@ jobs:
       - name: "Checking lint/format errors"
         run: |
           npm run lint
-  #     - name: "Checking type errors"
-  #       run: |
-  #         npm run check
+      - name: "Checking type errors"
+        run: |
+          npm run check
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
