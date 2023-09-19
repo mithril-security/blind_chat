@@ -1,5 +1,6 @@
 <a name="readme-top"></a>
 <br />
+
 <div align="center">
   <a href="https://github.com/mithril-security/blind_chat">
     <img src="https://github.com/mithril-security/blindai/raw/main/docs/assets/logo.png" alt="Logo" width="80" height="80">
@@ -9,6 +10,7 @@
 
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
+
 </div>
 
  <p align="center">
@@ -43,7 +45,7 @@
 
 🐱 **BlindChat** is an open-source project to develop **the first fully in-browser and private Conversational AI**.
 
-Most conversational AI solutions today require users to send their data to AI providers who serve AI models as a Service. This poses privacy issues for users who **lose control over their data**. 
+Most conversational AI solutions today require users to send their data to AI providers who serve AI models as a Service. This poses privacy issues for users who **lose control over their data**.
 
 ⚠️ Because data is a key asset to improve LLMs, **many solutions more or less implicitly fine-tune users’ data to improve their model**.
 
@@ -91,16 +93,16 @@ npm run dev
 
 This will install the dependencies of the project and launch the dev environment.
 
-The chat can be deployed in production mode with the following commands: 
+The chat can be deployed in production mode with the following commands:
 
 ```bash
 npm run build
 node build
 ```
 
-The chat-ui uses server-side rendering, so building the pages before deploying them is mandatory. 
+The chat-ui uses server-side rendering, so building the pages before deploying them is mandatory.
 
->  ⚠️ Note that the command `node build` will run the server in `HTTP mode`. 
+> ⚠️ Note that the command `node build` will run the server in `HTTP mode`.
 > If you wish to add TLS, please use a proxy server, such as NGINX.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -141,9 +143,9 @@ This mode is **generally suitable for smaller models** as large models may requi
 ![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
 ![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
 
-With the Zero-trust AI APIs mode, data is sent to a **secure environment** called an **enclave** containing the model for remote inference. 
+With the Zero-trust AI APIs mode, data is sent to a **secure environment** called an **enclave** containing the model for remote inference.
 
-These environments provide **end-to-end protection** through robust **isolation and verification**. User data is **never accessible in clear** to the AI provider admins. 
+These environments provide **end-to-end protection** through robust **isolation and verification**. User data is **never accessible in clear** to the AI provider admins.
 
 > You can find out more about Confidential and transparent AI APIs with enclaves in the [guide](https://blindllama.mithrilsecurity.io/en/latest/docs/concepts/hardened-systems/) we provide with our [BlindLlama project](https://blindllama.mithrilsecurity.io/en/latest/), which is the underlying technology for this mode of BlindChat.
 
@@ -157,23 +159,22 @@ The project currently has three major components:
 - **Private LLM:** Developers can customize which LLM they choose to answer users’ queries. Current options are either local models or remote enclaves to ensure transparent and private inference.
 - **Storage:** Developers can customize what kind of storage is used to save information such as conversation history and, in the future, embeddings for RAG.
 
-***Coming soon:**
+**\*Coming soon:**
+
 - **Connectors:** Connectors will allows users to pull documents from various sources, e.g. PDF upload, and share outputs
 - **Integration with Llama Index TS:** This will allow users to index documents with local models, store them in local storage and use them for RAG (query the LLMs based on the information contained in their documents).
-
 
 ## 📊 Comparisons
 
 |                      | Client-side bandwidth requirements | Client-side computing requirements | Model capabilities | Privacy |
-|----------------------|-----------------------------------|-----------------------------------|-------------------|---------|
-| On-device prediction | High                              | High                              | Low               | High    |
-| Regular AI APIs      | Low                               | Low                               | High              | Low     |
-| Zero-trust AI APIs  | Low                               | Low                               | High              | High    |
-
+| -------------------- | ---------------------------------- | ---------------------------------- | ------------------ | ------- |
+| On-device prediction | High                               | High                               | Low                | High    |
+| Regular AI APIs      | Low                                | Low                                | High               | Low     |
+| Zero-trust AI APIs   | Low                                | Low                                | High               | High    |
 
 **On-device predictions and Confidential AI APIs both provide privacy** contrary to most existing Conversational AI solutions that expose data to privacy risks.
 
-**On-device prediction** has the advantage of providing the highest level of privacy as data does not leave the device but requires downloading models that are several hundreds of MBs to several GBs and require heavy memory and computing resources. For many users, this option will not be possible with larger, higher-performing models due to these device requirements. 
+**On-device prediction** has the advantage of providing the highest level of privacy as data does not leave the device but requires downloading models that are several hundreds of MBs to several GBs and require heavy memory and computing resources. For many users, this option will not be possible with larger, higher-performing models due to these device requirements.
 
 **Confidential AI APIs** are deployed remotely, meaning the size of models is not restricted by the specifications of user devices. Users are able to query large models while still having robust privacy guarantees.
 
@@ -182,11 +183,13 @@ The project currently has three major components:
 ## 📇 Get in touch
 
 We would love to hear your feedback or suggestions, here are the ways you can reach us:
-  - Found a bug? [Open an issue!](https://github.com/mithril-security/blind_chat/issues)
-  - Got a suggestion? [Join our Discord community and let us know!](https://discord.com/invite/TxEHagpWd4)
-  - Set up [a one-on-one meeting](https://www.mithrilsecurity.io/contact) with a member of our team
+
+- Found a bug? [Open an issue!](https://github.com/mithril-security/blind_chat/issues)
+- Got a suggestion? [Join our Discord community and let us know!](https://discord.com/invite/TxEHagpWd4)
+- Set up [a one-on-one meeting](https://www.mithrilsecurity.io/contact) with a member of our team
 
 Want to hear more about our work on privacy in the field AI?
+
 - Check out our [blog](https://blog.mithrilsecurity.io/)
 - Subscribe to our newsletter [here](https://blog.mithrilsecurity.io/)
 
@@ -198,8 +201,8 @@ Thank you for your support!
 
 [1] Carlini, N., Ippolito, D., Jagielski, M., Lee, K., Tramer, F., & Zhang, C. (2022). Quantifying Memorization Across Neural Language Models. ArXiv. /abs/2202.07646
 
-
 <!-- MARKDOWN LINKS & IMAGES -->
+
 [project-url]: https://github.com/mithril-security/blind_chat
 [twitter-url]: https://twitter.com/MithrilSecurity
 [contact-url]: https://www.mithrilsecurity.io/contact
