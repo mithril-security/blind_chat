@@ -12,11 +12,7 @@ export async function GET({ params, locals }) {
 		_id: convId,
 		...authCondition(locals),
 	});
-
-	if (!conv) {
-		throw error(404, "Conversation not found");
-	}
-
+	
 	const messageId = params.messageId;
 
 	const messageIndex = conv.messages.findIndex((msg) => msg.id === messageId);
@@ -26,10 +22,6 @@ export async function GET({ params, locals }) {
 	}
 
 	const model = models.find((m) => m.id === conv.model);
-
-	if (!model) {
-		throw error(404, "Conversation model not found");
-	}
 
 	const prompt = await buildPrompt({
 		messages: conv.messages.slice(0, messageIndex + 1),

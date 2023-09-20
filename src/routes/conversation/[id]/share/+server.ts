@@ -14,10 +14,6 @@ export async function POST({ params, url, locals }) {
 		...authCondition(locals),
 	});
 
-	if (!conversation) {
-		throw error(404, "Conversation not found");
-	}
-
 	const hash = await hashConv(conversation);
 
 	const existingShare = await collections.sharedConversations.findOne({ hash });

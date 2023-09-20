@@ -39,22 +39,7 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 	}
 
 	return {
-		conversations: await conversations
-			.find(authCondition(locals))
-			.sort({ updatedAt: -1 })
-			.project<Pick<Conversation, "title" | "model" | "_id" | "updatedAt" | "createdAt">>({
-				title: 1,
-				model: 1,
-				_id: 1,
-				updatedAt: 1,
-				createdAt: 1,
-			})
-			.map((conv) => ({
-				id: conv._id.toString(),
-				title: conv.title,
-				model: conv.model ?? defaultModel,
-			}))
-			.toArray(),
+		conversations: [],
 		settings: {
 			shareConversationsWithModelAuthors:
 				settings?.shareConversationsWithModelAuthors ??

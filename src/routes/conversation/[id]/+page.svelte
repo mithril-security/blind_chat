@@ -4,7 +4,6 @@
 	import { pendingMessageIdToRetry } from "$lib/stores/pendingMessageIdToRetry";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
-	import { textGenerationStream, type Options } from "@huggingface/inference";
 	import { invalidate } from "$app/navigation";
 	import { base } from "$app/paths";
 	import { shareConversation } from "$lib/shareConversation";
@@ -19,23 +18,29 @@
 	import { pipeline, Pipeline, env } from "@xenova/transformers";
 	import { isloading_writable } from "../../LayoutWritable.js";
 	import { map_writable } from "$lib/components/LoadingModalWritable.js";
+	import { params_writable } from "./ParamsWritable.js";
+	import { addMessageToChat,getChats,getMessages,getTitle } from "../../LocalDB.js";
 	export let data;
 
 	let pipelineWorker;
 
 	let pipe: Pipeline;
 
-	let messages = data.messages;
-	let lastLoadedMessages = data.messages;
+	let id = ""
+
+	let messages = [];
+	let lastLoadedMessages = [];
 	let isAborted = false;
+
+	console.log(" - " + $page.params.id)
 
 	let webSearchMessages: WebSearchMessage[] = [];
 
-	// Since we modify the messages array locally, we don't want to reset it if an old version is passed
-	$: if (data.messages !== lastLoadedMessages) {
-		messages = data.messages;
-		lastLoadedMessages = data.messages;
-	}
+	// // Since we modify the messages array locally, we don't want to reset it if an old version is passed
+	// $: if (data.messages !== lastLoadedMessages) {
+	// 	messages = data.messages;
+	// 	lastLoadedMessages = data.messages;
+	// }
 
 	let loading = false;
 	let pending = false;
@@ -43,7 +48,6 @@
 
 	// Create a callback function for messages from the worker thread.
 	const onMessageReceived = (e) => {
-		console.log(e);
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
@@ -65,12 +69,15 @@
 				if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
 				lastMessage.content = e.data.output;
 				lastMessage.webSearchId = e.data.searchID;
+				lastMessage.updatedAt = new Date()
 				messages = [...messages];
 				break;
 
 			case "complete":
 				lastMessage = messages[messages.length - 1];
 				lastMessage.webSearchId = e.data.searchID;
+				lastMessage.updatedAt = new Date()
+				addMessageToChat($page.params.id, lastMessage)
 				messages = [...messages];
 				lastMessage = undefined;
 				loading = false;
@@ -102,10 +109,24 @@
 		messages = [
 			...messages,
 			// id doesn't match the backend id but it's not important for assistant messages
-			{ from: "assistant", content: "", id: responseId },
+			{ from: "assistant", content: "", id: responseId, createdAt: new Date(), updatedAt: new Date() },
 		];
+
+		let msg = 
+		{
+				content: inputs,
+				from: "user",
+				id: randomUUID(),
+				createdAt: new Date(),
+				updatedAt: new Date(),
+		};
+
+		console.log(findCurrentModel([...data.models, ...data.oldModels], data.settings.activeModel))
+
+		addMessageToChat(conversationId, msg)
+
 		let lastMessage = messages[messages.length - 1];
-		pipelineWorker.postMessage({ text: inputs });
+		pipelineWorker.postMessage({ text: inputs, webSearchId: webSearchId, conversationId: conversationId });
 	}
 
 	async function summarizeTitle(id: string) {
@@ -231,9 +252,31 @@
 		}
 	}
 
+	params_writable.subscribe(async (value) => {
+			if (value != id) {
+				id = value
+				let title = await getTitle(value)
+				let res = await getMessages(value)
+
+				if (res != undefined) {
+					messages = res
+					lastLoadedMessages = res
+				}
+			}
+	});
+
 	onMount(async () => {
 		const Worker = await import("./worker.js?worker");
 		pipelineWorker = new Worker.default();
+		
+		let title = await getTitle($page.params.id)
+		let res = await getMessages($page.params.id)
+		id = $page.params.id
+		
+		if (res != undefined) {
+				messages = res
+				lastLoadedMessages = res
+		}
 
 		pipelineWorker.addEventListener("message", onMessageReceived);
 
@@ -247,7 +290,7 @@
 		}
 	});
 	$: $page.params.id, (isAborted = true);
-	$: title = data.conversations.find((conv) => conv.id === $page.params.id)?.title ?? data.title;
+	$: title = "stfu";
 
 	$: loginRequired =
 		(data.requiresLogin

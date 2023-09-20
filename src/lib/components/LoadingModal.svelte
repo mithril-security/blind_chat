@@ -12,7 +12,7 @@
 		pr = Number(percent);
 		if (model.startsWith("onnx")) {
 			loadingMap.set(model, Math.floor(Number(percent)));
-			console.log(loadingMap);
+			//console.log(loadingMap);
 		}
 	});
 </script>
@@ -22,8 +22,11 @@
 		<div class="flex items-start text-xl font-bold text-gray-800">
 			<h2>Loading the model...</h2>
 			<br />
-			<br />
 		</div>
+		<div class="flex items-start text-s text-gray-800">
+			<br>Please wait while we download the model. This has to be done only once.
+		</div>
+		<br />
 		{#await forceUpdate(pr) then _}
 			{#each [...loadingMap] as [key, value]}
 				<p class="text-s text-gray-800">{key}</p>

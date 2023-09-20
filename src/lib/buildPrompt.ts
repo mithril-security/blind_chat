@@ -24,32 +24,6 @@ export async function buildPrompt({
 	webSearchId,
 	preprompt,
 }: buildPromptOptions): Promise<string> {
-	if (webSearchId) {
-		const webSearch = await collections.webSearches.findOne({
-			_id: new ObjectId(webSearchId),
-		});
-
-		if (!webSearch) throw new Error("Web search not found");
-		if (!locals) throw new Error("User not authenticated");
-
-		const conversation = await collections.conversations.findOne({
-			_id: webSearch.convId,
-			...authCondition(locals),
-		});
-
-		if (!conversation) throw new Error("Conversation not found");
-
-		if (webSearch.summary) {
-			messages = [
-				{
-					from: "assistant",
-					content: `The following context was found while searching the internet: ${webSearch.summary}`,
-				},
-				...messages,
-			];
-		}
-	}
-
 	return (
 		model
 			.chatPromptRender({ messages, preprompt })

@@ -12,10 +12,9 @@
 	export let settings: LayoutData["settings"];
 	export let models: Array<Model>;
 
-	let shareConversationsWithModelAuthors = settings.shareConversationsWithModelAuthors;
 	let isConfirmingDeletion = false;
 
-	const dispatch = createEventDispatcher<{ close: void }>();
+	const dispatch = createEventDispatcher<{ close: void, deleteAllConversations: void }>();
 </script>
 
 <Modal on:close>
@@ -35,8 +34,6 @@
 			action="{base}/settings"
 		>
 			<form
-				method="post"
-				action="{base}/conversations?/delete"
 				on:submit|preventDefault={() => (isConfirmingDeletion = true)}
 			>
 				<button type="submit" class="underline decoration-gray-300 hover:decoration-gray-700">

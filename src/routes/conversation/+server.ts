@@ -26,10 +26,6 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 			_id: values.fromShare,
 		});
 
-		if (!conversation) {
-			throw error(404, "Conversation not found");
-		}
-
 		title = conversation.title;
 		messages = conversation.messages;
 		values.model = conversation.model;

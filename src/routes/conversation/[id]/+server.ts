@@ -20,7 +20,6 @@ import { AwsClient } from "aws4fetch";
 import { pipeline } from "@xenova/transformers";
 
 export async function POST({ request, fetch, locals, params }) {
-	console.log(request);
 	const id = z.string().parse(params.id);
 	const convId = new ObjectId(id);
 	const date = new Date();
@@ -177,10 +176,6 @@ export async function DELETE({ locals, params }) {
 		_id: convId,
 		...authCondition(locals),
 	});
-
-	if (!conv) {
-		throw error(404, "Conversation not found");
-	}
 
 	await collections.conversations.deleteOne({ _id: conv._id });
 

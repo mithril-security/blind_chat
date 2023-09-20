@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { onDestroy } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { goto, invalidate } from "$app/navigation";
 	import { page } from "$app/stores";
+	import { browser } from "$app/environment";
 	import "../styles/main.css";
 	import { base } from "$app/paths";
 	import { PUBLIC_ORIGIN, PUBLIC_APP_DISCLAIMER } from "$env/static/public";
@@ -17,10 +18,15 @@
 	import LoadingModal from "$lib/components/LoadingModal.svelte";
 	import LoginModal from "$lib/components/LoginModal.svelte";
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
-	import { isloading_writable } from "./LayoutWritable";
+	import { isloading_writable, refresh_chats_writable, refresh_chats_writable_empty } from "./LayoutWritable";
+	import { deleteAllChats, deleteChat, getChats, getMessages, modifyTitle } from "../routes/LocalDB";
 
 	export let data;
 	let isloading = false;
+
+	let go_to_main = false;
+
+	let conversations_list = []
 
 	isloading_writable.subscribe((value) => {
 		isloading = value;
@@ -30,6 +36,18 @@
 	let isSettingsOpen = false;
 	let errorToastTimeout: ReturnType<typeof setTimeout>;
 	let currentError: string | null;
+
+	refresh_chats_writable.subscribe(async (value) => {
+		if (value.length > 0) {
+			conversations_list = value
+			refresh_chats_writable.set([])
+		}
+	});
+
+	refresh_chats_writable_empty.subscribe(async (value) => {
+		conversations_list = []
+		refresh_chats_writable.set(conversations_list)
+	});
 
 	export function getProgress(progress: number) {}
 
@@ -50,51 +68,32 @@
 	}
 
 	async function deleteConversation(id: string) {
-		try {
-			const res = await fetch(`${base}/conversation/${id}`, {
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
+		await deleteChat(id);
 
-			if (!res.ok) {
-				$error = "Error while deleting conversation, try again.";
-				return;
-			}
-
-			if ($page.params.id !== id) {
+		if ($page.params.id !== id) {
 				await invalidate(UrlDependency.ConversationList);
 			} else {
 				await goto(`${base}/`, { invalidateAll: true });
-			}
-		} catch (err) {
-			console.error(err);
-			$error = String(err);
+		}
+	}
+
+	async function deleteAllConversations(id: string) {
+		await deleteAllChats();
+		
+		if ($page.params.id !== id) {
+				await invalidate(UrlDependency.ConversationList);
+			} else {
+				await goto(`${base}/`, { invalidateAll: true });
 		}
 	}
 
 	async function editConversationTitle(id: string, title: string) {
-		try {
-			const res = await fetch(`${base}/conversation/${id}`, {
-				method: "PATCH",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ title }),
-			});
-
-			if (!res.ok) {
-				$error = "Error while editing title, try again.";
-				return;
-			}
-
-			await invalidate(UrlDependency.ConversationList);
-		} catch (err) {
-			console.error(err);
-			$error = String(err);
-		}
+		await modifyTitle(id, title);
 	}
+
+	onMount(async () => {
+		await refreshChats()
+	});
 
 	onDestroy(() => {
 		clearTimeout(errorToastTimeout);
@@ -103,13 +102,20 @@
 	$: if ($error) onError();
 
 	const requiresLogin =
-		!$page.error &&
+			!$page.error &&
 		!$page.route.id?.startsWith("/r/") &&
 		(data.requiresLogin
 			? !data.user
 			: !data.settings.ethicsModalAcceptedAt && !!PUBLIC_APP_DISCLAIMER);
 
 	let loginModalVisible = false;
+
+	async function refreshChats() {
+		let ret = await getChats()
+		data.conversations = ret
+		conversations_list = ret
+	}
+
 </script>
 
 <svelte:head>
@@ -160,10 +166,10 @@
 	<MobileNav
 		isOpen={isNavOpen}
 		on:toggle={(ev) => (isNavOpen = ev.detail)}
-		title={data.conversations.find((conv) => conv.id === $page.params.id)?.title}
+		title={conversations_list.find((conv) => conv.id === $page.params.id)?.title}
 	>
 		<NavMenu
-			conversations={data.conversations}
+			conversations={conversations_list}
 			user={data.user}
 			canLogin={data.user === undefined && data.requiresLogin}
 			bind:loginModalVisible
@@ -175,7 +181,7 @@
 	</MobileNav>
 	<nav class="grid max-h-screen grid-cols-1 grid-rows-[auto,1fr,auto] max-md:hidden">
 		<NavMenu
-			conversations={data.conversations}
+			conversations={conversations_list}
 			user={data.user}
 			canLogin={data.user === undefined && data.requiresLogin}
 			bind:loginModalVisible

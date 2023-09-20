@@ -14,10 +14,6 @@ export async function POST({ params, locals }) {
 		...authCondition(locals),
 	});
 
-	if (!conversation) {
-		throw error(404, "Conversation not found");
-	}
-
 	await collections.abortedGenerations.updateOne(
 		{ conversationId },
 		{ $set: { updatedAt: new Date() }, $setOnInsert: { createdAt: new Date() } },

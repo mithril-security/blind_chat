@@ -30,12 +30,12 @@
 		<Logo classNames="mr-1" />
 		{PUBLIC_APP_NAME}
 	</a>
-	<!-- <a
+	<a
 		href={`${base}/`}
 		class="flex rounded-lg border bg-white px-2 py-0.5 text-center shadow-sm hover:shadow-none dark:border-gray-600 dark:bg-gray-700"
 	>
 		New Chat
-	</a> -->
+	</a>
 </div>
 <div
 	class="scrollbar-custom flex flex-col gap-1 overflow-y-auto rounded-r-xl bg-gradient-to-l from-gray-50 px-3 pb-3 pt-2 dark:from-gray-800/30"

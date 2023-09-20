@@ -40,7 +40,7 @@
 				</div>
 			</div>
 			<p class="text-base text-gray-600 dark:text-gray-400">
-				Enjoying the best AI models, with privacy.
+				The open-source and privacy-by-design alternative to ChatGPT
 			</p>
 		</div>
 	</div>

@@ -1,36 +1,40 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
+	import { goto, invalidate } from "$app/navigation";
 	import { base } from "$app/paths";
 	import ChatWindow from "$lib/components/chat/ChatWindow.svelte";
 	import { ERROR_MESSAGES, error } from "$lib/stores/errors";
 	import { pendingMessage } from "$lib/stores/pendingMessage";
 	import { findCurrentModel } from "$lib/utils/models";
+	import { createChat } from "../routes/LocalDB";
+	import { params_writable } from "../routes/conversation/[id]/ParamsWritable";
 
 	export let data;
 	let loading = false;
 
+	// dec2hex :: Integer -> String
+	// i.e. 0-255 -> '00'-'ff'
+	function dec2hex (dec) {
+		return dec.toString(16).padStart(2, "0")
+	}
+
+	// generateId :: Integer -> String
+	function generateId (len) {
+		var arr = new Uint8Array((len || 40) / 2)
+		window.crypto.getRandomValues(arr)
+		return Array.from(arr, dec2hex).join('')
+	}
+
 	async function createConversation(message: string) {
 		try {
 			loading = true;
-			const res = await fetch(`${base}/conversation`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ model: data.settings.activeModel }),
-			});
 
-			if (!res.ok) {
-				error.set("Error while creating conversation, try again.");
-				console.error("Error while creating conversation: " + (await res.text()));
-				return;
-			}
-
-			const { conversationId } = await res.json();
+			const conversationId = generateId(16);
 
 			// Ugly hack to use a store as temp storage, feel free to improve ^^
 			pendingMessage.set(message);
 
+			console.log(conversationId)
+			params_writable.set(conversationId)
 			// invalidateAll to update list of conversations
 			await goto(`${base}/conversation/${conversationId}`, { invalidateAll: true });
 		} catch (err) {
