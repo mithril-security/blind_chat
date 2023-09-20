@@ -69,14 +69,14 @@ BlindChat aims to serve two users:
 
 ## Roadmap
 
-- Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.) ✅
-- Integration of privacy-by-design inference with local model ✅
-- Local caching of conversations ⌛
-- Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm)) ⌛
-- Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B) ⌛
-- Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG) ⌛
-- Internet search ⌛
-- Connectors to pull data from different sources ⌛
+- [x] Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.)
+- [x] Integration of privacy-by-design inference with local model
+- [x] Local caching of conversations
+- [ ] Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm))
+- [ ] Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B) ⌛
+- [ ] Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG) ⌛
+- [ ] Internet search ⌛
+- [ ] Connectors to pull data from different sources ⌛
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
