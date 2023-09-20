@@ -20,6 +20,7 @@
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
 	import { isloading_writable, refresh_chats_writable, refresh_chats_writable_empty } from "./LayoutWritable";
 	import { deleteAllChats, deleteChat, getChats, getMessages, modifyTitle } from "../routes/LocalDB";
+	import { env } from "$env/dynamic/public";
 
 	export let data;
 	let isloading = false;
@@ -115,6 +116,7 @@
 		data.conversations = ret
 		conversations_list = ret
 	}
+	$: title = env.PUBLIC_APP_NAME;
 
 </script>
 

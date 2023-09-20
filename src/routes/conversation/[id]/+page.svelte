@@ -15,11 +15,12 @@
 	import type { WebSearchMessage } from "$lib/types/WebSearch";
 	import type { Message } from "$lib/types/Message";
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
-	import { pipeline, Pipeline, env } from "@xenova/transformers";
+	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
 	import { isloading_writable } from "../../LayoutWritable.js";
 	import { map_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
 	import { addMessageToChat,getChats,getMessages,getTitle } from "../../LocalDB.js";
+	import { env } from "$env/dynamic/public";
 	export let data;
 
 	let pipelineWorker;
@@ -27,6 +28,8 @@
 	let pipe: Pipeline;
 
 	let id = ""
+
+	let title_ret = env.PUBLIC_APP_NAME
 
 	let messages = [];
 	let lastLoadedMessages = [];
@@ -209,6 +212,7 @@
 			}
 
 			await getTextGenerationStream(message, messageId, isRetry, searchResponseId ?? undefined);
+			title_ret = await getTitle($page.params.id)
 		} catch (err) {
 			if (err instanceof Error && err.message.includes("overloaded")) {
 				$error = "Too much traffic, please try again.";
@@ -255,7 +259,7 @@
 	params_writable.subscribe(async (value) => {
 			if (value != id) {
 				id = value
-				let title = await getTitle(value)
+				title_ret = await getTitle(value)
 				let res = await getMessages(value)
 
 				if (res != undefined) {
@@ -269,8 +273,9 @@
 		const Worker = await import("./worker.js?worker");
 		pipelineWorker = new Worker.default();
 		
-		let title = await getTitle($page.params.id)
+		title_ret = await getTitle($page.params.id)
 		let res = await getMessages($page.params.id)
+
 		id = $page.params.id
 		
 		if (res != undefined) {
@@ -290,7 +295,7 @@
 		}
 	});
 	$: $page.params.id, (isAborted = true);
-	$: title = "stfu";
+	$: title = title_ret;
 
 	$: loginRequired =
 		(data.requiresLogin

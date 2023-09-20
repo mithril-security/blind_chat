@@ -11,6 +11,7 @@
 	import ModelCardMetadata from "../ModelCardMetadata.svelte";
 	import type { LayoutData } from "../../../routes/$types";
 	import { findCurrentModel } from "$lib/utils/models";
+	import { env } from "$env/dynamic/public";
 
 	export let currentModel: Model;
 	export let settings: LayoutData["settings"];
@@ -25,6 +26,8 @@
 		: [];
 
 	const dispatch = createEventDispatcher<{ message: string }>();
+
+	$: title = env.PUBLIC_APP_NAME
 </script>
 
 <div class="my-auto grid gap-8 lg:grid-cols-3">
@@ -40,7 +43,7 @@
 				</div>
 			</div>
 			<p class="text-base text-gray-600 dark:text-gray-400">
-				The open-source and privacy-by-design alternative to ChatGPT
+				Enjoying the best AI models, with privacy
 			</p>
 		</div>
 	</div>

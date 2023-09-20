@@ -1,5 +1,6 @@
 import Dexie, { type Table, liveQuery } from 'dexie';
 import { refresh_chats_writable_empty, refresh_chats_writable } from "../routes/LayoutWritable";
+import { env } from '$env/dynamic/public';
 
 export interface Chat {
   index?: number;
@@ -99,15 +100,15 @@ export async function addMessageToChat(id_chat: string, msg: MessageDb) {
 }
 
 export async function getTitle(id_chat: string) {
+  let title_ret = env.PUBLIC_APP_NAME
   try {
-    const chat_ret = await db.chats.where("id").equals(id_chat).first()
-    const title_ret = chat_ret?.title
-    return title_ret
+    const chat_ret = await (db.chats.where("id").equals(id_chat).first())
+    title_ret = chat_ret!.title
   }
   catch (err) {
     console.log(err)
   }
-  return "Untitled"
+  return title_ret
 }
 
 export async function getMessages(id_chat: string) {
