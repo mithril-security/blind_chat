@@ -53,6 +53,8 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 🔐 BlindChat solves this issue as users have guarantees that their data remains private at all times and have full control over it, either by doing local inference or using secure isolated environments called secure enclaves.
 
+### Local conversations
+
 ### Demo
 
 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)! We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
@@ -68,6 +70,10 @@ BlindChat aims to serve two users:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Roadmap
+
+You can check out our progress in more detail on our [official roadmap](https://github.com/orgs/mithril-security/projects/2/views/4). We highlight feature on which we would love help from contributors in our [help wanted section](https://github.com/orgs/mithril-security/projects/2/views/3).
+
+Roadmap quick summary:
 
 - [x] Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.)
 - [x] Integration of privacy-by-design inference with local model
@@ -111,7 +117,7 @@ The chat-ui uses server-side rendering, so building the pages before deploying t
 
 ### Principles
 
-🤗 **BlindChat** is a fork from **Hugging Face Chat UI project**.
+🤗 **BlindChat** is a fork from [**Hugging Face Chat UI project**](https://huggingface.co/spaces/huggingchat/chat-ui).
 
 We modified the code so that various tasks usually handled by the server are done by the browser. This is to **ensure privacy** as we do not want to send user data to the server/AI provider as our solution **places the AI provider outside of our trust model**.
 
