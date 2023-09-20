@@ -28,26 +28,16 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 		throw redirect(302, url.pathname);
 	}
 
-	const settings = await collections.settings.findOne(authCondition(locals));
-
-	// If the active model in settings is not valid, set it to the default model. This can happen if model was disabled.
-	if (settings && !validateModel(models).safeParse(settings?.activeModel).success) {
-		settings.activeModel = defaultModel.id;
-		await collections.settings.updateOne(authCondition(locals), {
-			$set: { activeModel: defaultModel.id },
-		});
-	}
 
 	return {
 		conversations: [],
 		settings: {
 			shareConversationsWithModelAuthors:
-				settings?.shareConversationsWithModelAuthors ??
 				DEFAULT_SETTINGS.shareConversationsWithModelAuthors,
-			ethicsModalAcceptedAt: settings?.ethicsModalAcceptedAt ?? null,
-			activeModel: settings?.activeModel ?? DEFAULT_SETTINGS.activeModel,
-			searchEnabled: !!(SERPAPI_KEY || SERPER_API_KEY),
-			customPrompts: settings?.customPrompts ?? {},
+			ethicsModalAcceptedAt: null,
+			activeModel: DEFAULT_SETTINGS.activeModel,
+			searchEnabled: false,
+			customPrompts: {},
 		},
 		models: models.map((model) => ({
 			id: model.id,

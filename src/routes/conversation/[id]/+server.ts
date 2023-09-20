@@ -14,14 +14,12 @@ import { trimPrefix } from "$lib/utils/trimPrefix";
 import { trimSuffix } from "$lib/utils/trimSuffix";
 import type { TextGenerationStreamOutput } from "@huggingface/inference";
 import { error } from "@sveltejs/kit";
-import { ObjectId } from "mongodb";
 import { z } from "zod";
 import { AwsClient } from "aws4fetch";
 import { pipeline } from "@xenova/transformers";
 
 export async function POST({ request, fetch, locals, params }) {
-	const id = z.string().parse(params.id);
-	const convId = new ObjectId(id);
+	/*const id = z.string().parse(params.id);
 	const date = new Date();
 	let generated_text = "";
 
@@ -160,7 +158,7 @@ export async function POST({ request, fetch, locals, params }) {
 		);
 	}
 
-	saveMessage().catch(console.error);
+	saveMessage().catch(console.error);*/
 	// Todo: maybe we should wait for the message to be saved before ending the response - in case of errors
 	return new Response(undefined, {
 		headers: undefined,
@@ -170,14 +168,12 @@ export async function POST({ request, fetch, locals, params }) {
 }
 
 export async function DELETE({ locals, params }) {
-	const convId = new ObjectId(params.id);
-
-	const conv = await collections.conversations.findOne({
+	/*const conv = await collections.conversations.findOne({
 		_id: convId,
 		...authCondition(locals),
 	});
 
-	await collections.conversations.deleteOne({ _id: conv._id });
+	await collections.conversations.deleteOne({ _id: conv._id });*/
 
 	return new Response();
 }
@@ -250,7 +246,7 @@ async function parseGeneratedText(
 }
 
 export async function PATCH({ request, locals, params }) {
-	const { title } = z
+	/*const { title } = z
 		.object({ title: z.string().trim().min(1).max(100) })
 		.parse(await request.json());
 
@@ -274,7 +270,7 @@ export async function PATCH({ request, locals, params }) {
 				title,
 			},
 		}
-	);
+	);*/
 
 	return new Response();
 }

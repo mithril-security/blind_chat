@@ -1,6 +1,5 @@
 import type { RequestHandler } from "./$types";
 import { collections } from "$lib/server/database";
-import { ObjectId } from "mongodb";
 import { error, redirect } from "@sveltejs/kit";
 import { base } from "$app/paths";
 import { z } from "zod";
@@ -9,7 +8,7 @@ import { models, validateModel } from "$lib/server/models";
 import { authCondition } from "$lib/server/auth";
 
 export const POST: RequestHandler = async ({ locals, request }) => {
-	const body = await request.text();
+	/*const body = await request.text();
 
 	let title = "";
 	let messages: Message[] = [];
@@ -43,10 +42,19 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		...(locals.user ? { userId: locals.user._id } : { sessionId: locals.sessionId }),
 		...(values.fromShare ? { meta: { fromShareId: values.fromShare } } : {}),
 	});
-
+	
 	return new Response(
 		JSON.stringify({
 			conversationId: res.insertedId.toString(),
+		}),
+		{ headers: { "Content-Type": "application/json" } }
+	);
+
+	*/
+
+	return new Response(
+		JSON.stringify({
+			conversationId: "",
 		}),
 		{ headers: { "Content-Type": "application/json" } }
 	);

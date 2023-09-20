@@ -5,11 +5,10 @@ import { collections } from "$lib/server/database";
 import type { SharedConversation } from "$lib/types/SharedConversation";
 import { hashConv } from "$lib/utils/hashConv.js";
 import { error } from "@sveltejs/kit";
-import { ObjectId } from "mongodb";
 import { nanoid } from "nanoid";
 
 export async function POST({ params, url, locals }) {
-	const conversation = await collections.conversations.findOne({
+	/*const conversation = await collections.conversations.findOne({
 		_id: new ObjectId(params.id),
 		...authCondition(locals),
 	});
@@ -42,6 +41,13 @@ export async function POST({ params, url, locals }) {
 	return new Response(
 		JSON.stringify({
 			url: getShareUrl(url, shared._id),
+		}),
+		{ headers: { "Content-Type": "application/json" } }
+	);*/
+
+	return new Response(
+		JSON.stringify({
+			url: "",
 		}),
 		{ headers: { "Content-Type": "application/json" } }
 	);

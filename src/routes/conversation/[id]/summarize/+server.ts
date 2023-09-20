@@ -4,10 +4,9 @@ import { collections } from "$lib/server/database";
 import { generateFromDefaultEndpoint } from "$lib/server/generateFromDefaultEndpoint";
 import { defaultModel } from "$lib/server/models";
 import { error } from "@sveltejs/kit";
-import { ObjectId } from "mongodb";
 
 export async function POST({ params, locals }) {
-	const convId = new ObjectId(params.id);
+	/*const convId = new ObjectId(params.id);
 
 	const conversation = await collections.conversations.findOne({
 		_id: convId,
@@ -41,7 +40,7 @@ export async function POST({ params, locals }) {
 			}
 		);
 	}
-
+	
 	return new Response(
 		JSON.stringify(
 			generated_text
@@ -50,6 +49,11 @@ export async function POST({ params, locals }) {
 				  }
 				: {}
 		),
+		{ headers: { "Content-Type": "application/json" } }
+	);*/
+
+	return new Response(
+		JSON.stringify({}),
 		{ headers: { "Content-Type": "application/json" } }
 	);
 }

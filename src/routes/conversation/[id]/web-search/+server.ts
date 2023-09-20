@@ -4,7 +4,6 @@ import { defaultModel } from "$lib/server/models";
 import { searchWeb } from "$lib/server/websearch/searchWeb";
 import type { Message } from "$lib/types/Message";
 import { error } from "@sveltejs/kit";
-import { ObjectId } from "mongodb";
 import { z } from "zod";
 import type { WebSearch } from "$lib/types/WebSearch";
 import { generateQuery } from "$lib/server/websearch/generateQuery";
@@ -23,7 +22,7 @@ function removeLinks(obj: GenericObject) {
 	return obj;
 }
 export async function GET({ params, locals, url }) {
-	const model = defaultModel;
+	/*const model = defaultModel;
 	const convId = new ObjectId(params.id);
 	const searchId = new ObjectId();
 
@@ -130,6 +129,10 @@ export async function GET({ params, locals, url }) {
 			controller.enqueue(JSON.stringify({ messages: webSearch.messages }));
 		},
 	});
-
+	
 	return new Response(stream, { headers: { "Content-Type": "application/json" } });
+
+	*/
+
+	return new Response(undefined, { headers: { "Content-Type": "application/json" } });
 }

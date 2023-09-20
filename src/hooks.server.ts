@@ -16,12 +16,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.sessionId = token || crypto.randomUUID();
 
-	const user = await collections.users.findOne({ sessionId: event.locals.sessionId });
-
-	if (user) {
-		event.locals.user = user;
-	}
-
 	function errorResponse(status: number, message: string) {
 		const sendJson =
 			event.request.headers.get("accept")?.includes("application/json") ||

@@ -1,11 +1,10 @@
 import { authCondition } from "$lib/server/auth";
 import { collections } from "$lib/server/database";
 import { error } from "@sveltejs/kit";
-import { ObjectId } from "mongodb";
 import { z } from "zod";
 
 export async function POST({ params, request, locals }) {
-	const { score } = z
+	/*const { score } = z
 		.object({
 			score: z.number().int().min(-1).max(1),
 		})
@@ -32,7 +31,7 @@ export async function POST({ params, request, locals }) {
 
 	if (!document.matchedCount) {
 		throw error(404, "Message not found");
-	}
+	}*/
 
 	return new Response();
 }

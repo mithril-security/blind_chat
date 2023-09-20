@@ -1,7 +1,6 @@
 import type { BackendModel } from "./server/models";
 import type { Message } from "./types/Message";
 import { collections } from "$lib/server/database";
-import { ObjectId } from "mongodb";
 import { authCondition } from "./server/auth";
 /**
  * Convert [{user: "assistant", content: "hi"}, {user: "user", content: "hello"}] to:
