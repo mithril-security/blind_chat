@@ -21,11 +21,13 @@
 
 	$: currentModelMetadata = findCurrentModel(models, settings.activeModel);
 
-	const announcementBanners = env.PUBLIC_ANNOUNCEMENT_BANNERS
-		? JSON.parse(env.PUBLIC_ANNOUNCEMENT_BANNERS)
+	const announcementBanners = PUBLIC_ANNOUNCEMENT_BANNERS
+		? JSON.parse(PUBLIC_ANNOUNCEMENT_BANNERS)
 		: [];
 
 	const dispatch = createEventDispatcher<{ message: string }>();
+
+	console.log(PUBLIC_ANNOUNCEMENT_BANNERS)
 
 	$: title = env.PUBLIC_APP_NAME
 </script>
