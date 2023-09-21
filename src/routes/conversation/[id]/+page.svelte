@@ -258,7 +258,7 @@
 	params_writable.subscribe(async (value) => {
 			if (value != id) {
 				id = value
-				title_ret = await getTitle(value)
+				//title_ret = await getTitle(value)
 				let res = await getMessages(value)
 
 				if (res != undefined) {
@@ -272,7 +272,7 @@
 		const Worker = await import("./worker.js?worker");
 		pipelineWorker = new Worker.default();
 		
-		title_ret = await getTitle($page.params.id)
+		//title_ret = await getTitle($page.params.id)
 		let res = await getMessages($page.params.id)
 
 		id = $page.params.id
