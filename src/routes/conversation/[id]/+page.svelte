@@ -29,7 +29,7 @@
 
 	let id = ""
 
-	let title_ret = env.PUBLIC_APP_NAME
+	let title_ret = "BlindChat"
 
 	let messages = [];
 	let lastLoadedMessages = [];
@@ -212,7 +212,6 @@
 			}
 
 			await getTextGenerationStream(message, messageId, isRetry, searchResponseId ?? undefined);
-			title_ret = await getTitle($page.params.id)
 		} catch (err) {
 			if (err instanceof Error && err.message.includes("overloaded")) {
 				$error = "Too much traffic, please try again.";
