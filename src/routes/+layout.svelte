@@ -14,6 +14,7 @@
 	import MobileNav from "$lib/components/MobileNav.svelte";
 	import NavMenu from "$lib/components/NavMenu.svelte";
 	import Toast from "$lib/components/Toast.svelte";
+	import ConfirmModal from "$lib/components/ConfirmModal.svelte";
 	import SettingsModal from "$lib/components/SettingsModal.svelte";
 	import LoadingModal from "$lib/components/LoadingModal.svelte";
 	import LoginModal from "$lib/components/LoginModal.svelte";
@@ -24,6 +25,7 @@
 
 	export let data;
 	let isloading = false;
+	let showWarning = true;
 
 	let go_to_main = false;
 
@@ -128,12 +130,7 @@
 	<meta property="og:url" content="{PUBLIC_ORIGIN || $page.url.origin}{base}" />
 	<meta
 		property="og:image"
-		content="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/thumbnail.png"
-	/>
-	<link
-		rel="icon"
-		href="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/favicon.svg"
-		type="image/svg+xml"
+		content="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/thumbnail.jpg"
 	/>
 	<link
 		rel="icon"
@@ -195,6 +192,11 @@
 	</nav>
 	{#if currentError}
 		<Toast message={currentError} />
+	{/if}
+	{#if showWarning}
+		<ConfirmModal
+			on:close={() => (showWarning = false)}
+		 />
 	{/if}
 	{#if isloading}
 		<LoadingModal />
