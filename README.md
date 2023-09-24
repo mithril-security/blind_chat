@@ -57,7 +57,11 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 ### Demo
 
-👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)! We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
+![demo](./assets/demo_blind_chat.gif)
+
+#### 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)!
+
+We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
 
 ### Who is BlindChat for?
 
