@@ -123,10 +123,12 @@
 
 		let opt = "";
 
+		console.log(curr_model_obj)
+
 		messages = [
 			...messages,
 			// id doesn't match the backend id but it's not important for assistant messages
-			{ from: "assistant", content: "", id: responseId, createdAt: new Date(), updatedAt: new Date() },
+			{ from: "assistant", content: "", id: responseId, createdAt: new Date(), updatedAt: new Date(), isCode: curr_model_obj.is_code ?? false },
 		];
 
 		let msg = 
@@ -136,6 +138,7 @@
 				id: randomUUID(),
 				createdAt: new Date(),
 				updatedAt: new Date(),
+				isCode: false
 		};
 
 		addMessageToChat(conversationId, msg, curr_model)
@@ -282,6 +285,9 @@
 				else {
 					curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model)
 				}
+
+				console.log(curr_model)
+				console.log(curr_model_obj)
 
 				if (res != undefined) {
 					messages = res

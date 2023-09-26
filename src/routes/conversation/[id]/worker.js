@@ -1,12 +1,19 @@
 import { pipeline, env } from "@xenova/transformers";
 
 export class FlanPipeline {
-	static task = "text2text-generation";
+	static curr_model = ""
 	static instance = null;
 
 	static async getInstance(progress_callback = null, model, task) {
 		if (this.instance === null) {
 			this.instance = pipeline(task, model, { progress_callback });
+			this.curr_model = model
+		}
+		else {
+			if (this.curr_model != model) {
+				this.instance = pipeline(task, model, { progress_callback });
+				this.curr_model = model
+			}
 		}
 		return this.instance;
 	}

@@ -6,4 +6,5 @@ export type Message = Partial<Timestamps> & {
 	content: string;
 	webSearchId?: string;
 	score?: -1 | 0 | 1;
+	isCode: boolean;
 };

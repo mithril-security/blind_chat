@@ -132,7 +132,7 @@
 				bind:this={contentEl}
 			>
 				{#each tokens as token}
-					{#if token.type === "code"}
+					{#if message.isCode == true}
 						<CodeBlock lang={token.lang} code={unsanitizeMd(token.text)} />
 					{:else}
 						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
@@ -185,27 +185,6 @@
 		</div>
 		{#if !loading}
 			<div class="absolute right-0 top-3.5 flex gap-2 lg:-right-2">
-				<!-- {#if downloadLink}
-					<a
-						class="rounded-lg border border-gray-100 p-1 text-xs text-gray-400 group-hover:block hover:text-gray-500 dark:border-gray-800 dark:text-gray-400 dark:hover:text-gray-300 md:hidden"
-						title="Download prompt and parameters"
-						type="button"
-						target="_blank"
-						href={downloadLink}
-					>
-						<CarbonDownload />
-					</a>
-				{/if} -->
-				<!-- {#if !readOnly}
-					<button
-						class="cursor-pointer rounded-lg border border-gray-100 p-1 text-xs text-gray-400 group-hover:block hover:text-gray-500 dark:border-gray-800 dark:text-gray-400 dark:hover:text-gray-300 md:hidden lg:-right-2"
-						title="Retry"
-						type="button"
-						on:click={() => dispatch("retry", { content: message.content, id: message.id })}
-					>
-						<CarbonRotate360 />
-					</button>
-				{/if} -->
 			</div>
 		{/if}
 	</div>
