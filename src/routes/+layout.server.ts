@@ -31,8 +31,7 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 	return {
 		conversations: [],
 		settings: {
-			shareConversationsWithModelAuthors:
-				DEFAULT_SETTINGS.shareConversationsWithModelAuthors,
+			shareConversationsWithModelAuthors: DEFAULT_SETTINGS.shareConversationsWithModelAuthors,
 			ethicsModalAcceptedAt: null,
 			activeModel: DEFAULT_SETTINGS.activeModel,
 			searchEnabled: false,

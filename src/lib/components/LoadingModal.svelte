@@ -23,8 +23,8 @@
 			<h2>Loading the model...</h2>
 			<br />
 		</div>
-		<div class="flex items-start text-s text-gray-800">
-			<br>Please wait while we download the model. This has to be done only once.
+		<div class="text-s flex items-start text-gray-800">
+			<br />Please wait while we download the model. This has to be done only once.
 		</div>
 		<br />
 		{#await forceUpdate(pr) then _}

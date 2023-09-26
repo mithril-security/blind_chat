@@ -184,8 +184,7 @@
 			{message.content.trim()}
 		</div>
 		{#if !loading}
-			<div class="absolute right-0 top-3.5 flex gap-2 lg:-right-2">
-			</div>
+			<div class="absolute right-0 top-3.5 flex gap-2 lg:-right-2" />
 		{/if}
 	</div>
 {/if}

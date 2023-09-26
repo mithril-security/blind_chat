@@ -19,14 +19,14 @@
 	export let models: Array<Model>;
 
 	let selectedModelId = "";
-	let selectedNum = 0
+	let selectedNum = 0;
 
 	curr_model_writable.subscribe((val) => {
 		selectedModelId = models[val].name;
-		selectedNum = val
-	})
+		selectedNum = val;
+	});
 
-	const dispatch = createEventDispatcher<{ close: void, closeAndSave}>();
+	const dispatch = createEventDispatcher<{ close: void; closeAndSave }>();
 
 	let expanded = false;
 
@@ -38,8 +38,8 @@
 	}
 
 	function onApply() {
-		curr_model_writable.set(selectedNum)
-		dispatch("close")
+		curr_model_writable.set(selectedNum);
+		dispatch("close");
 	}
 
 	let value = "";
@@ -49,7 +49,7 @@
 			settings.customPrompts[selectedModelId] ??
 			models.filter((el) => el.id === selectedModelId)[0].preprompt ??
 			"";
-		selectedNum = models.findIndex((el) => el.id == selectedModelId)
+		selectedNum = models.findIndex((el) => el.id == selectedModelId);
 	}
 
 	$: selectedModelId, onModelChange();
@@ -137,7 +137,7 @@
 								enterkeyhint="send"
 								tabindex="0"
 								rows="1"
-								class="h-20 w-full resize-none scroll-p-3 overflow-x-hidden overflow-y-scroll rounded-md border border-gray-300 bg-transparent p-1  text-xs outline-none focus:ring-0 focus-visible:ring-0"
+								class="h-20 w-full resize-none scroll-p-3 overflow-x-hidden overflow-y-scroll rounded-md border border-gray-300 bg-transparent p-1 text-xs outline-none focus:ring-0 focus-visible:ring-0"
 								bind:value
 								hidden={!expanded}
 							/>
@@ -150,9 +150,10 @@
 		<button
 			type="button"
 			class="mt-2 rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 ring-gray-400 ring-offset-1 transition-colors hover:ring"
-			on:click={() => dispatch("closeAndSave", {
-				id: selectedNum
-			})}
+			on:click={() =>
+				dispatch("closeAndSave", {
+					id: selectedNum,
+				})}
 		>
 			Apply
 		</button>

@@ -19,27 +19,26 @@
 	import { isloading_writable, curr_model_writable } from "../../LayoutWritable.js";
 	import { map_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
-	import { addMessageToChat,getChats,getMessages,getTitle,getModel } from "../../LocalDB.js";
+	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
 	import { env } from "$env/dynamic/public";
 	export let data;
 
-	let curr_model_id = 0
+	let curr_model_id = 0;
 	curr_model_writable.subscribe((val) => {
-		curr_model_id = val
-		console.log(val)
-	})
-
+		curr_model_id = val;
+		console.log(val);
+	});
 
 	let pipelineWorker;
 
 	let pipe: Pipeline;
 
-	let id = ""
+	let id = "";
 
-	let title_ret = "BlindChat"
+	let title_ret = "BlindChat";
 
-	let curr_model = data.model
-	let curr_model_obj
+	let curr_model = data.model;
+	let curr_model_obj;
 
 	let id_now;
 
@@ -83,7 +82,7 @@
 					if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
 					lastMessage.content = e.data.output;
 					lastMessage.webSearchId = e.data.searchID;
-					lastMessage.updatedAt = new Date()
+					lastMessage.updatedAt = new Date();
 					messages = [...messages];
 				}
 				break;
@@ -92,8 +91,8 @@
 				if (e.data.id_now == id_now) {
 					lastMessage = messages[messages.length - 1];
 					lastMessage.webSearchId = e.data.searchID;
-					lastMessage.updatedAt = new Date()
-					addMessageToChat($page.params.id, lastMessage)
+					lastMessage.updatedAt = new Date();
+					addMessageToChat($page.params.id, lastMessage);
 					messages = [...messages];
 					lastMessage = undefined;
 					loading = false;
@@ -103,9 +102,7 @@
 					if (messages.filter((m) => m.from === "user").length === 1) {
 						invalidate(UrlDependency.ConversationList).catch(console.error);
 					} else {
-						invalidate(UrlDependency.ConversationList).then((value) => {
-
-						});
+						invalidate(UrlDependency.ConversationList).then((value) => {});
 					}
 				}
 				break;
@@ -123,28 +120,43 @@
 
 		let opt = "";
 
-		console.log(curr_model_obj)
+		console.log(curr_model_obj);
 
 		messages = [
 			...messages,
 			// id doesn't match the backend id but it's not important for assistant messages
-			{ from: "assistant", content: "", id: responseId, createdAt: new Date(), updatedAt: new Date(), isCode: curr_model_obj.is_code ?? false },
-		];
-
-		let msg = 
-		{
-				content: inputs,
-				from: "user",
-				id: randomUUID(),
+			{
+				from: "assistant",
+				content: "",
+				id: responseId,
 				createdAt: new Date(),
 				updatedAt: new Date(),
-				isCode: false
+				isCode: curr_model_obj.is_code ?? false,
+			},
+		];
+
+		let msg = {
+			content: inputs,
+			from: "user",
+			id: randomUUID(),
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			isCode: false,
 		};
 
-		addMessageToChat(conversationId, msg, curr_model)
+		addMessageToChat(conversationId, msg, curr_model);
 
 		let lastMessage = messages[messages.length - 1];
-		pipelineWorker.postMessage({ id_now: id_now, task: curr_model_obj.type, max_new_tokens: curr_model_obj.parameters?.max_new_tokens ?? 256, temperature: curr_model_obj.parameters?.temperature ?? 0.7, model: curr_model, text: inputs, webSearchId: webSearchId, conversationId: conversationId });
+		pipelineWorker.postMessage({
+			id_now: id_now,
+			task: curr_model_obj.type,
+			max_new_tokens: curr_model_obj.parameters?.max_new_tokens ?? 256,
+			temperature: curr_model_obj.parameters?.temperature ?? 0.7,
+			model: curr_model,
+			text: inputs,
+			webSearchId: webSearchId,
+			conversationId: conversationId,
+		});
 	}
 
 	async function summarizeTitle(id: string) {
@@ -271,57 +283,59 @@
 	}
 
 	params_writable.subscribe(async (value) => {
-			if (value != id) {
-				id = value
-				//title_ret = await getTitle(value)
-				let res = await getMessages(value)
+		if (value != id) {
+			id = value;
+			//title_ret = await getTitle(value)
+			let res = await getMessages(value);
 
-				curr_model = await getModel(value)
-				if (curr_model === undefined || curr_model.length == 0)
-				{
-					curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], data.models[curr_model_id].name)
-					curr_model = curr_model_obj.name
-				}
-				else {
-					curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model)
-				}
-
-				console.log(curr_model)
-				console.log(curr_model_obj)
-
-				if (res != undefined) {
-					messages = res
-					lastLoadedMessages = res
-				}
-
-				id_now = randomUUID()
+			curr_model = await getModel(value);
+			if (curr_model === undefined || curr_model.length == 0) {
+				curr_model_obj = findCurrentModel(
+					[...data.models, ...data.oldModels],
+					data.models[curr_model_id].name
+				);
+				curr_model = curr_model_obj.name;
+			} else {
+				curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model);
 			}
+
+			console.log(curr_model);
+			console.log(curr_model_obj);
+
+			if (res != undefined) {
+				messages = res;
+				lastLoadedMessages = res;
+			}
+
+			id_now = randomUUID();
+		}
 	});
 
 	onMount(async () => {
-		curr_model = await getModel($page.params.id)
-		if (curr_model === undefined || curr_model.length == 0)
-		{
-			curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], data.models[curr_model_id].name)
-			curr_model = curr_model_obj.name
-		}
-		else {
-			curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model)
+		curr_model = await getModel($page.params.id);
+		if (curr_model === undefined || curr_model.length == 0) {
+			curr_model_obj = findCurrentModel(
+				[...data.models, ...data.oldModels],
+				data.models[curr_model_id].name
+			);
+			curr_model = curr_model_obj.name;
+		} else {
+			curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model);
 		}
 
-		id_now = randomUUID()
+		id_now = randomUUID();
 
 		const Worker = await import("./worker.js?worker");
 		pipelineWorker = new Worker.default();
-		
-		//title_ret = await getTitle($page.params.id)
-		let res = await getMessages($page.params.id)
 
-		id = $page.params.id
-		
+		//title_ret = await getTitle($page.params.id)
+		let res = await getMessages($page.params.id);
+
+		id = $page.params.id;
+
 		if (res != undefined) {
-				messages = res
-				lastLoadedMessages = res
+			messages = res;
+			lastLoadedMessages = res;
 		}
 
 		pipelineWorker.addEventListener("message", onMessageReceived);

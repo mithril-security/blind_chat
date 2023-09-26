@@ -10,27 +10,26 @@
 	import { params_writable } from "../routes/conversation/[id]/ParamsWritable";
 	import { curr_model_writable, curr_model_writable_string } from "./LayoutWritable";
 
-	let curr_model_id = 0
+	let curr_model_id = 0;
 
 	curr_model_writable.subscribe((val) => {
-		curr_model_id = val
-	})
-
+		curr_model_id = val;
+	});
 
 	export let data;
 	let loading = false;
 
 	// dec2hex :: Integer -> String
 	// i.e. 0-255 -> '00'-'ff'
-	function dec2hex (dec) {
-		return dec.toString(16).padStart(2, "0")
+	function dec2hex(dec) {
+		return dec.toString(16).padStart(2, "0");
 	}
 
 	// generateId :: Integer -> String
-	function generateId (len) {
-		var arr = new Uint8Array((len || 40) / 2)
-		window.crypto.getRandomValues(arr)
-		return Array.from(arr, dec2hex).join('')
+	function generateId(len) {
+		var arr = new Uint8Array((len || 40) / 2);
+		window.crypto.getRandomValues(arr);
+		return Array.from(arr, dec2hex).join("");
 	}
 
 	async function createConversation(message: string) {
@@ -42,8 +41,8 @@
 			// Ugly hack to use a store as temp storage, feel free to improve ^^
 			pendingMessage.set(message);
 
-			console.log(conversationId)
-			params_writable.set(conversationId)
+			console.log(conversationId);
+			params_writable.set(conversationId);
 			// invalidateAll to update list of conversations
 			await goto(`${base}/conversation/${conversationId}`, { invalidateAll: true });
 		} catch (err) {
@@ -56,13 +55,16 @@
 </script>
 
 <svelte:head>
-    <title>{PUBLIC_APP_NAME}</title> 
+	<title>{PUBLIC_APP_NAME}</title>
 </svelte:head>
 
 <ChatWindow
 	on:message={(ev) => createConversation(ev.detail)}
 	{loading}
-	currentModel={findCurrentModel([...data.models, ...data.oldModels], data.models[curr_model_id].name)}
+	currentModel={findCurrentModel(
+		[...data.models, ...data.oldModels],
+		data.models[curr_model_id].name
+	)}
 	models={data.models}
 	settings={data.settings}
 />

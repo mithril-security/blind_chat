@@ -19,11 +19,11 @@
 	export let models: Model[];
 
 	let isModelsModalOpen = false;
-	let selectedNum = 0
+	let selectedNum = 0;
 
 	curr_model_writable.subscribe((val) => {
 		selectedNum = val;
-	})
+	});
 
 	$: currentModelMetadata = findCurrentModel(models, models[selectedNum].name);
 
@@ -33,7 +33,7 @@
 
 	const dispatch = createEventDispatcher<{ message: string }>();
 
-	$: title = env.PUBLIC_APP_NAME
+	$: title = env.PUBLIC_APP_NAME;
 </script>
 
 <div class="my-auto grid gap-8 lg:grid-cols-3">
@@ -55,17 +55,24 @@
 	</div>
 	<div class="lg:col-span-2 lg:pl-24">
 		{#each announcementBanners as banner}
-		<AnnouncementBanner classNames="mb-4" title={banner.title}>
-			<a
-				target="_blank"
-				href={banner.linkHref}
-				class="mr-2 flex items-center underline hover:no-underline"
-				><CarbonArrowUpRight class="mr-1.5 text-xs" /> {banner.linkTitle}</a
-			>
-		</AnnouncementBanner>
+			<AnnouncementBanner classNames="mb-4" title={banner.title}>
+				<a
+					target="_blank"
+					href={banner.linkHref}
+					class="mr-2 flex items-center underline hover:no-underline"
+					><CarbonArrowUpRight class="mr-1.5 text-xs" /> {banner.linkTitle}</a
+				>
+			</AnnouncementBanner>
 		{/each}
 		{#if isModelsModalOpen}
-			<ModelsModal {settings} {models} on:close={() => (isModelsModalOpen = false)} on:closeAndSave={(id) => (isModelsModalOpen = false, curr_model_writable.set(id.detail.id))} />
+			<ModelsModal
+				{settings}
+				{models}
+				on:close={() => (isModelsModalOpen = false)}
+				on:closeAndSave={(id) => (
+					(isModelsModalOpen = false), curr_model_writable.set(id.detail.id)
+				)}
+			/>
 		{/if}
 		<div class="overflow-hidden rounded-xl border dark:border-gray-800">
 			<div class="flex p-3">

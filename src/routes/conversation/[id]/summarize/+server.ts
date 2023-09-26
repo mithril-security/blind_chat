@@ -52,8 +52,5 @@ export async function POST({ params, locals }) {
 		{ headers: { "Content-Type": "application/json" } }
 	);*/
 
-	return new Response(
-		JSON.stringify({}),
-		{ headers: { "Content-Type": "application/json" } }
-	);
+	return new Response(JSON.stringify({}), { headers: { "Content-Type": "application/json" } });
 }

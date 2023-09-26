@@ -19,8 +19,18 @@
 	import LoadingModal from "$lib/components/LoadingModal.svelte";
 	import LoginModal from "$lib/components/LoginModal.svelte";
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
-	import { isloading_writable, refresh_chats_writable, refresh_chats_writable_empty } from "./LayoutWritable";
-	import { deleteAllChats, deleteChat, getChats, getMessages, modifyTitle } from "../routes/LocalDB";
+	import {
+		isloading_writable,
+		refresh_chats_writable,
+		refresh_chats_writable_empty,
+	} from "./LayoutWritable";
+	import {
+		deleteAllChats,
+		deleteChat,
+		getChats,
+		getMessages,
+		modifyTitle,
+	} from "../routes/LocalDB";
 	import { env } from "$env/dynamic/public";
 
 	export let data;
@@ -29,7 +39,7 @@
 
 	let go_to_main = false;
 
-	let conversations_list = []
+	let conversations_list = [];
 
 	isloading_writable.subscribe((value) => {
 		isloading = value;
@@ -42,14 +52,14 @@
 
 	refresh_chats_writable.subscribe(async (value) => {
 		if (value.length > 0) {
-			conversations_list = value
-			refresh_chats_writable.set([])
+			conversations_list = value;
+			refresh_chats_writable.set([]);
 		}
 	});
 
 	refresh_chats_writable_empty.subscribe(async (value) => {
-		conversations_list = []
-		refresh_chats_writable.set(conversations_list)
+		conversations_list = [];
+		refresh_chats_writable.set(conversations_list);
 	});
 
 	export function getProgress(progress: number) {}
@@ -74,19 +84,19 @@
 		await deleteChat(id);
 
 		if ($page.params.id !== id) {
-				await invalidate(UrlDependency.ConversationList);
-			} else {
-				await goto(`${base}/`, { invalidateAll: true });
+			await invalidate(UrlDependency.ConversationList);
+		} else {
+			await goto(`${base}/`, { invalidateAll: true });
 		}
 	}
 
 	async function deleteAllConversations(id: string) {
 		await deleteAllChats();
-		
+
 		if ($page.params.id !== id) {
-				await invalidate(UrlDependency.ConversationList);
-			} else {
-				await goto(`${base}/`, { invalidateAll: true });
+			await invalidate(UrlDependency.ConversationList);
+		} else {
+			await goto(`${base}/`, { invalidateAll: true });
 		}
 	}
 
@@ -95,7 +105,7 @@
 	}
 
 	onMount(async () => {
-		await refreshChats()
+		await refreshChats();
 	});
 
 	onDestroy(() => {
@@ -105,7 +115,7 @@
 	$: if ($error) onError();
 
 	const requiresLogin =
-			!$page.error &&
+		!$page.error &&
 		!$page.route.id?.startsWith("/r/") &&
 		(data.requiresLogin
 			? !data.user
@@ -114,12 +124,11 @@
 	let loginModalVisible = false;
 
 	async function refreshChats() {
-		let ret = await getChats()
-		data.conversations = ret
-		conversations_list = ret
+		let ret = await getChats();
+		data.conversations = ret;
+		conversations_list = ret;
 	}
 	$: title = env.PUBLIC_APP_NAME;
-
 </script>
 
 <svelte:head>
@@ -194,9 +203,7 @@
 		<Toast message={currentError} />
 	{/if}
 	{#if showWarning}
-		<ConfirmModal
-			on:close={() => (showWarning = false)}
-		 />
+		<ConfirmModal on:close={() => (showWarning = false)} />
 	{/if}
 	{#if isloading}
 		<LoadingModal />
@@ -204,7 +211,7 @@
 	{#if isSettingsOpen}
 		<SettingsModal
 			on:close={() => (isSettingsOpen = false)}
-			on:deleteAllConversations={() => (isSettingsOpen = false, deleteAllChats())}
+			on:deleteAllConversations={() => ((isSettingsOpen = false), deleteAllChats())}
 			settings={data.settings}
 			models={data.models}
 		/>
