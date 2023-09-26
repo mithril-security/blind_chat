@@ -53,37 +53,37 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	if (
-		!event.url.pathname.startsWith(`${base}/login`) &&
-		!event.url.pathname.startsWith(`${base}/admin`) &&
-		!["GET", "OPTIONS", "HEAD"].includes(event.request.method)
-	) {
-		if (
-			!user &&
-			requiresUser &&
-			!((MESSAGES_BEFORE_LOGIN ? parseInt(MESSAGES_BEFORE_LOGIN) : 0) > 0)
-		) {
-			return errorResponse(401, ERROR_MESSAGES.authOnly);
-		}
+	// if (
+	// 	!event.url.pathname.startsWith(`${base}/login`) &&
+	// 	!event.url.pathname.startsWith(`${base}/admin`) &&
+	// 	!["GET", "OPTIONS", "HEAD"].includes(event.request.method)
+	// ) {
+	// 	if (
+	// 		!user &&
+	// 		requiresUser &&
+	// 		!((MESSAGES_BEFORE_LOGIN ? parseInt(MESSAGES_BEFORE_LOGIN) : 0) > 0)
+	// 	) {
+	// 		return errorResponse(401, ERROR_MESSAGES.authOnly);
+	// 	}
 
-		// if login is not required and the call is not from /settings and we display the ethics modal with PUBLIC_APP_DISCLAIMER
-		//  we check if the user has accepted the ethics modal first.
-		// If login is required, `ethicsModalAcceptedAt` is already true at this point, so do not pass this condition. This saves a DB call.
-		if (
-			!requiresUser &&
-			!event.url.pathname.startsWith(`${base}/settings`) &&
-			!!PUBLIC_APP_DISCLAIMER
-		) {
-			const hasAcceptedEthicsModal = await collections.settings.countDocuments({
-				sessionId: event.locals.sessionId,
-				ethicsModalAcceptedAt: { $exists: true },
-			});
+	// 	// if login is not required and the call is not from /settings and we display the ethics modal with PUBLIC_APP_DISCLAIMER
+	// 	//  we check if the user has accepted the ethics modal first.
+	// 	// If login is required, `ethicsModalAcceptedAt` is already true at this point, so do not pass this condition. This saves a DB call.
+	// 	if (
+	// 		!requiresUser &&
+	// 		!event.url.pathname.startsWith(`${base}/settings`) &&
+	// 		!!PUBLIC_APP_DISCLAIMER
+	// 	) {
+	// 		const hasAcceptedEthicsModal = await collections.settings.countDocuments({
+	// 			sessionId: event.locals.sessionId,
+	// 			ethicsModalAcceptedAt: { $exists: true },
+	// 		});
 
-			if (!hasAcceptedEthicsModal) {
-				return errorResponse(405, "You need to accept the welcome modal first");
-			}
-		}
-	}
+	// 		if (!hasAcceptedEthicsModal) {
+	// 			return errorResponse(405, "You need to accept the welcome modal first");
+	// 		}
+	// 	}
+	// }
 
 	refreshSessionCookie(event.cookies, event.locals.sessionId);
 

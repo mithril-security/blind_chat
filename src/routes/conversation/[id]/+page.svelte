@@ -16,12 +16,19 @@
 	import type { Message } from "$lib/types/Message";
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
-	import { isloading_writable } from "../../LayoutWritable.js";
+	import { isloading_writable, curr_model_writable } from "../../LayoutWritable.js";
 	import { map_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
-	import { addMessageToChat,getChats,getMessages,getTitle } from "../../LocalDB.js";
+	import { addMessageToChat,getChats,getMessages,getTitle,getModel } from "../../LocalDB.js";
 	import { env } from "$env/dynamic/public";
 	export let data;
+
+	let curr_model_id = 0
+	curr_model_writable.subscribe((val) => {
+		curr_model_id = val
+		console.log(val)
+	})
+
 
 	let pipelineWorker;
 
@@ -31,11 +38,14 @@
 
 	let title_ret = "BlindChat"
 
+	let curr_model = data.model
+	let curr_model_obj
+
+	let id_now;
+
 	let messages = [];
 	let lastLoadedMessages = [];
 	let isAborted = false;
-
-	console.log(" - " + $page.params.id)
 
 	let webSearchMessages: WebSearchMessage[] = [];
 
@@ -69,30 +79,34 @@
 				break;
 
 			case "update":
-				if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
-				lastMessage.content = e.data.output;
-				lastMessage.webSearchId = e.data.searchID;
-				lastMessage.updatedAt = new Date()
-				messages = [...messages];
+				if (e.data.id_now == id_now) {
+					if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
+					lastMessage.content = e.data.output;
+					lastMessage.webSearchId = e.data.searchID;
+					lastMessage.updatedAt = new Date()
+					messages = [...messages];
+				}
 				break;
 
 			case "complete":
-				lastMessage = messages[messages.length - 1];
-				lastMessage.webSearchId = e.data.searchID;
-				lastMessage.updatedAt = new Date()
-				addMessageToChat($page.params.id, lastMessage)
-				messages = [...messages];
-				lastMessage = undefined;
-				loading = false;
-				pending = false;
-				webSearchMessages = [];
+				if (e.data.id_now == id_now) {
+					lastMessage = messages[messages.length - 1];
+					lastMessage.webSearchId = e.data.searchID;
+					lastMessage.updatedAt = new Date()
+					addMessageToChat($page.params.id, lastMessage)
+					messages = [...messages];
+					lastMessage = undefined;
+					loading = false;
+					pending = false;
+					webSearchMessages = [];
 
-				if (messages.filter((m) => m.from === "user").length === 1) {
-					invalidate(UrlDependency.ConversationList).catch(console.error);
-				} else {
-					invalidate(UrlDependency.ConversationList).then((value) => {
-						console.log(value);
-					});
+					if (messages.filter((m) => m.from === "user").length === 1) {
+						invalidate(UrlDependency.ConversationList).catch(console.error);
+					} else {
+						invalidate(UrlDependency.ConversationList).then((value) => {
+
+						});
+					}
 				}
 				break;
 		}
@@ -124,12 +138,10 @@
 				updatedAt: new Date(),
 		};
 
-		console.log(findCurrentModel([...data.models, ...data.oldModels], data.settings.activeModel))
-
-		addMessageToChat(conversationId, msg)
+		addMessageToChat(conversationId, msg, curr_model)
 
 		let lastMessage = messages[messages.length - 1];
-		pipelineWorker.postMessage({ text: inputs, webSearchId: webSearchId, conversationId: conversationId });
+		pipelineWorker.postMessage({ id_now: id_now, task: curr_model_obj.type, max_new_tokens: curr_model_obj.parameters?.max_new_tokens ?? 256, temperature: curr_model_obj.parameters?.temperature ?? 0.7, model: curr_model, text: inputs, webSearchId: webSearchId, conversationId: conversationId });
 	}
 
 	async function summarizeTitle(id: string) {
@@ -261,14 +273,38 @@
 				//title_ret = await getTitle(value)
 				let res = await getMessages(value)
 
+				curr_model = await getModel(value)
+				if (curr_model === undefined || curr_model.length == 0)
+				{
+					curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], data.models[curr_model_id].name)
+					curr_model = curr_model_obj.name
+				}
+				else {
+					curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model)
+				}
+
 				if (res != undefined) {
 					messages = res
 					lastLoadedMessages = res
 				}
+
+				id_now = randomUUID()
 			}
 	});
 
 	onMount(async () => {
+		curr_model = await getModel($page.params.id)
+		if (curr_model === undefined || curr_model.length == 0)
+		{
+			curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], data.models[curr_model_id].name)
+			curr_model = curr_model_obj.name
+		}
+		else {
+			curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model)
+		}
+
+		id_now = randomUUID()
+
 		const Worker = await import("./worker.js?worker");
 		pipelineWorker = new Worker.default();
 		
@@ -319,7 +355,7 @@
 	on:share={() => shareConversation($page.params.id, data.title)}
 	on:stop={() => (isAborted = true)}
 	models={data.models}
-	currentModel={findCurrentModel([...data.models, ...data.oldModels], data.model)}
+	currentModel={findCurrentModel([...data.models, ...data.oldModels], curr_model)}
 	settings={data.settings}
 	{loginRequired}
 />

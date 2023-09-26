@@ -16,7 +16,6 @@
 	let loading = false;
 
 	async function createConversation() {
-		console.log("create")
 		try {
 			loading = true;
 			const res = await fetch(`${base}/conversation`, {

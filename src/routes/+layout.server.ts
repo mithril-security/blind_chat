@@ -28,7 +28,6 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 		throw redirect(302, url.pathname);
 	}
 
-
 	return {
 		conversations: [],
 		settings: {
@@ -45,6 +44,7 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 			websiteUrl: model.websiteUrl,
 			modelUrl: model.modelUrl,
 			is_local: model.is_local,
+			type: model.type,
 			datasetName: model.datasetName,
 			datasetUrl: model.datasetUrl,
 			displayName: model.displayName,

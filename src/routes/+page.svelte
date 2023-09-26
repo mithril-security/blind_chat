@@ -8,6 +8,14 @@
 	import { findCurrentModel } from "$lib/utils/models";
 	import { createChat } from "../routes/LocalDB";
 	import { params_writable } from "../routes/conversation/[id]/ParamsWritable";
+	import { curr_model_writable, curr_model_writable_string } from "./LayoutWritable";
+
+	let curr_model_id = 0
+
+	curr_model_writable.subscribe((val) => {
+		curr_model_id = val
+	})
+
 
 	export let data;
 	let loading = false;
@@ -54,7 +62,7 @@
 <ChatWindow
 	on:message={(ev) => createConversation(ev.detail)}
 	{loading}
-	currentModel={findCurrentModel([...data.models, ...data.oldModels], data.settings.activeModel)}
+	currentModel={findCurrentModel([...data.models, ...data.oldModels], data.models[curr_model_id].name)}
 	models={data.models}
 	settings={data.settings}
 />

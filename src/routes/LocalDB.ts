@@ -7,6 +7,7 @@ export interface Chat {
   title: string,
   id: string;
   createdAt: Date,
+  model: string;
   message?: Array<MessageDb>;
 }
 
@@ -23,13 +24,13 @@ export class ChatDatabase extends Dexie {
   
     constructor() {
       super('blindchat');
-      this.version(16).stores({
-        chats: '++index, title, createdAt, id, message'
+      this.version(17).stores({
+        chats: '++index, title, createdAt, id, message, model'
       });
     }
 }
 
-export async function createChat(id_chat: string, msg: MessageDb | undefined, title?: string) {
+export async function createChat(id_chat: string, msg: MessageDb | undefined, model: string, title?: string) {
     try {
       let title_f = ""
       if (title === undefined) {
@@ -43,6 +44,7 @@ export async function createChat(id_chat: string, msg: MessageDb | undefined, ti
         title: title_f,
         message: msg === undefined ? undefined : [msg],
         createdAt: new Date(),
+        model: model,
       }
       const id = await db.chats.add(chat);
     } catch (error) {
@@ -80,11 +82,11 @@ export async function modifyTitle(id_chat: string, newTitle: string) {
   }
 }
 
-export async function addMessageToChat(id_chat: string, msg: MessageDb) {
+export async function addMessageToChat(id_chat: string, msg: MessageDb, model: string) {
   const chat_ret = db.chats.where("id").equals(id_chat)
   let count = await chat_ret.count() 
   if (count < 1) {
-    createChat(id_chat, msg, )
+    createChat(id_chat, msg, model)
   }
   else {
     let msgs: MessageDb[]
@@ -121,6 +123,20 @@ export async function getMessages(id_chat: string) {
     console.log(err)
   }
   return undefined
+}
+
+export async function getModel(id_chat: string) {
+  try {
+    const chat_ret = await db.chats.where("id").equals(id_chat).first()
+    let model = chat_ret?.model
+    if (model === undefined)
+      return ""
+    return model
+  }
+  catch (err) {
+    console.log(err)
+  }
+  return ""
 }
 
 export async function getChats() {

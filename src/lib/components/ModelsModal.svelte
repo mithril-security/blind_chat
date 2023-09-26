@@ -13,13 +13,20 @@
 	import CarbonEdit from "~icons/carbon/edit";
 	import CarbonSave from "~icons/carbon/save";
 	import CarbonRestart from "~icons/carbon/restart";
+	import { curr_model_writable } from "../../routes/LayoutWritable";
 
 	export let settings: LayoutData["settings"];
 	export let models: Array<Model>;
 
-	let selectedModelId = settings.activeModel;
+	let selectedModelId = "";
+	let selectedNum = 0
 
-	const dispatch = createEventDispatcher<{ close: void }>();
+	curr_model_writable.subscribe((val) => {
+		selectedModelId = models[val].name;
+		selectedNum = val
+	})
+
+	const dispatch = createEventDispatcher<{ close: void, closeAndSave}>();
 
 	let expanded = false;
 
@@ -30,6 +37,11 @@
 		expanded = !expanded;
 	}
 
+	function onApply() {
+		curr_model_writable.set(selectedNum)
+		dispatch("close")
+	}
+
 	let value = "";
 
 	function onModelChange() {
@@ -37,6 +49,7 @@
 			settings.customPrompts[selectedModelId] ??
 			models.filter((el) => el.id === selectedModelId)[0].preprompt ??
 			"";
+		selectedNum = models.findIndex((el) => el.id == selectedModelId)
 	}
 
 	$: selectedModelId, onModelChange();
@@ -44,15 +57,10 @@
 
 <Modal width="max-w-lg" on:close>
 	<form
-		action="{base}/settings"
-		method="post"
 		on:submit={() => {
 			if (expanded) {
 				onToggle();
 			}
-		}}
-		use:enhance={() => {
-			dispatch("close");
 		}}
 		class="flex w-full flex-col gap-5 p-6"
 	>
@@ -140,8 +148,11 @@
 			{/each}
 		</div>
 		<button
-			type="submit"
+			type="button"
 			class="mt-2 rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 ring-gray-400 ring-offset-1 transition-colors hover:ring"
+			on:click={() => dispatch("closeAndSave", {
+				id: selectedNum
+			})}
 		>
 			Apply
 		</button>
