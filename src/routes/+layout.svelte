@@ -204,6 +204,7 @@
 	{#if isSettingsOpen}
 		<SettingsModal
 			on:close={() => (isSettingsOpen = false)}
+			on:deleteAllConversations={() => (isSettingsOpen = false, deleteAllChats())}
 			settings={data.settings}
 			models={data.models}
 		/>

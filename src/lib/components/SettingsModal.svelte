@@ -51,11 +51,6 @@
 		{#if isConfirmingDeletion}
 			<Modal on:close={() => (isConfirmingDeletion = false)}>
 				<form
-					use:enhance={() => {
-						dispatch("close");
-					}}
-					method="post"
-					action="{base}/conversations?/delete"
 					class="flex w-full flex-col gap-5 p-6"
 				>
 					<div class="flex items-start justify-between text-xl font-semibold text-gray-800">
@@ -68,8 +63,9 @@
 						This action will delete all your conversations. This cannot be undone.
 					</p>
 					<button
-						type="submit"
+						type="button"
 						class="mt-2 rounded-full bg-red-700 px-5 py-2 text-lg font-semibold text-gray-100 ring-gray-400 ring-offset-1 transition-all focus-visible:outline-none focus-visible:ring hover:ring"
+						on:click={() => dispatch("deleteAllConversations")}
 					>
 						Confirm deletion
 					</button>
