@@ -24,6 +24,9 @@ export class ChatDatabase extends Dexie {
   
     constructor() {
       super('blindchat');
+      this.version(16).stores({
+        chats: null,
+      });
       this.version(17).stores({
         chats: '++index, title, createdAt, id, message, model'
       });
