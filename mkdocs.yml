@@ -1,0 +1,111 @@
+# Website Info
+site_name: BlindChat
+site_url: https://www.blindchat.mithrilsecurity.io/en/latest/
+site_author: Mithril Security
+site_description: >-
+  Create a simple privacy framework for data science collaboration, 
+  covering data exploration and machine learning.
+
+# Repository
+repo_name: mithril-security/blind_llama
+repo_url: https://github.com/mithril-security/blind_llama
+
+# Configuration
+theme:
+  name: material
+  custom_dir: docs/material_theme_customization
+  features:
+    - navigation.instant
+    - search.highlight
+    - content.tabs.link
+    - navigation.sections
+    - navigation.indexes
+    - navigation.expand
+    
+  logo: "https://uploads-ssl.webflow.com/6391c9c43e45c45a622f4763/63b282241e34a7191fcfaaf4_logo.svg"
+  favicon: "https://uploads-ssl.webflow.com/6391c9c43e45c45a622f4763/63b282241e34a7191fcfaaf4_logo.svg"
+  palette:
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+  icon:
+    admonition:
+      note: material/pencil-circle
+      abstract: material/list-box-outline
+      info: material/information-outline
+      tip: material/fire
+      success: material/check
+      question: material/help-circle
+      warning: material/alert
+      failure: material/window-close
+      danger: material/lightning-bolt-circle
+      bug: material/shield-bug
+      example: material/test-tube
+      quote: material/format-quote-close
+
+#Plugins
+plugins:
+  - search
+  - mkdocs-jupyter
+
+# Customization
+extra:
+  homepage: https://mithrilsecurity.io
+  social:
+    - icon: fontawesome/brands/discord
+      link: https://discord.com/invite/TxEHagpWd4
+    - icon: fontawesome/brands/github
+      link: https://github.com/mithril-security/
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/mithril-security-company/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/mithrilsecurity
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - "https://code.jquery.com/jquery-3.3.1.min.js"
+
+# Extensions
+markdown_extensions:
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.critic
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji 
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+# Documentation tree
+nav:
+- 🏠 Home: './index.md'
+- 🧑‍🎨 Design : './docs/getting-started/design.md'
+- 🐱 Set-up: './docs/getting-started/setup.md'
+
+# - 🛠️ API reference: 
+#   - Completion: blind_chat/completion.html
+#   - Index: blind_chat/index.html
+#   - Errors: blind_chat/errors.html
