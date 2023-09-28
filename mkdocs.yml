@@ -103,9 +103,3 @@ nav:
     - 🐱 BlindChat: './index.md'
     - 🧑‍🎨 Design : './docs/getting-started/design.md'
     - 🛠️ Set-up: './docs/getting-started/setup.md'
-    
-
-# - 🛠️ API reference: 
-#   - Completion: blind_chat/completion.html
-#   - Index: blind_chat/index.html
-#   - Errors: blind_chat/errors.html
