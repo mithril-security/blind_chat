@@ -1,12 +1,14 @@
 # 👋 Welcome to BlindChat!
-________________________________________________________
+
+---
 
 <font size="5"><span style="font-weight: 200">
 Making Conversational AI Confidential & Transparent
 </font></span>
 
 ## 📜 What is BlindChat?
-________________________________________________________
+
+---
 
 ### Introduction
 
@@ -21,16 +23,18 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 🔐 BlindChat solves this issue as users have guarantees that their data remains private at all times and have full control over it, either by doing local inference or using secure isolated environments called secure enclaves.
 
 ## 💬 BlindChat Local: Demo
-________________________________________________________
 
-![demo](./assets/demo_blind_chat.gif)
+---
+
+![demo](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/demo_blind_chat.gif?raw=true)
 
 ### 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)!
 
 We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
 
 ## 🌎 Who is BlindChat for?
-________________________________________________________
+
+---
 
 BlindChat aims to serve two users:
 
@@ -41,7 +45,8 @@ BlindChat aims to serve two users:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## 🎯 Roadmap
-___________________________
+
+---
 
 You can check out our progress in more detail on our [official roadmap](https://github.com/orgs/mithril-security/projects/2/views/4). We highlight feature on which we would love help from contributors in our [help wanted section](https://github.com/orgs/mithril-security/projects/2/views/3).
 
@@ -57,7 +62,8 @@ Roadmap quick summary:
 - [ ] Connectors to pull data from different sources
 
 ## 📇 Get in touch
-___________________________
+
+---
 
 We would love to hear your feedback or suggestions, here are the ways you can reach us:
 
@@ -73,6 +79,7 @@ Want to hear more about our work on privacy in the field AI?
 Thank you for your support!
 
 ## References
-___________________________
+
+---
 
 [1] Carlini, N., Ippolito, D., Jagielski, M., Lee, K., Tramer, F., & Zhang, C. (2022). Quantifying Memorization Across Neural Language Models. ArXiv. /abs/2202.07646

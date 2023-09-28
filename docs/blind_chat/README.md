@@ -57,7 +57,7 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 ### Demo
 
-![demo](./assets/demo_blind_chat.gif)
+![demo](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/demo_blind_chat.gif?raw=true)
 
 #### 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)!
 
@@ -141,8 +141,8 @@ We offer two modes to ensure users’ data remains private:
 
 #### BlindChat Local: On-device inference
 
-![on-device-mode-dark](./assets/on-device-dark.png#gh-dark-mode-only)
-![on-device-mode-light](./assets/on-device-light.png#gh-light-mode-only)
+![on-device-mode-dark](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/on-device-dark.png?raw=true#gh-dark-mode-only)
+![on-device-mode-light](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/on-device-light.png?raw=true#gh-light-mode-only)
 
 With BlindChat Local, the model is sent locally to the users’ browser, and **inference is performed on-device**.
 
@@ -150,8 +150,8 @@ This mode is **generally suitable for smaller models** as large models may requi
 
 #### BlindChat Enclave: Confidential AI APIs with enclaves
 
-![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
-![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
+![zero-trust-mode-dark](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/zero-trust-dark.png?raw=true#gh-dark-mode-only)
+![zero-trust-mode-light](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/zero-trust-light.png?raw=true#gh-light-mode-only)
 
 With BlindChat Enclave, data is sent to a **secure environment** called an **enclave** containing the model for remote inference.
 
