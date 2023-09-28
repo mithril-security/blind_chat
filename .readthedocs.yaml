@@ -9,9 +9,6 @@ build:
     python: "3.10"
   apt_packages:
   - cmake
-  jobs:
-    post_install:
-    - bash docs/generate_api_reference.sh
 
 mkdocs:
   configuration: mkdocs.yml
@@ -21,4 +18,4 @@ python:
     install:
     - requirements: docs/requirements.txt
     - method: pip
-      path: src
+      path: docs/blind_chat

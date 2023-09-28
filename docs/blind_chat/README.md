@@ -57,7 +57,7 @@ This creates privacy risks for users as LLMs might learn their data by heart. Ca
 
 ### Demo
 
-![demo](./assets/demo_blind_chat.gif)
+![demo](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/demo_blind_chat.gif?raw=true)
 
 #### 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)!
 
@@ -141,8 +141,8 @@ We offer two modes to ensure users’ data remains private:
 
 #### BlindChat Local: On-device inference
 
-![on-device-mode-dark](./assets/on-device-dark.png#gh-dark-mode-only)
-![on-device-mode-light](./assets/on-device-light.png#gh-light-mode-only)
+![on-device-mode-dark](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/on-device-dark.png?raw=true#gh-dark-mode-only)
+![on-device-mode-light](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/on-device-light.png?raw=true#gh-light-mode-only)
 
 With BlindChat Local, the model is sent locally to the users’ browser, and **inference is performed on-device**.
 
@@ -150,8 +150,8 @@ This mode is **generally suitable for smaller models** as large models may requi
 
 #### BlindChat Enclave: Confidential AI APIs with enclaves
 
-![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
-![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
+![zero-trust-mode-dark](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/zero-trust-dark.png?raw=true#gh-dark-mode-only)
+![zero-trust-mode-light](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/zero-trust-light.png?raw=true#gh-light-mode-only)
 
 With BlindChat Enclave, data is sent to a **secure environment** called an **enclave** containing the model for remote inference.
 
@@ -217,7 +217,7 @@ Thank you for your support!
 [twitter-url]: https://twitter.com/MithrilSecurity
 [contact-url]: https://www.mithrilsecurity.io/contact
 [docs-shield]: https://img.shields.io/badge/Docs-000000?style=for-the-badge&colorB=555
-[docs-url]: https://blindchat.mithrilsecurity.io/en/latest/
+[docs-url]: https://blindllama.mithrilsecurity.io/en/latest/
 [license-shield]: https://img.shields.io/github/license/mithril-security/aicert.svg?style=for-the-badge
 [contact]: https://img.shields.io/badge/Contact_us-000000?style=for-the-badge&colorB=555
 [project]: https://img.shields.io/badge/Project-000000?style=for-the-badge&colorB=555
@@ -227,7 +227,7 @@ Thank you for your support!
 [fb-shield]: https://img.shields.io/badge/Facebook-0077B5?style=for-the-badge&logo=facebook&logoColor=white&colorB=3b5998
 [linkedin-url]: https://www.linkedin.com/company/mithril-security-company/
 [website-url]: https://www.mithrilsecurity.io
-[docs-url]: https://blindchat.mithrilsecurity.io/en/latest/
+[docs-url]: https://blindllama.mithrilsecurity.io/en/latest/
 [website-shield]: https://img.shields.io/badge/website-000000?style=for-the-badge&colorB=555
 [blog-url]: https://blog.mithrilsecurity.io/
 [blog-shield]: https://img.shields.io/badge/Blog-000?style=for-the-badge&logo=ghost&logoColor=yellow&colorB=555

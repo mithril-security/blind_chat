@@ -7,8 +7,8 @@ site_description: >-
   covering data exploration and machine learning.
 
 # Repository
-repo_name: mithril-security/blind_llama
-repo_url: https://github.com/mithril-security/blind_llama
+repo_name: mithril-security/blind_chat
+repo_url: https://github.com/mithril-security/blind_chat
 
 # Configuration
 theme:
@@ -18,8 +18,6 @@ theme:
     - navigation.instant
     - search.highlight
     - content.tabs.link
-    - navigation.sections
-    - navigation.indexes
     - navigation.expand
     
   logo: "https://uploads-ssl.webflow.com/6391c9c43e45c45a622f4763/63b282241e34a7191fcfaaf4_logo.svg"
@@ -100,12 +98,8 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg
 
 # Documentation tree
-nav:
-- 🏠 Home: './index.md'
-- 🧑‍🎨 Design : './docs/getting-started/design.md'
-- 🐱 Set-up: './docs/getting-started/setup.md'
-
-# - 🛠️ API reference: 
-#   - Completion: blind_chat/completion.html
-#   - Index: blind_chat/index.html
-#   - Errors: blind_chat/errors.html
+nav: 
+  - 🏠 Home:
+    - 🐱 BlindChat: './index.md'
+    - 🧑‍🎨 Design : './docs/getting-started/design.md'
+    - 🛠️ Set-up: './docs/getting-started/setup.md'
