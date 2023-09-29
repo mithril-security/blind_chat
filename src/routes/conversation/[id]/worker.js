@@ -1,4 +1,47 @@
 import { pipeline, env } from "@xenova/transformers";
+import init, { Model } from "./phi/m.js";
+
+async function fetchArrayBuffer(url) {
+	const cacheName = "phi-mixformer-candle-cache";
+	const cache = await caches.open(cacheName);
+	const cachedResponse = await cache.match(url);
+	if (cachedResponse) {
+	  const data = await cachedResponse.arrayBuffer();
+	  return new Uint8Array(data);
+	}
+	const res = await fetch(url, { cache: "force-cache" });
+	cache.put(url, res.clone());
+	return new Uint8Array(await res.arrayBuffer());
+}
+
+class Phi {
+	static instance = {};
+  
+	static async getInstance(weightsURL, modelID, tokenizerURL, quantized) {
+	  // load individual modelID only once
+	  if (!this.instance[modelID]) {
+		await init();
+  
+		self.postMessage({ status: "loading", message: "Loading Model" });
+		self.postMessage({ status: "progress", file: "model-q4k.gguf", no_progress_bar: true, message: "Starting Phi" });
+
+  
+		const [weightsArrayU8, tokenizerArrayU8] = await Promise.all([
+		  fetchArrayBuffer(weightsURL),
+		  fetchArrayBuffer(tokenizerURL),
+		]);
+  
+		this.instance[modelID] = new Model(
+		  weightsArrayU8,
+		  tokenizerArrayU8,
+		  quantized
+		);
+		self.postMessage({ status: "ready" });
+		//self.postMessage({ status: "init_model"});
+	  }
+	  return this.instance[modelID];
+	}
+ }
 
 export class FlanPipeline {
 	static curr_model = "";
@@ -18,33 +61,131 @@ export class FlanPipeline {
 	}
 }
 
+let controller = null;
+
 // Listen for messages from the main thread
 self.addEventListener("message", async (event) => {
-	let pipe = await FlanPipeline.getInstance(
-		(x) => {
-			self.postMessage(x);
-		},
-		event.data.model,
-		event.data.task
-	);
+	if (event.data.is_phi) {
+		controller = new AbortController();
+		generate_phi(event.data);
+	}
+	else {
+		console.log("transformers.js")
+		let pipe = await FlanPipeline.getInstance(
+			(x) => {
+				self.postMessage(x);
+			},
+			event.data.model,
+			event.data.task
+		);
+	
+		let output = await pipe(event.data.text, {
+			max_new_tokens: event.data.max_new_tokens,
+			temperature: event.data.temperature,
+			callback_function: (x) => {
+				self.postMessage({
+					status: "update",
+					output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
+					id_now: event.data.id_now,
+				});
+			},
+		});
+	
+		// Send the output back to the main thread
+		self.postMessage({
+			status: "complete",
+			output: output,
+			searchID: event.data.searchID,
+			id_now: event.data.id_now,
+		});
+	}
 
-	let output = await pipe(event.data.text, {
-		max_new_tokens: event.data.max_new_tokens,
-		temperature: event.data.temperature,
-		callback_function: (x) => {
-			self.postMessage({
-				status: "update",
-				output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
-				id_now: event.data.id_now,
-			});
-		},
-	});
-
-	// Send the output back to the main thread
-	self.postMessage({
-		status: "complete",
-		output: output,
-		searchID: event.data.searchID,
-		id_now: event.data.id_now,
-	});
 });
+
+async function generate_phi(data) {
+	const tokenizerURL = "https://huggingface.co/microsoft/phi-1_5/raw/main/tokenizer.json";
+	const weightsURL = "https://huggingface.co/lmz/candle-quantized-phi/resolve/main/model-q4k.gguf";
+	let prompt = data.text
+	let maxSeqLen = data.max_new_tokens
+	let temp = data.temperature
+	let modelID = 0;
+	let quantized = true;
+	let top_p = 1;
+	let repeatPenalty = 1.1;
+	let seed = 299792458;
+	console.log(data)
+	try {
+	  const model = await Phi.getInstance(
+		weightsURL,
+		modelID,
+		tokenizerURL,
+		quantized
+	  );
+  
+	  const firstToken = model.init_with_prompt(
+		prompt,
+		temp,
+		top_p,
+		repeatPenalty,
+		64,
+		BigInt(seed)
+	  );
+	  const seq_len = 2048;
+  
+	  let sentence = firstToken;
+	  let maxTokens = maxSeqLen ? maxSeqLen : seq_len - prompt.length - 1;
+	  let startTime = performance.now();
+	  let tokensCount = 0;
+
+	  while (tokensCount < maxTokens) {
+		await new Promise(async (resolve) => {
+		  if (controller && controller.signal.aborted) {
+			self.postMessage({
+			  status: "aborted",
+			  message: "Aborted",
+			  output: sentence,
+			});
+			return;
+		  }
+		  const token = await model.next_token();
+		  if (token === "<|endoftext|>") {
+			self.postMessage({
+			  status: "complete",
+			  output: sentence,
+			  searchID: data.searchID,
+			  id_now: data.id_now,
+			});
+			return;
+		  }
+		  const tokensSec =
+			((tokensCount + 1) / (performance.now() - startTime)) * 1000;
+  
+		  sentence += token;
+		  self.postMessage({
+			status: "update",
+			message: "Generating token",
+			token: token,
+			output: sentence,
+			totalTime: performance.now() - startTime,
+			tokensSec,
+			prompt: prompt,
+			id_now: data.id_now,
+		  });
+		  setTimeout(resolve, 0);
+		});
+		tokensCount++;
+		console.log(tokensCount)
+		console.log(maxTokens)
+	  }
+	  console.log("End")
+	  self.postMessage({
+		status: "complete",
+		output: sentence,
+		searchID: data.searchID,
+		id_now: data.id_now,
+	  });
+	} catch (e) {
+      console.log(e)
+	  self.postMessage({ error: e });
+	}
+  }

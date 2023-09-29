@@ -65,6 +65,7 @@ const modelsRaw = z
 			description: z.string().min(1).optional(),
 			is_local: z.boolean().optional(),
 			is_code: z.boolean().optional(),
+			is_phi: z.boolean().optional(),
 			type: z.string().min(1),
 			websiteUrl: z.string().url().optional(),
 			modelUrl: z.string().url().optional(),

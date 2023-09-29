@@ -21,6 +21,7 @@
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
 	import {
 		isloading_writable,
+		is_init_writable,
 		refresh_chats_writable,
 		refresh_chats_writable_empty,
 	} from "./LayoutWritable";
@@ -32,14 +33,20 @@
 		modifyTitle,
 	} from "../routes/LocalDB";
 	import { env } from "$env/dynamic/public";
+	import InitModelModal from "$lib/components/InitModelModal.svelte";
 
 	export let data;
 	let isloading = false;
+	let isInit = false;
 	let showWarning = true;
 
 	let go_to_main = false;
 
 	let conversations_list = [];
+
+	is_init_writable.subscribe((value) => {
+		isInit = value;
+	});
 
 	isloading_writable.subscribe((value) => {
 		isloading = value;
@@ -204,6 +211,9 @@
 	{/if}
 	{#if showWarning}
 		<ConfirmModal on:close={() => (showWarning = false)} />
+	{/if}
+	{#if isInit}
+		<InitModelModal />
 	{/if}
 	{#if isloading}
 		<LoadingModal />

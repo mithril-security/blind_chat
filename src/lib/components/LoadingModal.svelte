@@ -12,7 +12,6 @@
 		pr = Number(percent);
 		if (model.startsWith("onnx")) {
 			loadingMap.set(model, Math.floor(Number(percent)));
-			//console.log(loadingMap);
 		}
 	});
 </script>

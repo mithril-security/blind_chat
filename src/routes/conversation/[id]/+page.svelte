@@ -16,7 +16,7 @@
 	import type { Message } from "$lib/types/Message";
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
-	import { isloading_writable, curr_model_writable } from "../../LayoutWritable.js";
+	import { isloading_writable, curr_model_writable, is_init_writable } from "../../LayoutWritable.js";
 	import { map_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
 	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
@@ -48,18 +48,13 @@
 
 	let webSearchMessages: WebSearchMessage[] = [];
 
-	// // Since we modify the messages array locally, we don't want to reset it if an old version is passed
-	// $: if (data.messages !== lastLoadedMessages) {
-	// 	messages = data.messages;
-	// 	lastLoadedMessages = data.messages;
-	// }
-
 	let loading = false;
 	let pending = false;
 	let loginRequired = false;
 
 	// Create a callback function for messages from the worker thread.
 	const onMessageReceived = (e) => {
+		console.log(e.data)
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
@@ -67,7 +62,14 @@
 
 			case "progress":
 				isloading_writable.set(true);
-				map_writable.set([e.data.file, e.data.progress]);
+				if (e.data.no_progress_bar == undefined) {
+					map_writable.set([e.data.file, e.data.progress]);
+				}
+				break;
+
+			case "init_model":
+				isloading_writable.set(false);
+				is_init_writable.set(true);
 				break;
 
 			case "done":
@@ -75,10 +77,12 @@
 
 			case "ready":
 				isloading_writable.set(false);
+				is_init_writable.set(false);
 				break;
 
 			case "update":
 				if (e.data.id_now == id_now) {
+					console.log(e.data.output)
 					if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
 					lastMessage.content = e.data.output;
 					lastMessage.webSearchId = e.data.searchID;
@@ -89,6 +93,7 @@
 
 			case "complete":
 				if (e.data.id_now == id_now) {
+					console.log("Ok")
 					lastMessage = messages[messages.length - 1];
 					lastMessage.webSearchId = e.data.searchID;
 					lastMessage.updatedAt = new Date();
@@ -120,8 +125,6 @@
 
 		let opt = "";
 
-		console.log(curr_model_obj);
-
 		messages = [
 			...messages,
 			// id doesn't match the backend id but it's not important for assistant messages
@@ -148,6 +151,7 @@
 
 		let lastMessage = messages[messages.length - 1];
 		pipelineWorker.postMessage({
+			is_phi: curr_model_obj.is_phi ?? false,
 			id_now: id_now,
 			task: curr_model_obj.type,
 			max_new_tokens: curr_model_obj.parameters?.max_new_tokens ?? 256,
