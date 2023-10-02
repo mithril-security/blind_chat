@@ -1,6 +1,5 @@
 import { pipeline, env } from "@xenova/transformers";
 import init, { Model } from "./phi/m.js";
-import { cancel_writable } from "../../LayoutWritable.js";
 
 async function fetchArrayBuffer(url) {
 	const cacheName = "phi-mixformer-candle-cache";

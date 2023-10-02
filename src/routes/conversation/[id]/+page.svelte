@@ -17,7 +17,7 @@
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
 	import { isloading_writable, curr_model_writable, is_init_writable, cancel_writable } from "../../LayoutWritable.js";
-	import { map_writable } from "$lib/components/LoadingModalWritable.js";
+	import { map_writable, phi_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
 	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
 	import { env } from "$env/dynamic/public";
@@ -54,6 +54,7 @@
 
 	// Create a callback function for messages from the worker thread.
 	const onMessageReceived = (e) => {
+		console.log(e)
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
@@ -65,13 +66,12 @@
 					map_writable.set([e.data.file, e.data.progress]);
 				}
 				else {
-					map_writable.set([])
+					map_writable.set(["phi", "-1"])
 				}
 				break;
 
 			case "init_model":
-				isloading_writable.set(false);
-				is_init_writable.set(true);
+				phi_writable.set(true);
 				break;
 
 			case "done":
@@ -80,6 +80,7 @@
 			case "ready":
 				isloading_writable.set(false);
 				is_init_writable.set(false);
+				phi_writable.set(false);
 				break;
 
 			case "update":
