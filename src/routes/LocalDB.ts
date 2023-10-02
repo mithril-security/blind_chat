@@ -28,6 +28,9 @@ export class ChatDatabase extends Dexie {
 			chats: null,
 		});
 		this.version(17).stores({
+			chats: null,		
+		});
+		this.version(18).stores({
 			chats: "++index, title, createdAt, id, message, model",
 		});
 	}
