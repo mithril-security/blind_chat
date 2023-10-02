@@ -38,7 +38,6 @@ class Phi {
 		  quantized
 		);
 		self.postMessage({ status: "ready" });
-		//self.postMessage({ status: "init_model"});
 	  }
 	  return this.instance[modelID];
 	}
