@@ -1,5 +1,6 @@
 import { pipeline, env } from "@xenova/transformers";
 import init, { Model } from "./phi/m.js";
+import { cancel_writable } from "../../LayoutWritable.js";
 
 async function fetchArrayBuffer(url) {
 	const cacheName = "phi-mixformer-candle-cache";
@@ -65,42 +66,49 @@ let controller = null;
 
 // Listen for messages from the main thread
 self.addEventListener("message", async (event) => {
-	if (event.data.is_phi) {
-		controller = new AbortController();
-		generate_phi(event.data);
+	if (event.data.command != "abort") {
+		if (event.data.is_phi) {
+			controller = new AbortController();
+			generate_phi(event.data);
+		}
+		else {
+			console.log("transformers.js")
+			let pipe = await FlanPipeline.getInstance(
+				(x) => {
+					self.postMessage(x);
+				},
+				event.data.model,
+				event.data.task
+			);
+		
+			let output = await pipe(event.data.text, {
+				max_new_tokens: event.data.max_new_tokens,
+				temperature: event.data.temperature,
+				callback_function: (x) => {
+					self.postMessage({
+						status: "update",
+						output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
+						id_now: event.data.id_now,
+					});
+				},
+			});
+		
+			// Send the output back to the main thread
+			self.postMessage({
+				status: "complete",
+				output: output,
+				searchID: event.data.searchID,
+				id_now: event.data.id_now,
+			});
+		}
 	}
 	else {
-		console.log("transformers.js")
-		let pipe = await FlanPipeline.getInstance(
-			(x) => {
-				self.postMessage(x);
-			},
-			event.data.model,
-			event.data.task
-		);
-	
-		let output = await pipe(event.data.text, {
-			max_new_tokens: event.data.max_new_tokens,
-			temperature: event.data.temperature,
-			callback_function: (x) => {
-				self.postMessage({
-					status: "update",
-					output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
-					id_now: event.data.id_now,
-				});
-			},
-		});
-	
-		// Send the output back to the main thread
-		self.postMessage({
-			status: "complete",
-			output: output,
-			searchID: event.data.searchID,
-			id_now: event.data.id_now,
-		});
+		if (controller != null)
+			controller.abort();
 	}
-
 });
+
+
 
 async function generate_phi(data) {
 	const tokenizerURL = "https://huggingface.co/microsoft/phi-1_5/raw/main/tokenizer.json";
@@ -140,10 +148,13 @@ async function generate_phi(data) {
 	  while (tokensCount < maxTokens) {
 		await new Promise(async (resolve) => {
 		  if (controller && controller.signal.aborted) {
+			console.log("Abort?")
 			self.postMessage({
 			  status: "aborted",
 			  message: "Aborted",
 			  output: sentence,
+			  searchID: data.searchID,
+			  id_now: data.id_now,
 			});
 			return;
 		  }

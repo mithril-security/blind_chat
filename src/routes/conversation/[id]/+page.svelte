@@ -16,7 +16,7 @@
 	import type { Message } from "$lib/types/Message";
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
-	import { isloading_writable, curr_model_writable, is_init_writable } from "../../LayoutWritable.js";
+	import { isloading_writable, curr_model_writable, is_init_writable, cancel_writable } from "../../LayoutWritable.js";
 	import { map_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
 	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
@@ -54,7 +54,6 @@
 
 	// Create a callback function for messages from the worker thread.
 	const onMessageReceived = (e) => {
-		console.log(e.data)
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
@@ -62,8 +61,11 @@
 
 			case "progress":
 				isloading_writable.set(true);
-				if (e.data.no_progress_bar == undefined) {
+				if (e.data.no_progress_bar == undefined || e.data.no_progress_bar == false) {
 					map_writable.set([e.data.file, e.data.progress]);
+				}
+				else {
+					map_writable.set([])
 				}
 				break;
 
@@ -82,18 +84,20 @@
 
 			case "update":
 				if (e.data.id_now == id_now) {
-					console.log(e.data.output)
 					if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
 					lastMessage.content = e.data.output;
 					lastMessage.webSearchId = e.data.searchID;
 					lastMessage.updatedAt = new Date();
 					messages = [...messages];
 				}
+				else {
+					pipelineWorker.postMessage({ command: "abort" })
+				}
 				break;
 
+			case "aborted":
 			case "complete":
 				if (e.data.id_now == id_now) {
-					console.log("Ok")
 					lastMessage = messages[messages.length - 1];
 					lastMessage.webSearchId = e.data.searchID;
 					lastMessage.updatedAt = new Date();
@@ -255,7 +259,7 @@
 			}
 			console.error(err);
 		} finally {
-			loading = false;
+			loading = curr_model_obj.is_phi ?? false;
 			pending = false;
 		}
 	}
@@ -302,15 +306,10 @@
 			} else {
 				curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model);
 			}
-
-			console.log(curr_model);
-			console.log(curr_model_obj);
-
 			if (res != undefined) {
 				messages = res;
 				lastLoadedMessages = res;
 			}
-
 			id_now = randomUUID();
 		}
 	});
@@ -377,7 +376,7 @@
 	on:retry={(event) => writeMessage(event.detail.content, event.detail.id)}
 	on:vote={(event) => voteMessage(event.detail.score, event.detail.id)}
 	on:share={() => shareConversation($page.params.id, data.title)}
-	on:stop={() => (isAborted = true)}
+	on:stop={() => (isAborted = true, pipelineWorker.postMessage({ command: "abort" }))}
 	models={data.models}
 	currentModel={findCurrentModel([...data.models, ...data.oldModels], curr_model)}
 	settings={data.settings}
