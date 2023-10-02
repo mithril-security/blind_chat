@@ -31,6 +31,8 @@ class Phi {
 		  fetchArrayBuffer(weightsURL),
 		  fetchArrayBuffer(tokenizerURL),
 		]);
+
+		self.postMessage({ status: "init_model" });
   
 		this.instance[modelID] = new Model(
 		  weightsArrayU8,
@@ -71,7 +73,6 @@ self.addEventListener("message", async (event) => {
 			generate_phi(event.data);
 		}
 		else {
-			console.log("transformers.js")
 			let pipe = await FlanPipeline.getInstance(
 				(x) => {
 					self.postMessage(x);
@@ -120,7 +121,6 @@ async function generate_phi(data) {
 	let top_p = 1;
 	let repeatPenalty = 1.1;
 	let seed = 299792458;
-	console.log(data)
 	try {
 	  const model = await Phi.getInstance(
 		weightsURL,
@@ -147,7 +147,6 @@ async function generate_phi(data) {
 	  while (tokensCount < maxTokens) {
 		await new Promise(async (resolve) => {
 		  if (controller && controller.signal.aborted) {
-			console.log("Abort?")
 			self.postMessage({
 			  status: "aborted",
 			  message: "Aborted",
@@ -184,10 +183,7 @@ async function generate_phi(data) {
 		  setTimeout(resolve, 0);
 		});
 		tokensCount++;
-		console.log(tokensCount)
-		console.log(maxTokens)
 	  }
-	  console.log("End")
 	  self.postMessage({
 		status: "complete",
 		output: sentence,

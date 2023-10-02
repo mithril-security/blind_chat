@@ -14,9 +14,10 @@
 		if (model != undefined && model.startsWith("onnx")) {
 			loadingMap.set(model, Math.floor(Number(percent)));
 		}
-		other_loading = true;
+		if (loadingMap.size > 0)
+			other_loading = true;
 		loadingMap.forEach((per, model, map) => {
-			if (per < 100) {
+			if (per < 100 && loadingMap.size > 0) {
 				other_loading = false;
 			}
 		})
