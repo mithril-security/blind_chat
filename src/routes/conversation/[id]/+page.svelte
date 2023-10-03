@@ -26,7 +26,6 @@
 	let curr_model_id = 0;
 	curr_model_writable.subscribe((val) => {
 		curr_model_id = val;
-		console.log(val);
 	});
 
 	let pipelineWorker;
@@ -52,12 +51,16 @@
 	let pending = false;
 	let loginRequired = false;
 
+	//The code consider that the datalayer variable does not exist
+	//but it is instantiated by Google Tag Manager during runtime
+
 	// Create a callback function for messages from the worker thread.
 	const onMessageReceived = (e) => {
-		console.log(e)
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
+				if (e.data.file == "tokenizer.json") // Avoid to send the tag multiple times
+					dataLayer.push({'event': 'debut_chargement_chat', 'nom_modele':[e.data.name]});
 				break;
 
 			case "progress":
@@ -71,13 +74,13 @@
 				break;
 
 			case "init_model":
-				phi_writable.set(true);
 				break;
 
 			case "done":
 				break;
 
 			case "ready":
+				dataLayer.push({'event': 'fin_chargement_chat', 'nom_modele':[e.data.name]});
 				isloading_writable.set(false);
 				is_init_writable.set(false);
 				phi_writable.set(false);
@@ -99,6 +102,7 @@
 			case "aborted":
 			case "complete":
 				if (e.data.id_now == id_now) {
+					dataLayer.push({'event': 'reponse_message'});
 					lastMessage = messages[messages.length - 1];
 					lastMessage.webSearchId = e.data.searchID;
 					lastMessage.updatedAt = new Date();
@@ -151,6 +155,8 @@
 			updatedAt: new Date(),
 			isCode: false,
 		};
+
+		dataLayer.push({'event': 'envoi_message'});
 
 		addMessageToChat(conversationId, msg, curr_model);
 

@@ -25,8 +25,9 @@
 			is_phi_loading = false;
 			loadingMap.set(model, Math.floor(Number(percent)));
 		}
-		else if (model != undefined && model.startsWith("phi")) {
-			is_phi_loading = true;
+		else if (model != undefined && model.endsWith("gguf")) {
+			is_phi_loading = false;
+			loadingMap.set(model, Math.floor(Number(percent)));
 		}
 		if (loadingMap.size > 0) 
 		{

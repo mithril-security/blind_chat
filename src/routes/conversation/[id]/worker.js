@@ -1,17 +1,71 @@
 import { pipeline, env } from "@xenova/transformers";
 import init, { Model } from "./phi/m.js";
+import URI from "urijs"
+
+// Shamelessly stolen from Transformers.js
+
+export async function tryCache(cache, ...names) {
+    for (let name of names) {
+        try {
+			console.log(name)
+            let result = await cache.match(name);
+            if (result) return result;
+        } catch (e) {
+            continue;
+        }
+    }
+    return undefined;
+}
+
+async function read_stream(url, response) {
+	const reader = response.body.getReader();
+	const contentLength = +response.headers.get('Content-Length');
+	let receivedLength = 0;
+	let chunks = []; 
+	let uri = new URI(url)
+
+	while(true) {
+		const {done, value} = await reader.read();
+		if (done) {
+			break;
+		}
+		chunks.push(value);
+		receivedLength += value.length;
+		let percent = (receivedLength / contentLength) * 100
+		self.postMessage({ status: "progress", file: uri.filename(), progress: percent });
+	}
+
+	let chunksAll = new Uint8Array(receivedLength); 
+	let position = 0;
+	for(let chunk of chunks) {
+		chunksAll.set(chunk, position); 
+		position += chunk.length;
+	}
+	return chunksAll
+}
 
 async function fetchArrayBuffer(url) {
-	const cacheName = "phi-mixformer-candle-cache";
-	const cache = await caches.open(cacheName);
-	const cachedResponse = await cache.match(url);
-	if (cachedResponse) {
-	  const data = await cachedResponse.arrayBuffer();
-	  return new Uint8Array(data);
+	let cache = await caches.open('transformers-cache');
+
+	const response = await tryCache(cache, url);
+	if (response != undefined) {
+		console.log(url)
+		let res = await read_stream(url, response)
+		cache.put(url, new Response(res, {
+            headers: response.headers
+        }));
+		return new Uint8Array(res);
 	}
-	const res = await fetch(url, { cache: "force-cache" });
-	cache.put(url, res.clone());
-	return new Uint8Array(await res.arrayBuffer());
+	else {
+		const response = await fetch(url);
+		let res = await read_stream(url, response)
+		cache.put(url, new Response(res, {
+            headers: response.headers,
+        }));
+		return new Uint8Array(res);
+	}
+
+
 }
 
 class Phi {
@@ -23,8 +77,6 @@ class Phi {
 		await init();
   
 		self.postMessage({ status: "loading", message: "Loading Model" });
-		self.postMessage({ status: "progress", file: "model-q4k.gguf", no_progress_bar: true, message: "Starting Phi" });
-
   
 		const [weightsArrayU8, tokenizerArrayU8] = await Promise.all([
 		  fetchArrayBuffer(weightsURL),
@@ -63,6 +115,7 @@ export class FlanPipeline {
 }
 
 let controller = null;
+let phi_model = null;
 
 // Listen for messages from the main thread
 self.addEventListener("message", async (event) => {
@@ -120,6 +173,9 @@ async function generate_phi(data) {
 	let top_p = 1;
 	let repeatPenalty = 1.1;
 	let seed = 299792458;
+
+	self.postMessage({ status: "initiate", file: "tokenizer.json" }); // Fake init
+
 	try {
 	  const model = await Phi.getInstance(
 		weightsURL,
