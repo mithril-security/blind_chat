@@ -6,7 +6,7 @@
 	import { curr_model_writable } from "../../../routes/LayoutWritable";
 
     onMount(() => {
-		curr_model_writable.set(0)
+		curr_model_writable.set(1)
 		goto(`/`, { invalidateAll: true });
     });
 
