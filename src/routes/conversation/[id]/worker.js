@@ -174,7 +174,7 @@ async function generate_phi(data) {
 	let repeatPenalty = 1.1;
 	let seed = 299792458;
 
-	self.postMessage({ status: "initiate", file: "tokenizer.json" }); // Fake init
+	self.postMessage({ status: "initiate", file: "tokenizer.json", name: "phi-1_5" }); // Fake init
 
 	try {
 	  const model = await Phi.getInstance(
