@@ -90,7 +90,7 @@ class Phi {
 		  tokenizerArrayU8,
 		  quantized
 		);
-		self.postMessage({ status: "ready" });
+		self.postMessage({ status: "ready", model: "phi-1_5" });
 	  }
 	  return this.instance[modelID];
 	}

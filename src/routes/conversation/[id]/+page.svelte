@@ -80,7 +80,7 @@
 				break;
 
 			case "ready":
-				dataLayer.push({'event': 'fin_chargement_chat', 'nom_modele':[e.data.name]});
+				dataLayer.push({'event': 'fin_chargement_chat', 'nom_modele':[e.data.model]});
 				isloading_writable.set(false);
 				is_init_writable.set(false);
 				phi_writable.set(false);
