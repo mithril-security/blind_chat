@@ -38,16 +38,45 @@
 			});
 
 			if (response.ok) {
-				// Handle a successful response here
+				// Handle a successful response
 				console.log(response);
 				console.log("Logout successful");
 				signedIn = false;
 			} else {
-				// Handle errors here
+				// Handle errors
 				console.error("Logout failed");
 			}
 		} catch (error) {
-			// Handle network errors here
+			// Handle network errors
+			console.error("Network error", error);
+		}
+	}
+
+	async function getApiKey(event: { preventDefault: () => void }) {
+		event.preventDefault();
+
+		try {
+			const response = await fetch("http://localhost:4000/apiKeys/chat", {
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				// Parse the JSON response
+				const data = await response.json();
+
+				const apiKeyValue = data.value;
+
+				console.log("API Key retrieved:", apiKeyValue);
+			} else {
+				// Handle errors
+				console.error("API Key retrieval failed");
+			}
+		} catch (error) {
+			// Handle network errors
 			console.error("Network error", error);
 		}
 	}
@@ -109,6 +138,13 @@
 			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
 		>
 			Logout
+		</button>
+		<button
+			on:click={getApiKey}
+			type="button"
+			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+		>
+			Retrieve API Key
 		</button>
 	{/if}
 	<button

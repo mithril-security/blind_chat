@@ -34,14 +34,14 @@
 			});
 
 			if (response.ok) {
-				// Handle a successful response here
+				// Handle a successful response
 				console.log("Registration successful");
 			} else {
-				// Handle errors here
+				// Handle errors
 				console.error("Registration failed");
 			}
 		} catch (error) {
-			// Handle network errors here
+			// Handle network errors
 			console.error("Network error", error);
 		}
 	}
@@ -59,15 +59,15 @@
 			});
 
 			if (response.ok) {
-				// Handle a successful response here
+				// Handle a successful response
 				console.log(response);
 				console.log("Api call successful");
 			} else {
-				// Handle errors here
+				// Handle errors
 				console.error("Api call failed");
 			}
 		} catch (error) {
-			// Handle network errors here
+			// Handle network errors
 			console.error("Network error", error);
 		}
 	}
