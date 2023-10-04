@@ -19,8 +19,18 @@
 	import LoadingModal from "$lib/components/LoadingModal.svelte";
 	import LoginModal from "$lib/components/LoginModal.svelte";
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
-	import { isloading_writable, refresh_chats_writable, refresh_chats_writable_empty } from "./LayoutWritable";
-	import { deleteAllChats, deleteChat, getChats, getMessages, modifyTitle } from "../routes/LocalDB";
+	import {
+		isloading_writable,
+		refresh_chats_writable,
+		refresh_chats_writable_empty,
+	} from "./LayoutWritable";
+	import {
+		deleteAllChats,
+		deleteChat,
+		getChats,
+		getMessages,
+		modifyTitle,
+	} from "../routes/LocalDB";
 	import { env } from "$env/dynamic/public";
 
 	export let data;
@@ -29,7 +39,7 @@
 
 	let go_to_main = false;
 
-	let conversations_list = []
+	let conversations_list = [];
 
 	isloading_writable.subscribe((value) => {
 		isloading = value;
@@ -42,14 +52,14 @@
 
 	refresh_chats_writable.subscribe(async (value) => {
 		if (value.length > 0) {
-			conversations_list = value
-			refresh_chats_writable.set([])
+			conversations_list = value;
+			refresh_chats_writable.set([]);
 		}
 	});
 
 	refresh_chats_writable_empty.subscribe(async (value) => {
-		conversations_list = []
-		refresh_chats_writable.set(conversations_list)
+		conversations_list = [];
+		refresh_chats_writable.set(conversations_list);
 	});
 
 	export function getProgress(progress: number) {}
@@ -74,19 +84,19 @@
 		await deleteChat(id);
 
 		if ($page.params.id !== id) {
-				await invalidate(UrlDependency.ConversationList);
-			} else {
-				await goto(`${base}/`, { invalidateAll: true });
+			await invalidate(UrlDependency.ConversationList);
+		} else {
+			await goto(`${base}/`, { invalidateAll: true });
 		}
 	}
 
 	async function deleteAllConversations(id: string) {
 		await deleteAllChats();
-		
+
 		if ($page.params.id !== id) {
-				await invalidate(UrlDependency.ConversationList);
-			} else {
-				await goto(`${base}/`, { invalidateAll: true });
+			await invalidate(UrlDependency.ConversationList);
+		} else {
+			await goto(`${base}/`, { invalidateAll: true });
 		}
 	}
 
@@ -95,7 +105,7 @@
 	}
 
 	onMount(async () => {
-		await refreshChats()
+		await refreshChats();
 	});
 
 	onDestroy(() => {
@@ -104,8 +114,9 @@
 
 	$: if ($error) onError();
 
+	data.requiresLogin = true; //
 	const requiresLogin =
-			!$page.error &&
+		!$page.error &&
 		!$page.route.id?.startsWith("/r/") &&
 		(data.requiresLogin
 			? !data.user
@@ -114,12 +125,38 @@
 	let loginModalVisible = false;
 
 	async function refreshChats() {
-		let ret = await getChats()
-		data.conversations = ret
-		conversations_list = ret
+		let ret = await getChats();
+		data.conversations = ret;
+		conversations_list = ret;
 	}
 	$: title = env.PUBLIC_APP_NAME;
 
+	let loggedIn = false;
+	async function isLogged() {
+		try {
+			const response = await fetch("http://localhost:4000/auth/currentUser", {
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				// Handle a successful response here
+				console.log(response);
+				console.log("User is logged in successfully");
+				loggedIn = true;
+			} else {
+				// Handle errors here
+				console.error("User is not logged in");
+			}
+		} catch (error) {
+			// Handle network errors here
+			console.error("Network error", error);
+		}
+	}
+	isLogged();
 </script>
 
 <svelte:head>
@@ -171,6 +208,7 @@
 			conversations={conversations_list}
 			user={data.user}
 			canLogin={data.user === undefined && data.requiresLogin}
+			signedIn={loggedIn}
 			bind:loginModalVisible
 			on:shareConversation={(ev) => shareConversation(ev.detail.id, ev.detail.title)}
 			on:deleteConversation={(ev) => deleteConversation(ev.detail)}
@@ -183,6 +221,7 @@
 			conversations={conversations_list}
 			user={data.user}
 			canLogin={data.user === undefined && data.requiresLogin}
+			signedIn={loggedIn}
 			bind:loginModalVisible
 			on:shareConversation={(ev) => shareConversation(ev.detail.id, ev.detail.title)}
 			on:deleteConversation={(ev) => deleteConversation(ev.detail)}
@@ -194,9 +233,7 @@
 		<Toast message={currentError} />
 	{/if}
 	{#if showWarning}
-		<ConfirmModal
-			on:close={() => (showWarning = false)}
-		 />
+		<ConfirmModal on:close={() => (showWarning = false)} />
 	{/if}
 	{#if isloading}
 		<LoadingModal />
@@ -208,7 +245,8 @@
 			models={data.models}
 		/>
 	{/if}
-	{#if (requiresLogin && data.messagesBeforeLogin === 0) || loginModalVisible}
+	<!-- {#if (requiresLogin && data.messagesBeforeLogin === 0) || loginModalVisible} -->
+	{#if loginModalVisible}
 		<LoginModal settings={data.settings} />
 	{/if}
 	<slot />

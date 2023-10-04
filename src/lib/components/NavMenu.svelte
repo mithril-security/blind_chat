@@ -20,9 +20,37 @@
 	}> = [];
 
 	export let canLogin: boolean;
+	export let signedIn: boolean;
 	export let user: LayoutData["user"];
 
 	export let loginModalVisible;
+
+	async function logoutSubmit(event: { preventDefault: () => void }) {
+		event.preventDefault();
+
+		try {
+			const response = await fetch("http://localhost:4000/auth/logout", {
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				// Handle a successful response here
+				console.log(response);
+				console.log("Logout successful");
+				signedIn = false;
+			} else {
+				// Handle errors here
+				console.error("Logout failed");
+			}
+		} catch (error) {
+			// Handle network errors here
+			console.error("Network error", error);
+		}
+	}
 </script>
 
 <div class="sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0">
@@ -65,13 +93,22 @@
 			</button>
 		</form>
 	{/if}
-	{#if canLogin}
+	{#if canLogin && !signedIn}
 		<button
 			on:click={() => (loginModalVisible = true)}
 			type="button"
 			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
 		>
 			Login
+		</button>
+	{/if}
+	{#if canLogin && signedIn}
+		<button
+			on:click={logoutSubmit}
+			type="button"
+			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+		>
+			Logout
 		</button>
 	{/if}
 	<button
