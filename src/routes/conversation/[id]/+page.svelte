@@ -59,8 +59,14 @@
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
-				if (e.data.file == "tokenizer.json") // Avoid to send the tag multiple times
+				try {
+					if (e.data.file == "tokenizer.json") // Avoid to send the tag multiple times
 					dataLayer.push({'event': 'debut_chargement_chat', 'nom_modele':[e.data.name]});
+				}
+				catch (e) {
+					console.log("Google Tag Manager might not be loaded. Ignoring the error")
+					console.log(e)
+				}
 				break;
 
 			case "progress":
@@ -80,7 +86,13 @@
 				break;
 
 			case "ready":
-				dataLayer.push({'event': 'fin_chargement_chat', 'nom_modele':[e.data.model]});
+				try {
+					dataLayer.push({'event': 'fin_chargement_chat', 'nom_modele':[e.data.model]});
+				}
+				catch (e) {
+					console.log("Google Tag Manager might not be loaded. Ignoring the error")
+					console.log(e)
+				}
 				isloading_writable.set(false);
 				is_init_writable.set(false);
 				phi_writable.set(false);
@@ -102,7 +114,13 @@
 			case "aborted":
 			case "complete":
 				if (e.data.id_now == id_now) {
-					dataLayer.push({'event': 'reponse_message'});
+					try {
+						dataLayer.push({'event': 'reponse_message', 'nom_modele':[e.data.model]});
+					}
+					catch (e) {
+						console.log("Google Tag Manager might not be loaded. Ignoring the error")
+						console.log(e)
+					}
 					lastMessage = messages[messages.length - 1];
 					lastMessage.webSearchId = e.data.searchID;
 					lastMessage.updatedAt = new Date();
@@ -156,7 +174,13 @@
 			isCode: false,
 		};
 
-		dataLayer.push({'event': 'envoi_message'});
+		try {
+			dataLayer.push({'event': 'envoi_message', 'nom_modele':[curr_model_obj.name]});
+		}
+		catch (e) {
+			console.log("Google Tag Manager might not be loaded. Ignoring the error")
+			console.log(e)
+		}
 
 		addMessageToChat(conversationId, msg, curr_model);
 
