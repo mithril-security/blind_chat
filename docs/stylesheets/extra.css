@@ -10,16 +10,16 @@
 
 /****** Dark mode ******/
 [data-md-color-scheme="slate"] {
-    --md-primary-fg-color:#142540; /*header color*/
-	--md-default-bg-color:#030e1a; /*background*/
-    --md-typeset-a-color:#F0BA2D; /*clicked link*/
-    --md-accent-fg-color: #F0BA2D; /*hover color*/
+	--md-primary-fg-color: #142540; /*header color*/
+	--md-default-bg-color: #030e1a; /*background*/
+	--md-typeset-a-color: #f0ba2d; /*clicked link*/
+	--md-accent-fg-color: #f0ba2d; /*hover color*/
 }
 
 /****** Light mode ******/
 [data-md-color-scheme="default"] {
-    --md-primary-fg-color: #142540; /*header color*/
-	--md-typeset-a-color:#5385d5; /*clicked link*/
+	--md-primary-fg-color: #142540; /*header color*/
+	--md-typeset-a-color: #5385d5; /*clicked link*/
 	--md-accent-fg-color: #5385d5; /*hover color*/
 	--md-code-fg-color: #142540;
 }
@@ -27,15 +27,14 @@
 /****** Tweaking the navigation sections style only on Desktop ******/
 
 @media screen and (min-width: 1200px) {
-
 	/* rules to style all level 0 navigation titles */
-	nav[data-md-level="0"]>ul>li>.md-nav__link {
+	nav[data-md-level="0"] > ul > li > .md-nav__link {
 		font-weight: bold;
 		text-transform: uppercase;
 	}
 
 	/* rules to style level 2 collapsible sections titles */
-	nav[data-md-level="1"]>ul>li.md-nav__item--nested>label.md-nav__link {
+	nav[data-md-level="1"] > ul > li.md-nav__item--nested > label.md-nav__link {
 		font-weight: bold;
 	}
 }
@@ -61,7 +60,7 @@
 
 /* customizing links color */
 [data-md-color-scheme="slate"] .jp-RenderedHTMLCommon a {
-	color: #F0BA2D;
+	color: #f0ba2d;
 }
 
 /* customizing the text color in '>' notes */
@@ -73,10 +72,10 @@
 /******* Adding admonitions *******/
 
 .jp-RenderedHTMLCommon .admonition {
-	padding: .1em .5em;
+	padding: 0.1em 0.5em;
 	margin-bottom: 1em;
-  }
-  .jp-RenderedHTMLCommon .admonition-title {
+}
+.jp-RenderedHTMLCommon .admonition-title {
 	font-weight: bold;
 }
 .jp-RenderedHTMLCommon .admonition.note,
@@ -104,7 +103,6 @@
 	background: #f0b92d11;
 }
 
-
 /******* Rules aligning colab_button to the right *******/
 
 #colab_button {
@@ -116,7 +114,7 @@
 #colab_button h1 {
 	margin: 0;
 }
-	
+
 #colab_button a {
 	margin-left: auto; /* Push the colab img element to the right */
 	margin-top: 0.67em;

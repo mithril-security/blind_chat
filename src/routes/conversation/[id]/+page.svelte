@@ -16,7 +16,12 @@
 	import type { Message } from "$lib/types/Message";
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
-	import { isloading_writable, curr_model_writable, is_init_writable, cancel_writable } from "../../LayoutWritable.js";
+	import {
+		isloading_writable,
+		curr_model_writable,
+		is_init_writable,
+		cancel_writable,
+	} from "../../LayoutWritable.js";
 	import { map_writable, phi_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
 	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
@@ -60,12 +65,12 @@
 		switch (e.data.status) {
 			case "initiate":
 				try {
-					if (e.data.file == "tokenizer.json") // Avoid to send the tag multiple times
-					dataLayer.push({'event': 'debut_chargement_chat', 'nom_modele':[e.data.name]});
-				}
-				catch (e) {
-					console.log("Google Tag Manager might not be loaded. Ignoring the error")
-					console.log(e)
+					if (e.data.file == "tokenizer.json")
+						// Avoid to send the tag multiple times
+						dataLayer.push({ event: "debut_chargement_chat", nom_modele: [e.data.name] });
+				} catch (e) {
+					console.log("Google Tag Manager might not be loaded. Ignoring the error");
+					console.log(e);
 				}
 				break;
 
@@ -73,9 +78,8 @@
 				isloading_writable.set(true);
 				if (e.data.no_progress_bar == undefined || e.data.no_progress_bar == false) {
 					map_writable.set([e.data.file, e.data.progress]);
-				}
-				else {
-					map_writable.set(["phi", "-1"])
+				} else {
+					map_writable.set(["phi", "-1"]);
 				}
 				break;
 
@@ -87,11 +91,10 @@
 
 			case "ready":
 				try {
-					dataLayer.push({'event': 'fin_chargement_chat', 'nom_modele':[e.data.model]});
-				}
-				catch (e) {
-					console.log("Google Tag Manager might not be loaded. Ignoring the error")
-					console.log(e)
+					dataLayer.push({ event: "fin_chargement_chat", nom_modele: [e.data.model] });
+				} catch (e) {
+					console.log("Google Tag Manager might not be loaded. Ignoring the error");
+					console.log(e);
 				}
 				isloading_writable.set(false);
 				is_init_writable.set(false);
@@ -105,9 +108,8 @@
 					lastMessage.webSearchId = e.data.searchID;
 					lastMessage.updatedAt = new Date();
 					messages = [...messages];
-				}
-				else {
-					pipelineWorker.postMessage({ command: "abort" })
+				} else {
+					pipelineWorker.postMessage({ command: "abort" });
 				}
 				break;
 
@@ -115,11 +117,10 @@
 			case "complete":
 				if (e.data.id_now == id_now) {
 					try {
-						dataLayer.push({'event': 'reponse_message', 'nom_modele':[e.data.model]});
-					}
-					catch (e) {
-						console.log("Google Tag Manager might not be loaded. Ignoring the error")
-						console.log(e)
+						dataLayer.push({ event: "reponse_message", nom_modele: [e.data.model] });
+					} catch (e) {
+						console.log("Google Tag Manager might not be loaded. Ignoring the error");
+						console.log(e);
 					}
 					lastMessage = messages[messages.length - 1];
 					lastMessage.webSearchId = e.data.searchID;
@@ -175,11 +176,10 @@
 		};
 
 		try {
-			dataLayer.push({'event': 'envoi_message', 'nom_modele':[curr_model_obj.name]});
-		}
-		catch (e) {
-			console.log("Google Tag Manager might not be loaded. Ignoring the error")
-			console.log(e)
+			dataLayer.push({ event: "envoi_message", nom_modele: [curr_model_obj.name] });
+		} catch (e) {
+			console.log("Google Tag Manager might not be loaded. Ignoring the error");
+			console.log(e);
 		}
 
 		addMessageToChat(conversationId, msg, curr_model);
@@ -407,7 +407,7 @@
 	on:retry={(event) => writeMessage(event.detail.content, event.detail.id)}
 	on:vote={(event) => voteMessage(event.detail.score, event.detail.id)}
 	on:share={() => shareConversation($page.params.id, data.title)}
-	on:stop={() => (isAborted = true, pipelineWorker.postMessage({ command: "abort" }))}
+	on:stop={() => ((isAborted = true), pipelineWorker.postMessage({ command: "abort" }))}
 	models={data.models}
 	currentModel={findCurrentModel([...data.models, ...data.oldModels], curr_model)}
 	settings={data.settings}

@@ -37,10 +37,8 @@
 		return ret;
 	}
 	function unsanitizeMd(md: string) {
-		if (md != undefined)
-			return md.replaceAll("&lt;", "<");
-		else
-			return ""
+		if (md != undefined) return md.replaceAll("&lt;", "<");
+		else return "";
 	}
 
 	export let model: Model;

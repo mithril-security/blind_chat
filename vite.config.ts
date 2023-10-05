@@ -7,11 +7,9 @@ export default defineConfig({
 		sveltekit(),
 		Icons({
 			compiler: "svelte",
-		},)
+		}),
 	],
 	server: {
-		fs: {
-			
-		},
+		fs: {},
 	},
 });

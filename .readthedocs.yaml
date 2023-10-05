@@ -8,14 +8,14 @@ build:
   tools:
     python: "3.10"
   apt_packages:
-  - cmake
+    - cmake
 
 mkdocs:
   configuration: mkdocs.yml
   fail_on_warning: true
 
 python:
-    install:
+  install:
     - requirements: docs/requirements.txt
     - method: pip
       path: docs/blind_chat

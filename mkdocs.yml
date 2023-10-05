@@ -19,7 +19,7 @@ theme:
     - search.highlight
     - content.tabs.link
     - navigation.expand
-    
+
   logo: "https://uploads-ssl.webflow.com/6391c9c43e45c45a622f4763/63b282241e34a7191fcfaaf4_logo.svg"
   favicon: "https://uploads-ssl.webflow.com/6391c9c43e45c45a622f4763/63b282241e34a7191fcfaaf4_logo.svg"
   palette:
@@ -94,12 +94,11 @@ markdown_extensions:
       alternate_style: true
   - pymdownx.critic
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji 
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg # Documentation tree
 
-# Documentation tree
-nav: 
+nav:
   - 🏠 Home:
-    - 🐱 BlindChat: './index.md'
-    - 🧑‍🎨 Design : './docs/getting-started/design.md'
-    - 🛠️ Set-up: './docs/getting-started/setup.md'
+      - 🐱 BlindChat: "./index.md"
+      - 🧑‍🎨 Design: "./docs/getting-started/design.md"
+      - 🛠️ Set-up: "./docs/getting-started/setup.md"

@@ -1,8 +1,10 @@
 # 👋 Getting started for devs
-________________________________________________________
+
+---
 
 ## 🔧 Setup
-_______________________________
+
+---
 
 Before going any further, please make sure you have [Node JS 18.0](https://nodejs.org/en) installed on your system.
 
