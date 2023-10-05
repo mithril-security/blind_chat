@@ -151,6 +151,7 @@ self.addEventListener("message", async (event) => {
 				output: output,
 				searchID: event.data.searchID,
 				id_now: event.data.id_now,
+				model: "phi-1_5",
 			});
 		}
 	}
