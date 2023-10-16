@@ -121,6 +121,7 @@
 
 	$: if ($error) onError();
 
+	data.requiresLogin = true; //
 	const requiresLogin =
 		!$page.error &&
 		!$page.route.id?.startsWith("/r/") &&
@@ -136,6 +137,32 @@
 		conversations_list = ret;
 	}
 	$: title = env.PUBLIC_APP_NAME;
+	let loggedIn = false;
+	async function isLogged() {
+		try {
+			const response = await fetch("http://localhost:4000/auth/currentUser", {
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				// Handle a successful response here
+				console.log(response);
+				console.log("User is logged in successfully");
+				loggedIn = true;
+			} else {
+				// Handle errors here
+				console.error("User is not logged in");
+			}
+		} catch (error) {
+			// Handle network errors here
+			console.error("Network error", error);
+		}
+	}
+	isLogged();
 </script>
 
 <svelte:head>
@@ -187,6 +214,7 @@
 			conversations={conversations_list}
 			user={data.user}
 			canLogin={data.user === undefined && data.requiresLogin}
+			signedIn={loggedIn}
 			bind:loginModalVisible
 			on:shareConversation={(ev) => shareConversation(ev.detail.id, ev.detail.title)}
 			on:deleteConversation={(ev) => deleteConversation(ev.detail)}
@@ -199,6 +227,7 @@
 			conversations={conversations_list}
 			user={data.user}
 			canLogin={data.user === undefined && data.requiresLogin}
+			signedIn={loggedIn}
 			bind:loginModalVisible
 			on:shareConversation={(ev) => shareConversation(ev.detail.id, ev.detail.title)}
 			on:deleteConversation={(ev) => deleteConversation(ev.detail)}
@@ -226,7 +255,8 @@
 			models={data.models}
 		/>
 	{/if}
-	{#if (requiresLogin && data.messagesBeforeLogin === 0) || loginModalVisible}
+	<!-- {#if (requiresLogin && data.messagesBeforeLogin === 0) || loginModalVisible} -->
+	{#if loginModalVisible}
 		<LoginModal settings={data.settings} />
 	{/if}
 	<slot />

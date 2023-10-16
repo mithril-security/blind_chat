@@ -4,5 +4,8 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll": true
 	},
-	"eslint.validate": ["javascript", "svelte"]
+	"eslint.validate": ["javascript", "svelte"],
+	"[svelte]": {
+		"editor.defaultFormatter": "BoBoo.prettier-extension-vscode"
+	}
 }
