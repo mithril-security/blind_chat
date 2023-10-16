@@ -1,5 +1,6 @@
 import { pipeline, env } from "@xenova/transformers";
 import init, { Model } from "./phi/m.js";
+import { streamToAsyncIterable } from "$lib/utils/streamToAsyncIterable";
 import URI from "urijs";
 
 // Shamelessly stolen from Transformers.js
@@ -118,43 +119,127 @@ let phi_model = null;
 
 // Listen for messages from the main thread
 self.addEventListener("message", async (event) => {
-	if (event.data.command != "abort") {
-		if (event.data.is_phi) {
-			controller = new AbortController();
-			generate_phi(event.data);
-		} else {
-			let pipe = await FlanPipeline.getInstance(
-				(x) => {
-					self.postMessage(x);
-				},
-				event.data.model,
-				event.data.task
-			);
-
-			let output = await pipe(event.data.text, {
-				max_new_tokens: event.data.max_new_tokens,
-				temperature: event.data.temperature,
-				callback_function: (x) => {
-					self.postMessage({
-						status: "update",
-						output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
-						id_now: event.data.id_now,
-					});
-				},
-			});
-
-			// Send the output back to the main thread
-			self.postMessage({
-				status: "complete",
-				output: output,
-				searchID: event.data.searchID,
-				id_now: event.data.id_now,
-				model: "phi-1_5",
-			});
+	if (event.data.command == "abort") {
+		console.log("ABORT")
+		if (controller != null) 
+		{
+			try {
+				controller.abort();
+			}
+			catch (e) {
+				console.log(e)
+			}
 		}
-	} else {
-		if (controller != null) controller.abort();
 	}
+	else if (event.data.is_local) {
+			if (event.data.is_phi) {
+				controller = new AbortController();
+				generate_phi(event.data);
+			} else {
+				let pipe = await FlanPipeline.getInstance(
+					(x) => {
+						self.postMessage(x);
+					},
+					event.data.model,
+					event.data.task
+				);
+	
+				let output = await pipe(event.data.text, {
+					max_new_tokens: event.data.max_new_tokens,
+					temperature: event.data.temperature,
+					callback_function: (x) => {
+						self.postMessage({
+							status: "update",
+							output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
+							id_now: event.data.id_now,
+						});
+					},
+				});
+	
+				// Send the output back to the main thread
+				self.postMessage({
+					status: "complete",
+					output: output,
+					searchID: event.data.searchID,
+					id_now: event.data.id_now,
+					model: "phi-1_5",
+				});
+		}
+	}
+	else {
+		controller = new AbortController();
+		const context = buildContext(event.data)
+		const newParameters = {
+			max_new_tokens: event.data.max_new_tokens,
+			temperature: event.data.temperature,
+			truncate: 2048,
+			return_full_text: false,
+		};
+		let body = JSON.stringify({
+			inputs: context,
+			parameters: newParameters,
+		})
+		console.log(body)
+		console.log(body)
+		let resp = await fetch("http://" + event.data.server_addr + ":8080/generate_stream", {
+			headers: {
+				"Content-Type": "application/json",
+			},
+			method: "POST",
+			body: body,
+			signal: controller.signal,
+		});
+		let stream1 = resp.body
+		let text_output = "";
+		try {
+			for await (const input of streamToAsyncIterable(stream1)) {
+				const lines = new TextDecoder().decode(input).split("\n").filter((line) => line.startsWith("data:"));
+	
+				for (const message of lines) {
+					let lastIndex = message.lastIndexOf("\ndata:");
+				if (lastIndex === -1) {
+					lastIndex = message.indexOf("data");
+				}
+	
+				if (lastIndex === -1) {
+					console.error("Could not parse last message", message);
+				}
+	
+				let lastMessage = message.slice(lastIndex).trim().slice("data:".length);
+				if (lastMessage.includes("\n")) {
+					lastMessage = lastMessage.slice(0, lastMessage.indexOf("\n"));
+				}
+	
+				try {
+					const lastMessageJSON = JSON.parse(lastMessage);
+					if (!lastMessageJSON.generated_text) {
+						const res = lastMessageJSON.token.text;
+						text_output += res
+						self.postMessage({
+							status: "update",
+							output: text_output,
+							id_now: event.data.id_now,
+						});
+					}
+				}
+				catch (e) {
+					console.log(lastMessage)
+					console.log(e)
+				}
+			}
+			}
+		}
+		catch (e) {
+			console.log(e)
+		}
+	self.postMessage({
+		status: "complete",
+		output: text_output,
+		searchID: event.data.searchID,
+		id_now: event.data.id_now,
+	});
+	}
+
 });
 
 async function generate_phi(data) {
@@ -232,3 +317,34 @@ async function generate_phi(data) {
 		self.postMessage({ error: e });
 	}
 }
+function buildContext(data) { 
+	// Will be replaced by the original contextManager made by HF
+	let context = ""
+	let got_user_prompt = false;
+	for (let message of data.messages) {
+		if (message.content.trim().length > 0) {
+			if (message.from === "user") {
+				if (got_user_prompt == false) {
+					context = context + "<s>[INST] " + message.content
+					got_user_prompt = true;
+				}
+				else {
+					context = context + " " + message.content
+				}
+			}
+			else {
+				got_user_prompt = false
+				context = context + " [/INST]" + message.content + " </s>"
+			}
+		}
+	}
+	if (got_user_prompt == true) {
+		context = context + " [/INST]"
+	}
+	else {
+		context = context + "<s>[INST] " + data.text + " [/INST]"
+	}
+	console.log(context)
+	return context
+}
+
