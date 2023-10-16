@@ -140,7 +140,7 @@
 	let loggedIn = false;
 	async function isLogged() {
 		try {
-			const response = await fetch("http://localhost:4000/auth/currentUser", {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/currentUser", {
 				method: "GET",
 				credentials: "include",
 				headers: {
@@ -155,6 +155,7 @@
 				loggedIn = true;
 			} else {
 				// Handle errors here
+				console.log(response)
 				console.error("User is not logged in");
 			}
 		} catch (error) {
