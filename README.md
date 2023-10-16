@@ -82,11 +82,11 @@ Roadmap quick summary:
 - [x] Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.)
 - [x] Integration of privacy-by-design inference with local model
 - [x] Local caching of conversations
-- [ ] Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm))
-- [ ] Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B) ⌛
-- [ ] Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG) ⌛
-- [ ] Internet search ⌛
-- [ ] Connectors to pull data from different sources ⌛
+- [x] Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm))
+- [ ] Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B)
+- [ ] Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG)
+- [ ] Internet search
+- [ ] Connectors to pull data from different sources
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -139,21 +139,21 @@ Note that while our hardened environments don’t fit in with all definitions of
 
 We offer two modes to ensure users’ data remains private:
 
-#### On-device inference
+#### BlindChat Local: On-device inference
 
 ![on-device-mode-dark](./assets/on-device-dark.png#gh-dark-mode-only)
 ![on-device-mode-light](./assets/on-device-light.png#gh-light-mode-only)
 
-With the on-device mode, the model is sent locally to the users’ browser, and **inference is performed on-device**.
+With BlindChat Local, the model is sent locally to the users’ browser, and **inference is performed on-device**.
 
 This mode is **generally suitable for smaller models** as large models may require too much bandwidth and computational resources.
 
-#### Confidential and transparent AI APis with enclaves
+#### BlindChat Enclave: Confidential AI APIs with enclaves
 
 ![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
 ![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
 
-With the Zero-trust AI APIs mode, data is sent to a **secure environment** called an **enclave** containing the model for remote inference.
+With BlindChat Enclave, data is sent to a **secure environment** called an **enclave** containing the model for remote inference.
 
 These environments provide **end-to-end protection** through robust **isolation and verification**. User data is **never accessible in clear** to the AI provider admins.
 
@@ -217,7 +217,7 @@ Thank you for your support!
 [twitter-url]: https://twitter.com/MithrilSecurity
 [contact-url]: https://www.mithrilsecurity.io/contact
 [docs-shield]: https://img.shields.io/badge/Docs-000000?style=for-the-badge&colorB=555
-[docs-url]: https://blindllama.mithrilsecurity.io/en/latest/
+[docs-url]: https://blindchat.mithrilsecurity.io/en/latest/
 [license-shield]: https://img.shields.io/github/license/mithril-security/aicert.svg?style=for-the-badge
 [contact]: https://img.shields.io/badge/Contact_us-000000?style=for-the-badge&colorB=555
 [project]: https://img.shields.io/badge/Project-000000?style=for-the-badge&colorB=555
@@ -227,7 +227,7 @@ Thank you for your support!
 [fb-shield]: https://img.shields.io/badge/Facebook-0077B5?style=for-the-badge&logo=facebook&logoColor=white&colorB=3b5998
 [linkedin-url]: https://www.linkedin.com/company/mithril-security-company/
 [website-url]: https://www.mithrilsecurity.io
-[docs-url]: https://blindllama.mithrilsecurity.io/en/latest/
+[docs-url]: https://blindchat.mithrilsecurity.io/en/latest/
 [website-shield]: https://img.shields.io/badge/website-000000?style=for-the-badge&colorB=555
 [blog-url]: https://blog.mithrilsecurity.io/
 [blog-shield]: https://img.shields.io/badge/Blog-000?style=for-the-badge&logo=ghost&logoColor=yellow&colorB=555

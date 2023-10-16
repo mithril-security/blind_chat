@@ -9,6 +9,4 @@ export async function updateUser(params: {
 	userData: UserinfoResponse;
 	locals: App.Locals;
 	cookies: Cookies;
-}) {
-
-}
+}) {}

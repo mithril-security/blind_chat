@@ -83,7 +83,7 @@
 		</div>
 		<form
 			on:submit|preventDefault={handleSubmit}
-			class="relative flex w-full max-w-4xl flex-1 items-center rounded-xl border bg-gray-100 focus-within:border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:focus-within:border-gray-500 
+			class="relative flex w-full max-w-4xl flex-1 items-center rounded-xl border bg-gray-100 focus-within:border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:focus-within:border-gray-500
 			{isReadOnly ? 'opacity-30' : ''}"
 		>
 			<div class="flex w-full flex-1 border-none bg-transparent">
@@ -100,19 +100,19 @@
 
 				{#if loading}
 					<button
-						class="btn mx-1 my-1 inline-block h-[2.4rem] self-end rounded-lg bg-transparent p-1 px-[0.7rem] text-gray-400 disabled:opacity-60 enabled:hover:text-gray-700 dark:disabled:opacity-40 enabled:dark:hover:text-gray-100 md:hidden"
+						class="btn mx-1 my-1 inline-block h-[2.4rem] self-end rounded-lg bg-transparent p-1 px-[0.7rem] text-gray-400 enabled:hover:text-gray-700 disabled:opacity-60 enabled:dark:hover:text-gray-100 dark:disabled:opacity-40 md:hidden"
 						on:click={() => dispatch("stop")}
 					>
 						<CarbonStopFilledAlt />
 					</button>
 					<div
-						class="mx-1 my-1 hidden h-[2.4rem] items-center p-1 px-[0.7rem] text-gray-400 disabled:opacity-60 enabled:hover:text-gray-700 dark:disabled:opacity-40 enabled:dark:hover:text-gray-100 md:flex"
+						class="mx-1 my-1 hidden h-[2.4rem] items-center p-1 px-[0.7rem] text-gray-400 enabled:hover:text-gray-700 disabled:opacity-60 enabled:dark:hover:text-gray-100 dark:disabled:opacity-40 md:flex"
 					>
 						<EosIconsLoading />
 					</div>
 				{:else}
 					<button
-						class="btn mx-1 my-1 h-[2.4rem] self-end rounded-lg bg-transparent p-1 px-[0.7rem] text-gray-400 disabled:opacity-60 enabled:hover:text-gray-700 dark:disabled:opacity-40 enabled:dark:hover:text-gray-100"
+						class="btn mx-1 my-1 h-[2.4rem] self-end rounded-lg bg-transparent p-1 px-[0.7rem] text-gray-400 enabled:hover:text-gray-700 disabled:opacity-60 enabled:dark:hover:text-gray-100 dark:disabled:opacity-40"
 						disabled={!message || isReadOnly}
 						type="submit"
 					>
@@ -128,9 +128,9 @@
 					target="_blank"
 					rel="noreferrer"
 					class="hover:underline">{currentModel.displayName}</a
-				> <span class="max-sm:hidden">·</span><br class="sm:hidden" /> Generated content may be inaccurate
-				or false.
-				<br><br> 🔒 All conversations are end-to-end protected
+				> <span class="max-sm:hidden">·</span><br class="sm:hidden" /> Generated content may be
+				inaccurate or false.
+				<br /><br /> 🔒 All conversations are end-to-end protected
 			</p>
 			<!-- {#if messages.length}
 				<button

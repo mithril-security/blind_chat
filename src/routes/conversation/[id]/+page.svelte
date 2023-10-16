@@ -16,83 +16,127 @@
 	import type { Message } from "$lib/types/Message";
 	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
-	import { isloading_writable } from "../../LayoutWritable.js";
-	import { map_writable } from "$lib/components/LoadingModalWritable.js";
+	import {
+		isloading_writable,
+		curr_model_writable,
+		is_init_writable,
+		cancel_writable,
+	} from "../../LayoutWritable.js";
+	import { map_writable, phi_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
-	import { addMessageToChat,getChats,getMessages,getTitle } from "../../LocalDB.js";
+	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
 	import { env } from "$env/dynamic/public";
 	export let data;
+
+	let curr_model_id = 0;
+	curr_model_writable.subscribe((val) => {
+		curr_model_id = val;
+	});
 
 	let pipelineWorker;
 
 	let pipe: Pipeline;
 
-	let id = ""
+	let id = "";
 
-	let title_ret = "BlindChat"
+	let title_ret = "BlindChat";
+
+	let curr_model = data.model;
+	let curr_model_obj;
+
+	let id_now;
 
 	let messages = [];
 	let lastLoadedMessages = [];
 	let isAborted = false;
 
-	console.log(" - " + $page.params.id)
-
 	let webSearchMessages: WebSearchMessage[] = [];
-
-	// // Since we modify the messages array locally, we don't want to reset it if an old version is passed
-	// $: if (data.messages !== lastLoadedMessages) {
-	// 	messages = data.messages;
-	// 	lastLoadedMessages = data.messages;
-	// }
 
 	let loading = false;
 	let pending = false;
 	let loginRequired = false;
+
+	//The code consider that the datalayer variable does not exist
+	//but it is instantiated by Google Tag Manager during runtime
 
 	// Create a callback function for messages from the worker thread.
 	const onMessageReceived = (e) => {
 		let lastMessage: any = undefined;
 		switch (e.data.status) {
 			case "initiate":
+				try {
+					if (e.data.file == "tokenizer.json")
+						// Avoid to send the tag multiple times
+						dataLayer.push({ event: "debut_chargement_chat", nom_modele: [e.data.name] });
+				} catch (e) {
+					console.log("Google Tag Manager might not be loaded. Ignoring the error");
+					console.log(e);
+				}
 				break;
 
 			case "progress":
 				isloading_writable.set(true);
-				map_writable.set([e.data.file, e.data.progress]);
+				if (e.data.no_progress_bar == undefined || e.data.no_progress_bar == false) {
+					map_writable.set([e.data.file, e.data.progress]);
+				} else {
+					map_writable.set(["phi", "-1"]);
+				}
+				break;
+
+			case "init_model":
 				break;
 
 			case "done":
 				break;
 
 			case "ready":
+				try {
+					dataLayer.push({ event: "fin_chargement_chat", nom_modele: [e.data.model] });
+				} catch (e) {
+					console.log("Google Tag Manager might not be loaded. Ignoring the error");
+					console.log(e);
+				}
 				isloading_writable.set(false);
+				is_init_writable.set(false);
+				phi_writable.set(false);
 				break;
 
 			case "update":
-				if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
-				lastMessage.content = e.data.output;
-				lastMessage.webSearchId = e.data.searchID;
-				lastMessage.updatedAt = new Date()
-				messages = [...messages];
+				if (e.data.id_now == id_now) {
+					if (lastMessage == undefined) lastMessage = messages[messages.length - 1];
+					lastMessage.content = e.data.output;
+					lastMessage.webSearchId = e.data.searchID;
+					lastMessage.updatedAt = new Date();
+					messages = [...messages];
+				} else {
+					pipelineWorker.postMessage({ command: "abort" });
+				}
 				break;
 
+			case "aborted":
 			case "complete":
-				lastMessage = messages[messages.length - 1];
-				lastMessage.webSearchId = e.data.searchID;
-				lastMessage.updatedAt = new Date()
-				addMessageToChat($page.params.id, lastMessage)
-				messages = [...messages];
-				lastMessage = undefined;
-				loading = false;
-				pending = false;
-				webSearchMessages = [];
+				if (e.data.id_now == id_now) {
+					try {
+						dataLayer.push({ event: "reponse_message", nom_modele: [e.data.model] });
+					} catch (e) {
+						console.log("Google Tag Manager might not be loaded. Ignoring the error");
+						console.log(e);
+					}
+					lastMessage = messages[messages.length - 1];
+					lastMessage.webSearchId = e.data.searchID;
+					lastMessage.updatedAt = new Date();
+					addMessageToChat($page.params.id, lastMessage);
+					messages = [...messages];
+					lastMessage = undefined;
+					loading = false;
+					pending = false;
+					webSearchMessages = [];
 
-				if (messages.filter((m) => m.from === "user").length === 1) {
-					invalidate(UrlDependency.ConversationList).catch(console.error);
-				} else {
-					invalidate(UrlDependency.ConversationList).then((value) => {
-						console.log(value);
-					});
+					if (messages.filter((m) => m.from === "user").length === 1) {
+						invalidate(UrlDependency.ConversationList).catch(console.error);
+					} else {
+						invalidate(UrlDependency.ConversationList).then((value) => {});
+					}
 				}
 				break;
 		}
@@ -112,24 +156,49 @@
 		messages = [
 			...messages,
 			// id doesn't match the backend id but it's not important for assistant messages
-			{ from: "assistant", content: "", id: responseId, createdAt: new Date(), updatedAt: new Date() },
-		];
-
-		let msg = 
-		{
-				content: inputs,
-				from: "user",
-				id: randomUUID(),
+			{
+				from: "assistant",
+				content: "",
+				id: responseId,
 				createdAt: new Date(),
 				updatedAt: new Date(),
+				isCode: curr_model_obj.is_code ?? false,
+			},
+		];
+
+		let msg = {
+			content: inputs,
+			from: "user",
+			id: randomUUID(),
+			createdAt: new Date(),
+			updatedAt: new Date(),
+			isCode: false,
 		};
 
-		console.log(findCurrentModel([...data.models, ...data.oldModels], data.settings.activeModel))
+		try {
+			dataLayer.push({ event: "envoi_message", nom_modele: [curr_model_obj.name] });
+		} catch (e) {
+			console.log("Google Tag Manager might not be loaded. Ignoring the error");
+			console.log(e);
+		}
 
-		addMessageToChat(conversationId, msg)
+		addMessageToChat(conversationId, msg, curr_model);
 
 		let lastMessage = messages[messages.length - 1];
-		pipelineWorker.postMessage({ text: inputs, webSearchId: webSearchId, conversationId: conversationId });
+		pipelineWorker.postMessage({
+			is_local: curr_model_obj.is_local ?? true,
+			server_addr: curr_model_obj.server_addr ?? "",
+			is_phi: curr_model_obj.is_phi ?? false,
+			id_now: id_now,
+			task: curr_model_obj.type,
+			max_new_tokens: curr_model_obj.parameters?.max_new_tokens ?? 256,
+			temperature: curr_model_obj.parameters?.temperature ?? 0.7,
+			model: curr_model,
+			text: inputs,
+			webSearchId: webSearchId,
+			conversationId: conversationId,
+			messages: messages,
+		});
 	}
 
 	async function summarizeTitle(id: string) {
@@ -224,7 +293,7 @@
 			}
 			console.error(err);
 		} finally {
-			loading = false;
+			loading = curr_model_obj.is_phi ?? !curr_model_obj.is_local ?? false;
 			pending = false;
 		}
 	}
@@ -256,30 +325,54 @@
 	}
 
 	params_writable.subscribe(async (value) => {
-			if (value != id) {
-				id = value
-				//title_ret = await getTitle(value)
-				let res = await getMessages(value)
+		if (value != id) {
+			id = value;
+			//title_ret = await getTitle(value)
+			let res = await getMessages(value);
 
-				if (res != undefined) {
-					messages = res
-					lastLoadedMessages = res
-				}
+			curr_model = await getModel(value);
+			if (curr_model === undefined || curr_model.length == 0) {
+				curr_model_obj = findCurrentModel(
+					[...data.models, ...data.oldModels],
+					data.models[curr_model_id].name
+				);
+				curr_model = curr_model_obj.name;
+			} else {
+				curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model);
 			}
+			if (res != undefined) {
+				messages = res;
+				lastLoadedMessages = res;
+			}
+			id_now = randomUUID();
+		}
 	});
 
 	onMount(async () => {
+		curr_model = await getModel($page.params.id);
+		if (curr_model === undefined || curr_model.length == 0) {
+			curr_model_obj = findCurrentModel(
+				[...data.models, ...data.oldModels],
+				data.models[curr_model_id].name
+			);
+			curr_model = curr_model_obj.name;
+		} else {
+			curr_model_obj = findCurrentModel([...data.models, ...data.oldModels], curr_model);
+		}
+
+		id_now = randomUUID();
+
 		const Worker = await import("./worker.js?worker");
 		pipelineWorker = new Worker.default();
-		
-		//title_ret = await getTitle($page.params.id)
-		let res = await getMessages($page.params.id)
 
-		id = $page.params.id
-		
+		//title_ret = await getTitle($page.params.id)
+		let res = await getMessages($page.params.id);
+
+		id = $page.params.id;
+
 		if (res != undefined) {
-				messages = res
-				lastLoadedMessages = res
+			messages = res;
+			lastLoadedMessages = res;
 		}
 
 		pipelineWorker.addEventListener("message", onMessageReceived);
@@ -317,9 +410,9 @@
 	on:retry={(event) => writeMessage(event.detail.content, event.detail.id)}
 	on:vote={(event) => voteMessage(event.detail.score, event.detail.id)}
 	on:share={() => shareConversation($page.params.id, data.title)}
-	on:stop={() => (isAborted = true)}
+	on:stop={() => ((isAborted = true), pipelineWorker.postMessage({ command: "abort" }))}
 	models={data.models}
-	currentModel={findCurrentModel([...data.models, ...data.oldModels], data.model)}
+	currentModel={findCurrentModel([...data.models, ...data.oldModels], curr_model)}
 	settings={data.settings}
 	{loginRequired}
 />

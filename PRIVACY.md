@@ -15,4 +15,3 @@ BlindChat is an open-source project to provide fully in-browser and private Conv
 It is currently developed and maintained by [Mithril Security](https://www.mithrilsecurity.io/), a startup aiming to make AI more private.
 
 You can find more information on our [Github](https://github.com/mithril-security/blind_chat/), join us on our [Discord](https://discord.com/invite/TxEHagpWd4), or directly [contact us](mailto:contact@mithrilsecurity.io).
-    

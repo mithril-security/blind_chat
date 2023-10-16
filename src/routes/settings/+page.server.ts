@@ -28,22 +28,6 @@ export const actions = {
 				customPrompts: JSON.parse(formData.get("customPrompts")?.toString() ?? "{}"),
 			});
 
-		await collections.settings.updateOne(
-			authCondition(locals),
-			{
-				$set: {
-					...settings,
-					...(ethicsModalAccepted && { ethicsModalAcceptedAt: new Date() }),
-					updatedAt: new Date(),
-				},
-				$setOnInsert: {
-					createdAt: new Date(),
-				},
-			},
-			{
-				upsert: true,
-			}
-		);
 		throw redirect(303, request.headers.get("referer") || `${base}/`);
 	},
 };

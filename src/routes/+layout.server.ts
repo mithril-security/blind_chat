@@ -28,12 +28,10 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 		throw redirect(302, url.pathname);
 	}
 
-
 	return {
 		conversations: [],
 		settings: {
-			shareConversationsWithModelAuthors:
-				DEFAULT_SETTINGS.shareConversationsWithModelAuthors,
+			shareConversationsWithModelAuthors: DEFAULT_SETTINGS.shareConversationsWithModelAuthors,
 			ethicsModalAcceptedAt: null,
 			activeModel: DEFAULT_SETTINGS.activeModel,
 			searchEnabled: false,
@@ -45,6 +43,12 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 			websiteUrl: model.websiteUrl,
 			modelUrl: model.modelUrl,
 			is_local: model.is_local,
+			userMessageToken: model.userMessageToken,
+			assistantMessageToken: model.assistantMessageToken,
+			is_phi: model.is_phi,
+			server_addr: model.server_addr,
+			is_code: model.is_code,
+			type: model.type,
 			datasetName: model.datasetName,
 			datasetUrl: model.datasetUrl,
 			displayName: model.displayName,

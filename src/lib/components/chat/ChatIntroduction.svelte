@@ -12,14 +12,20 @@
 	import type { LayoutData } from "../../../routes/$types";
 	import { findCurrentModel } from "$lib/utils/models";
 	import { env } from "$env/dynamic/public";
+	import { curr_model_writable } from "../../../routes/LayoutWritable";
 
 	export let currentModel: Model;
 	export let settings: LayoutData["settings"];
 	export let models: Model[];
 
 	let isModelsModalOpen = false;
+	let selectedNum = 0;
 
-	$: currentModelMetadata = findCurrentModel(models, settings.activeModel);
+	curr_model_writable.subscribe((val) => {
+		selectedNum = val;
+	});
+
+	$: currentModelMetadata = findCurrentModel(models, models[selectedNum].name);
 
 	const announcementBanners = PUBLIC_ANNOUNCEMENT_BANNERS
 		? JSON.parse(PUBLIC_ANNOUNCEMENT_BANNERS)
@@ -27,9 +33,7 @@
 
 	const dispatch = createEventDispatcher<{ message: string }>();
 
-	console.log(PUBLIC_ANNOUNCEMENT_BANNERS)
-
-	$: title = env.PUBLIC_APP_NAME
+	$: title = env.PUBLIC_APP_NAME;
 </script>
 
 <div class="my-auto grid gap-8 lg:grid-cols-3">
@@ -51,17 +55,24 @@
 	</div>
 	<div class="lg:col-span-2 lg:pl-24">
 		{#each announcementBanners as banner}
-		<AnnouncementBanner classNames="mb-4" title={banner.title}>
-			<a
-				target="_blank"
-				href={banner.linkHref}
-				class="mr-2 flex items-center underline hover:no-underline"
-				><CarbonArrowUpRight class="mr-1.5 text-xs" /> {banner.linkTitle}</a
-			>
-		</AnnouncementBanner>
+			<AnnouncementBanner classNames="mb-4" title={banner.title}>
+				<a
+					target="_blank"
+					href={banner.linkHref}
+					class="mr-2 flex items-center underline hover:no-underline"
+					><CarbonArrowUpRight class="mr-1.5 text-xs" /> {banner.linkTitle}</a
+				>
+			</AnnouncementBanner>
 		{/each}
 		{#if isModelsModalOpen}
-			<ModelsModal {settings} {models} on:close={() => (isModelsModalOpen = false)} />
+			<ModelsModal
+				{settings}
+				{models}
+				on:close={() => (isModelsModalOpen = false)}
+				on:closeAndSave={(id) => (
+					(isModelsModalOpen = false), curr_model_writable.set(id.detail.id)
+				)}
+			/>
 		{/if}
 		<div class="overflow-hidden rounded-xl border dark:border-gray-800">
 			<div class="flex p-3">

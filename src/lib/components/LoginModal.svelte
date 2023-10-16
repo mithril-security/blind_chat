@@ -75,7 +75,7 @@
 
 <Modal>
 	<div
-		class="from-primary-500/40 via-primary-500/10 to-primary-500/0 flex w-full flex-col items-center gap-6 bg-gradient-to-t px-4 pb-10 pt-9 text-center"
+		class="flex w-full flex-col items-center gap-6 bg-gradient-to-t from-primary-500/40 via-primary-500/10 to-primary-500/0 px-4 pb-10 pt-9 text-center"
 	>
 		<h2 class="flex items-center text-2xl font-semibold text-gray-800">
 			<Logo classNames="mr-1" />

@@ -1,0 +1,5 @@
+[tool.poetry]
+name = "blind_chat"
+description = ""
+authors = ["Mithril Security <contact@mithrilsecurity.io>"]
+readme = "README.md"
