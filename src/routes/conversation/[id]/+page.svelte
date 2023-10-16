@@ -186,6 +186,8 @@
 
 		let lastMessage = messages[messages.length - 1];
 		pipelineWorker.postMessage({
+			is_local: curr_model_obj.is_local ?? true,
+			server_addr: curr_model_obj.server_addr ?? "",
 			is_phi: curr_model_obj.is_phi ?? false,
 			id_now: id_now,
 			task: curr_model_obj.type,
@@ -195,6 +197,7 @@
 			text: inputs,
 			webSearchId: webSearchId,
 			conversationId: conversationId,
+			messages: messages,
 		});
 	}
 
@@ -290,7 +293,7 @@
 			}
 			console.error(err);
 		} finally {
-			loading = curr_model_obj.is_phi ?? false;
+			loading = curr_model_obj.is_phi ?? !curr_model_obj.is_local ?? false;
 			pending = false;
 		}
 	}

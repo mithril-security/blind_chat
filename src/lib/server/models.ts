@@ -66,6 +66,7 @@ const modelsRaw = z
 			is_local: z.boolean().optional(),
 			is_code: z.boolean().optional(),
 			is_phi: z.boolean().optional(),
+			server_addr: z.string().min(1).optional(),
 			type: z.string().min(1),
 			websiteUrl: z.string().url().optional(),
 			modelUrl: z.string().url().optional(),
