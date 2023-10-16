@@ -8,8 +8,69 @@
 	import type { LayoutData } from "../../routes/$types";
 	import Logo from "./icons/Logo.svelte";
 	export let settings: LayoutData["settings"];
+	import { Textfield, Checkbox } from "svelte-mui";
 
 	const isIframe = browser && window.self !== window.parent;
+
+	let email = ""; // The email value
+	let subscribeNewsletter = false; // The subscribeNewsletter value
+
+	async function handleSubmit(event: { preventDefault: () => void }) {
+		event.preventDefault();
+
+		const data = {
+			subscribeNewsletter,
+			email,
+		};
+
+		try {
+			const response = await fetch("http://localhost:4000/auth/blindChatRegister", {
+				method: "POST",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			});
+
+			if (response.ok) {
+				// Handle a successful response
+				console.log("Registration successful");
+			} else {
+				// Handle errors
+				console.error("Registration failed");
+			}
+		} catch (error) {
+			// Handle network errors
+			console.error("Network error", error);
+		}
+	}
+
+	async function apiSubmit(event: { preventDefault: () => void }) {
+		event.preventDefault();
+
+		try {
+			const response = await fetch("http://localhost:4000/apiKeys", {
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				// Handle a successful response
+				console.log(response);
+				console.log("Api call successful");
+			} else {
+				// Handle errors
+				console.error("Api call failed");
+			}
+		} catch (error) {
+			// Handle network errors
+			console.error("Network error", error);
+		}
+	}
 </script>
 
 <Modal>
@@ -30,47 +91,48 @@
 				class="px-4 text-lg font-semibold leading-snug text-gray-800 sm:px-12"
 				style="text-wrap: balance;"
 			>
-				Please Sign in with Hugging Face to continue
+				Please Sign in with Mithril Security Cloud to continue
 			</p>
 		{/if}
 		<p class="text-base text-gray-800">
 			Disclaimer: AI is an area of active research with known problems such as biased generation and
 			misinformation. Do not use this application for high-stakes decisions or advice.
 		</p>
-		{#if PUBLIC_APP_DATA_SHARING}
-			<p class="px-2 text-sm text-gray-500">
-				Your conversations will be shared with model authors unless you disable it from your
-				settings.
-			</p>
-		{/if}
 		<form
-			action="{base}/{$page.data.requiresLogin ? 'login' : 'settings'}"
+			on:submit={handleSubmit}
 			target={isIframe ? "_blank" : ""}
-			method="POST"
 			class="flex w-full flex-col items-center gap-2"
 		>
-			{#if $page.data.requiresLogin}
-				<button
-					type="submit"
-					class="mt-2 flex items-center whitespace-nowrap rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors hover:bg-primary-500"
+			<div>
+				<Textfield variant="outlined" type="email" bind:value={email} label="Email" required />
+				<Checkbox
+					bind:checked={subscribeNewsletter}
+					label="Subscribe to Newsletter"
+					type="checkbox"
+					id="subscribeNewsletter"
 				>
-					Sign in
-					{#if PUBLIC_APP_NAME === "HuggingChat"}
-						with <LogoHuggingFaceBorderless classNames="text-xl mr-1 ml-1.5" /> Hugging Face
-					{/if}
-				</button>
-			{:else}
-				<input type="hidden" name="ethicsModalAccepted" value={true} />
-				{#each Object.entries(settings) as [key, val]}
-					<input type="hidden" name={key} value={val} />
-				{/each}
-				<button
-					type="submit"
-					class="mt-2 rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors hover:bg-primary-500"
-				>
-					Start chatting
-				</button>
-			{/if}
+					Subscribe to Newsletter
+				</Checkbox>
+			</div>
+			<button
+				type="submit"
+				class="hover:bg-primary-500 mt-2 flex items-center whitespace-nowrap rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors"
+			>
+				Magic link 🪄
+			</button>
 		</form>
+		<!-- <form
+			on:submit={apiSubmit}
+			target={isIframe ? "_blank" : ""}
+			class="flex w-full flex-col items-center gap-2"
+		>
+			<button
+				type="submit"
+				class="mt-2 flex items-center whitespace-nowrap rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors hover:bg-primary-500"
+			>
+				Get API key
+			</button>
+		</form>
+		 -->
 	</div>
 </Modal>
