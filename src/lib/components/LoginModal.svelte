@@ -19,12 +19,12 @@
 		event.preventDefault();
 
 		const data = {
-			subscribeNewsletter,
 			email,
+			subscribeNewsletter,
 		};
 
 		try {
-			const response = await fetch("http://localhost:4000/auth/blindChatRegister", {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/blindChatRegister", {
 				method: "POST",
 				credentials: "include",
 				headers: {
@@ -37,6 +37,7 @@
 				// Handle a successful response
 				console.log("Registration successful");
 			} else {
+				console.log(response)
 				// Handle errors
 				console.error("Registration failed");
 			}
@@ -50,7 +51,7 @@
 		event.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:4000/apiKeys", {
+			const response = await fetch("https://mithrilsecurity.io/api/apiKeys", {
 				method: "GET",
 				credentials: "include",
 				headers: {

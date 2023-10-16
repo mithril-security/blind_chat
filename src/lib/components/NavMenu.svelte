@@ -29,7 +29,7 @@
 		event.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:4000/auth/logout", {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/logout", {
 				method: "POST",
 				credentials: "include",
 				headers: {
@@ -56,7 +56,7 @@
 		event.preventDefault();
 
 		try {
-			const response = await fetch("http://localhost:4000/apiKeys/chat", {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/apiKeys/chat", {
 				method: "GET",
 				credentials: "include",
 				headers: {
