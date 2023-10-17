@@ -7,6 +7,7 @@
 	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
 	import type { LayoutData } from "../../routes/$types";
+	import { api_key_writable, is_logged_writable, userWritable } from "../../routes/LayoutWritable";
 
 	const dispatch = createEventDispatcher<{
 		shareConversation: { id: string; title: string };
@@ -39,41 +40,13 @@
 
 			if (response.ok) {
 				// Handle a successful response
-				console.log(response);
 				console.log("Logout successful");
 				signedIn = false;
+				is_logged_writable.set(false);
+				api_key_writable.set("");
 			} else {
 				// Handle errors
 				console.error("Logout failed");
-			}
-		} catch (error) {
-			// Handle network errors
-			console.error("Network error", error);
-		}
-	}
-
-	async function getApiKey(event: { preventDefault: () => void }) {
-		event.preventDefault();
-
-		try {
-			const response = await fetch("https://cloud.mithrilsecurity.io/api/apiKeys/chat", {
-				method: "GET",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-
-			if (response.ok) {
-				// Parse the JSON response
-				const data = await response.json();
-
-				const apiKeyValue = data.value;
-
-				console.log("API Key retrieved:", apiKeyValue);
-			} else {
-				// Handle errors
-				console.error("API Key retrieval failed");
 			}
 		} catch (error) {
 			// Handle network errors
@@ -122,7 +95,7 @@
 			</button>
 		</form>
 	{/if}
-	{#if canLogin && !signedIn}
+	{#if !signedIn}
 		<button
 			on:click={() => (loginModalVisible = true)}
 			type="button"
@@ -131,20 +104,13 @@
 			Login
 		</button>
 	{/if}
-	{#if canLogin && signedIn}
+	{#if signedIn}
 		<button
 			on:click={logoutSubmit}
 			type="button"
 			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
 		>
 			Logout
-		</button>
-		<button
-			on:click={getApiKey}
-			type="button"
-			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-		>
-			Retrieve API Key
 		</button>
 	{/if}
 	<button

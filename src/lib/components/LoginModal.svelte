@@ -8,12 +8,16 @@
 	import type { LayoutData } from "../../routes/$types";
 	import Logo from "./icons/Logo.svelte";
 	export let settings: LayoutData["settings"];
+	import { createEventDispatcher } from "svelte";
 	import { Textfield, Checkbox } from "svelte-mui";
+	import CarbonClose from "~icons/carbon/close";
 
 	const isIframe = browser && window.self !== window.parent;
 
 	let email = ""; // The email value
 	let subscribeNewsletter = false; // The subscribeNewsletter value
+
+	const dispatch = createEventDispatcher<{ close: void }>();
 
 	async function handleSubmit(event: { preventDefault: () => void }) {
 		event.preventDefault();
@@ -37,7 +41,7 @@
 				// Handle a successful response
 				console.log("Registration successful");
 			} else {
-				console.log(response)
+				console.log(response);
 				// Handle errors
 				console.error("Registration failed");
 			}
@@ -86,6 +90,9 @@
 			>
 				v{PUBLIC_VERSION}
 			</div>
+			<button type="button" class="group" on:click={() => dispatch("close")}>
+				<CarbonClose class="text-gray-900 group-hover:text-gray-500" />
+			</button>
 		</h2>
 		{#if $page.data.requiresLogin}
 			<p
@@ -117,23 +124,10 @@
 			</div>
 			<button
 				type="submit"
-				class="hover:bg-primary-500 mt-2 flex items-center whitespace-nowrap rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors"
+				class="mt-2 flex items-center whitespace-nowrap rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors hover:bg-primary-500"
 			>
 				Magic link 🪄
 			</button>
 		</form>
-		<!-- <form
-			on:submit={apiSubmit}
-			target={isIframe ? "_blank" : ""}
-			class="flex w-full flex-col items-center gap-2"
-		>
-			<button
-				type="submit"
-				class="mt-2 flex items-center whitespace-nowrap rounded-full bg-black px-5 py-2 text-lg font-semibold text-gray-100 transition-colors hover:bg-primary-500"
-			>
-				Get API key
-			</button>
-		</form>
-		 -->
 	</div>
 </Modal>

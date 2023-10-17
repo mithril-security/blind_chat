@@ -15,6 +15,7 @@
 	import NavMenu from "$lib/components/NavMenu.svelte";
 	import Toast from "$lib/components/Toast.svelte";
 	import ConfirmModal from "$lib/components/ConfirmModal.svelte";
+	import ShouldLoginModal from "$lib/components/ShouldLoginModal.svelte";
 	import SettingsModal from "$lib/components/SettingsModal.svelte";
 	import LoadingModal from "$lib/components/LoadingModal.svelte";
 	import LoginModal from "$lib/components/LoginModal.svelte";
@@ -24,6 +25,9 @@
 		is_init_writable,
 		refresh_chats_writable,
 		refresh_chats_writable_empty,
+		api_key_writable,
+		is_logged_writable,
+		showLoggedPopup_writable,
 	} from "./LayoutWritable";
 	import {
 		deleteAllChats,
@@ -39,10 +43,15 @@
 	let isloading = false;
 	let isInit = false;
 	let showWarning = true;
+	let shouldLogin = false;
 
 	let go_to_main = false;
 
 	let conversations_list = [];
+
+	showLoggedPopup_writable.subscribe((value) => {
+		shouldLogin = value;
+	});
 
 	is_init_writable.subscribe((value) => {
 		isInit = value;
@@ -111,6 +120,34 @@
 		await modifyTitle(id, title);
 	}
 
+	async function getApiKey() {
+		try {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/apiKeys/chat", {
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+
+			if (response.ok) {
+				// Parse the JSON response
+				const data = await response.json();
+
+				const apiKeyValue = data.value;
+
+				return apiKeyValue;
+			} else {
+				// Handle errors
+				console.error("API Key retrieval failed");
+			}
+		} catch (error) {
+			// Handle network errors
+			console.error("Network error", error);
+		}
+		return "";
+	}
+
 	onMount(async () => {
 		await refreshChats();
 	});
@@ -140,7 +177,7 @@
 	let loggedIn = false;
 	async function isLogged() {
 		try {
-			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/currentUser", {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/getUserInfo", {
 				method: "GET",
 				credentials: "include",
 				headers: {
@@ -150,12 +187,13 @@
 
 			if (response.ok) {
 				// Handle a successful response here
-				console.log(response);
 				console.log("User is logged in successfully");
+				var apiKey = await getApiKey();
 				loggedIn = true;
+				is_logged_writable.set(loggedIn);
+				api_key_writable.set(apiKey);
 			} else {
 				// Handle errors here
-				console.log(response)
 				console.error("User is not logged in");
 			}
 		} catch (error) {
@@ -239,6 +277,9 @@
 	{#if currentError}
 		<Toast message={currentError} />
 	{/if}
+	{#if shouldLogin}
+		<ShouldLoginModal on:close={() => showLoggedPopup_writable.set(false)} />
+	{/if}
 	{#if showWarning}
 		<ConfirmModal on:close={() => (showWarning = false)} />
 	{/if}
@@ -258,7 +299,7 @@
 	{/if}
 	<!-- {#if (requiresLogin && data.messagesBeforeLogin === 0) || loginModalVisible} -->
 	{#if loginModalVisible}
-		<LoginModal settings={data.settings} />
+		<LoginModal settings={data.settings} on:close={() => (loginModalVisible = false)} />
 	{/if}
 	<slot />
 </div>

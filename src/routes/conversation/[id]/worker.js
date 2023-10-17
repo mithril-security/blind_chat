@@ -120,55 +120,51 @@ let phi_model = null;
 // Listen for messages from the main thread
 self.addEventListener("message", async (event) => {
 	if (event.data.command == "abort") {
-		console.log("ABORT")
-		if (controller != null) 
-		{
+		console.log("ABORT");
+		if (controller != null) {
 			try {
 				controller.abort();
-			}
-			catch (e) {
-				console.log(e)
+			} catch (e) {
+				console.log(e);
 			}
 		}
-	}
-	else if (event.data.is_local) {
-			if (event.data.is_phi) {
-				controller = new AbortController();
-				generate_phi(event.data);
-			} else {
-				let pipe = await FlanPipeline.getInstance(
-					(x) => {
-						self.postMessage(x);
-					},
-					event.data.model,
-					event.data.task
-				);
-	
-				let output = await pipe(event.data.text, {
-					max_new_tokens: event.data.max_new_tokens,
-					temperature: event.data.temperature,
-					callback_function: (x) => {
-						self.postMessage({
-							status: "update",
-							output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
-							id_now: event.data.id_now,
-						});
-					},
-				});
-	
-				// Send the output back to the main thread
-				self.postMessage({
-					status: "complete",
-					output: output,
-					searchID: event.data.searchID,
-					id_now: event.data.id_now,
-					model: "phi-1_5",
-				});
+	} else if (event.data.is_local) {
+		if (event.data.is_phi) {
+			controller = new AbortController();
+			generate_phi(event.data);
+		} else {
+			let pipe = await FlanPipeline.getInstance(
+				(x) => {
+					self.postMessage(x);
+				},
+				event.data.model,
+				event.data.task
+			);
+
+			let output = await pipe(event.data.text, {
+				max_new_tokens: event.data.max_new_tokens,
+				temperature: event.data.temperature,
+				callback_function: (x) => {
+					self.postMessage({
+						status: "update",
+						output: pipe.tokenizer.decode(x[0].output_token_ids, { skip_special_tokens: true }),
+						id_now: event.data.id_now,
+					});
+				},
+			});
+
+			// Send the output back to the main thread
+			self.postMessage({
+				status: "complete",
+				output: output,
+				searchID: event.data.searchID,
+				id_now: event.data.id_now,
+				model: "phi-1_5",
+			});
 		}
-	}
-	else {
+	} else {
 		controller = new AbortController();
-		const context = buildContext(event.data)
+		const context = buildContext(event.data);
 		const newParameters = {
 			max_new_tokens: event.data.max_new_tokens,
 			temperature: event.data.temperature,
@@ -178,68 +174,77 @@ self.addEventListener("message", async (event) => {
 		let body = JSON.stringify({
 			inputs: context,
 			parameters: newParameters,
-		})
-		console.log(body)
-		console.log(body)
-		let resp = await fetch("http://" + event.data.server_addr + ":8080/generate_stream", {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-			body: body,
-			signal: controller.signal,
 		});
-		let stream1 = resp.body
 		let text_output = "";
 		try {
-			for await (const input of streamToAsyncIterable(stream1)) {
-				const lines = new TextDecoder().decode(input).split("\n").filter((line) => line.startsWith("data:"));
-	
-				for (const message of lines) {
-					let lastIndex = message.lastIndexOf("\ndata:");
-				if (lastIndex === -1) {
-					lastIndex = message.indexOf("data");
-				}
-	
-				if (lastIndex === -1) {
-					console.error("Could not parse last message", message);
-				}
-	
-				let lastMessage = message.slice(lastIndex).trim().slice("data:".length);
-				if (lastMessage.includes("\n")) {
-					lastMessage = lastMessage.slice(0, lastMessage.indexOf("\n"));
-				}
-	
-				try {
-					const lastMessageJSON = JSON.parse(lastMessage);
-					if (!lastMessageJSON.generated_text) {
-						const res = lastMessageJSON.token.text;
-						text_output += res
-						self.postMessage({
-							status: "update",
-							output: text_output,
-							id_now: event.data.id_now,
-						});
+			let resp = await fetch(event.data.server_addr + "/generate_stream", {
+				headers: {
+					"Content-Type": "application/json",
+					accesstoken: event.data.jwt,
+				},
+				method: "POST",
+				body: body,
+				signal: controller.signal,
+			});
+			if (resp.ok) {
+				let stream1 = resp.body;
+				for await (const input of streamToAsyncIterable(stream1)) {
+					const lines = new TextDecoder()
+						.decode(input)
+						.split("\n")
+						.filter((line) => line.startsWith("data:"));
+
+					for (const message of lines) {
+						let lastIndex = message.lastIndexOf("\ndata:");
+						if (lastIndex === -1) {
+							lastIndex = message.indexOf("data");
+						}
+
+						if (lastIndex === -1) {
+							console.error("Could not parse last message", message);
+						}
+
+						let lastMessage = message.slice(lastIndex).trim().slice("data:".length);
+						if (lastMessage.includes("\n")) {
+							lastMessage = lastMessage.slice(0, lastMessage.indexOf("\n"));
+						}
+
+						try {
+							const lastMessageJSON = JSON.parse(lastMessage);
+							if (!lastMessageJSON.generated_text) {
+								const res = lastMessageJSON.token.text;
+								text_output += res;
+								self.postMessage({
+									status: "update",
+									output: text_output,
+									id_now: event.data.id_now,
+								});
+							}
+						} catch (e) {
+							console.log(lastMessage);
+							console.log(e);
+						}
 					}
 				}
-				catch (e) {
-					console.log(lastMessage)
-					console.log(e)
+			} else {
+				if (resp.status == 401 || resp.status == 403) {
+					self.postMessage({
+						status: "invalid_jwt",
+					});
 				}
+				console.log(resp);
+				throw new Error("Error while sending an inference request");
 			}
-			}
+		} catch (e) {
+			console.log(e);
 		}
-		catch (e) {
-			console.log(e)
-		}
-	self.postMessage({
-		status: "complete",
-		output: text_output,
-		searchID: event.data.searchID,
-		id_now: event.data.id_now,
-	});
+		self.postMessage({
+			status: "complete",
+			output: text_output,
+			searchID: event.data.searchID,
+			id_now: event.data.id_now,
+		});
 	}
-
 });
 
 async function generate_phi(data) {
@@ -317,34 +322,30 @@ async function generate_phi(data) {
 		self.postMessage({ error: e });
 	}
 }
-function buildContext(data) { 
+function buildContext(data) {
 	// Will be replaced by the original contextManager made by HF
-	let context = ""
+	let context = "";
 	let got_user_prompt = false;
 	for (let message of data.messages) {
 		if (message.content.trim().length > 0) {
 			if (message.from === "user") {
 				if (got_user_prompt == false) {
-					context = context + "<s>[INST] " + message.content
+					context = context + "<s>[INST] " + message.content;
 					got_user_prompt = true;
+				} else {
+					context = context + " " + message.content;
 				}
-				else {
-					context = context + " " + message.content
-				}
-			}
-			else {
-				got_user_prompt = false
-				context = context + " [/INST]" + message.content + " </s>"
+			} else {
+				got_user_prompt = false;
+				context = context + " [/INST]" + message.content + " </s>";
 			}
 		}
 	}
 	if (got_user_prompt == true) {
-		context = context + " [/INST]"
+		context = context + " [/INST]";
+	} else {
+		context = context + "<s>[INST] " + data.text + " [/INST]";
 	}
-	else {
-		context = context + "<s>[INST] " + data.text + " [/INST]"
-	}
-	console.log(context)
-	return context
+	console.log(context);
+	return context;
 }
-

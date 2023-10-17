@@ -1,23 +1,47 @@
 <script lang="ts">
-	import { goto, invalidate } from "$app/navigation";
+	import { createGrpcWebTransport } from "@connectrpc/connect-web";
+	import { goto } from "$app/navigation";
 	import { base } from "$app/paths";
 	import { PUBLIC_APP_NAME } from "$env/static/public";
 	import ChatWindow from "$lib/components/chat/ChatWindow.svelte";
 	import { ERROR_MESSAGES, error } from "$lib/stores/errors";
 	import { pendingMessage } from "$lib/stores/pendingMessage";
 	import { findCurrentModel } from "$lib/utils/models";
-	import { createChat } from "../routes/LocalDB";
 	import { params_writable } from "../routes/conversation/[id]/ParamsWritable";
-	import { curr_model_writable, curr_model_writable_string } from "./LayoutWritable";
+	import {
+		curr_model_writable,
+		curr_model_writable_string,
+		is_logged_writable,
+		showLoggedPopup_writable,
+		api_key_writable,
+	} from "./LayoutWritable";
 
 	let curr_model_id = 0;
-
-	curr_model_writable.subscribe((val) => {
-		curr_model_id = val;
-	});
+	let curr_model;
+	let api_key = "";
 
 	export let data;
 	let loading = false;
+	let isLogged = false;
+
+	const connection = createGrpcWebTransport({ baseUrl: "https://api.cloud.mithrilsecurity.io" });
+
+	is_logged_writable.subscribe((val) => {
+		isLogged = val;
+	});
+
+	api_key_writable.subscribe((val) => {
+		api_key = val;
+	});
+
+	curr_model_writable.subscribe((val) => {
+		curr_model_id = val;
+		curr_model = findCurrentModel(
+			[...data.models, ...data.oldModels],
+			data.models[curr_model_id].name
+		);
+		console.log(curr_model);
+	});
 
 	// dec2hex :: Integer -> String
 	// i.e. 0-255 -> '00'-'ff'
@@ -34,6 +58,14 @@
 
 	async function createConversation(message: string) {
 		try {
+			const is_local = curr_model.is_local ?? true;
+			if (!is_local) {
+				if (!isLogged) {
+					showLoggedPopup_writable.set(true);
+					return;
+				}
+			}
+
 			loading = true;
 
 			const conversationId = generateId(16);
