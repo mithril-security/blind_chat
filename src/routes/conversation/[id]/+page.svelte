@@ -20,23 +20,41 @@
 		isloading_writable,
 		curr_model_writable,
 		is_init_writable,
-		cancel_writable,
+		api_key_writable,
+		jwt_writable,
+		is_logged_writable,
+		showLoggedPopup_writable,
 	} from "../../LayoutWritable.js";
 	import { map_writable, phi_writable } from "$lib/components/LoadingModalWritable.js";
 	import { params_writable } from "./ParamsWritable.js";
 	import { addMessageToChat, getChats, getMessages, getTitle, getModel } from "../../LocalDB.js";
 	import { env } from "$env/dynamic/public";
+
 	export let data;
+	let api_key = "";
+	let jwt = "";
+	let isLogged = false;
 
 	let curr_model_id = 0;
 	curr_model_writable.subscribe((val) => {
 		curr_model_id = val;
 	});
 
+	is_logged_writable.subscribe((val) => {
+		isLogged = val;
+	});
+
+	api_key_writable.subscribe((val) => {
+		api_key = val;
+	});
+
+	jwt_writable.subscribe((val) => {
+		jwt = val;
+	});
+
 	let pipelineWorker;
 
 	let pipe: Pipeline;
-
 	let id = "";
 
 	let title_ret = "BlindChat";
@@ -87,6 +105,11 @@
 				break;
 
 			case "done":
+				break;
+
+			case "invalid_jwt":
+				api_key_writable.set("");
+				jwt_writable.set("");
 				break;
 
 			case "ready":
@@ -151,6 +174,40 @@
 		let conversationId = $page.params.id;
 		const responseId = randomUUID();
 
+		const is_local = curr_model_obj.is_local ?? true;
+		if (!is_local) {
+			if (!isLogged) {
+				showLoggedPopup_writable.set(true);
+				return;
+			} else {
+				if (jwt === "") {
+					const data = { api_key };
+					const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/licensing", {
+						method: "POST",
+						credentials: "include",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(data),
+					});
+
+					if (response.ok) {
+						// Handle a successful response
+						console.log("Licensing OK");
+						jwt = await response.text();
+						jwt_writable.set(jwt);
+					} else {
+						console.log(response);
+						// Handle errors
+						console.error("Licensing NOK");
+					}
+				} else {
+					console.log("Using existing JWT");
+					console.log(jwt);
+				}
+			}
+		}
+
 		let opt = "";
 
 		messages = [
@@ -198,6 +255,7 @@
 			webSearchId: webSearchId,
 			conversationId: conversationId,
 			messages: messages,
+			jwt: jwt,
 		});
 	}
 
