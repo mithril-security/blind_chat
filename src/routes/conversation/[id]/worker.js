@@ -233,10 +233,21 @@ self.addEventListener("message", async (event) => {
 					});
 				}
 				console.log(resp);
+				self.postMessage({
+					status: "aborted",
+					output: text_output,
+					searchID: event.data.searchID,
+					id_now: event.data.id_now,
+				})
 				throw new Error("Error while sending an inference request");
 			}
 		} catch (e) {
-			console.log(e);
+			self.postMessage({
+				status: "aborted",
+				output: text_output,
+				searchID: event.data.searchID,
+				id_now: event.data.id_now,
+			})
 		}
 		self.postMessage({
 			status: "complete",

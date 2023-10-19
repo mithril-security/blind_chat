@@ -15,6 +15,7 @@
 	const isIframe = browser && window.self !== window.parent;
 
 	let email = ""; // The email value
+	let success = false;
 	let subscribeNewsletter = false; // The subscribeNewsletter value
 
 	const dispatch = createEventDispatcher<{ close: void }>();
@@ -40,6 +41,7 @@
 			if (response.ok) {
 				// Handle a successful response
 				console.log("Registration successful");
+				success = true;
 			} else {
 				console.log(response);
 				// Handle errors
@@ -82,6 +84,7 @@
 	<div
 		class="flex w-full flex-col items-center gap-6 bg-gradient-to-t from-primary-500/40 via-primary-500/10 to-primary-500/0 px-4 pb-10 pt-9 text-center"
 	>
+	{#if !success}
 		<h2 class="flex items-center text-2xl font-semibold text-gray-800">
 			<Logo classNames="mr-1" />
 			{PUBLIC_APP_NAME}
@@ -129,5 +132,13 @@
 				Magic link 🪄
 			</button>
 		</form>
+	{:else}
+	<p
+		class="flex items-center text-2xl font-semibold text-gray-800"
+		style="text-wrap: balance;"
+	>
+		Magic link sent to your email address. Please check your inbox.
+	</p>
+	{/if}
 	</div>
 </Modal>
