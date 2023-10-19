@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { createGrpcWebTransport } from "@connectrpc/connect-web";
 	import { goto } from "$app/navigation";
 	import { base } from "$app/paths";
 	import { PUBLIC_APP_NAME } from "$env/static/public";
@@ -23,8 +22,6 @@
 	export let data;
 	let loading = false;
 	let isLogged = false;
-
-	const connection = createGrpcWebTransport({ baseUrl: "https://api.cloud.mithrilsecurity.io" });
 
 	is_logged_writable.subscribe((val) => {
 		isLogged = val;

@@ -5,7 +5,7 @@
 	import { browser } from "$app/environment";
 	import "../styles/main.css";
 	import { base } from "$app/paths";
-	import { PUBLIC_ORIGIN, PUBLIC_APP_DISCLAIMER } from "$env/static/public";
+	import { PUBLIC_ORIGIN, PUBLIC_APP_DISCLAIMER, PUBLIC_SHOW_LOCAL_MODELS_WARNING } from "$env/static/public";
 
 	import { shareConversation } from "$lib/shareConversation";
 	import { UrlDependency } from "$lib/types/UrlDependency";
@@ -42,7 +42,7 @@
 	export let data;
 	let isloading = false;
 	let isInit = false;
-	let showWarning = true;
+	let showWarning = PUBLIC_SHOW_LOCAL_MODELS_WARNING === "true" ? true: false;
 	let shouldLogin = false;
 
 	let go_to_main = false;
@@ -196,9 +196,9 @@
 				// Handle errors here
 				console.error("User is not logged in");
 			}
-		} catch (error) {
+		} catch (err) {
 			// Handle network errors here
-			console.error("Network error", error);
+			console.error("Network error", err);
 		}
 	}
 	isLogged();
