@@ -45,9 +45,9 @@
 		message = "";
 	};
 </script>
-
 <div class="relative min-h-0 min-w-0">
-	{#if loginModalOpen}
+<div class="banner" display="none"><p id="banner" style="text-align: center; display: none;">🔒 This conversation is end-to-end protected. All prompts sent to our AI remain private. <br>Not even Mithril Security admins access or use them. Learn more <a href="https://www.mithrilsecurity.io/faq" style="text-decoration: underline; color: #f0b92d;">here</a>.</p></div>
+{#if loginModalOpen}
 		<LoginModal {settings} on:close={() => (loginModalOpen = false)} />
 	{/if}
 	<ChatMessages
@@ -132,6 +132,11 @@
 				inaccurate or false.
 				<br /><br /> 🔒 All conversations are end-to-end protected
 			</p>
+			{#if messages.length}
+					<script type="text/javascript"> document.getElementById("banner").style.display = "block"; </script>
+			{:else}
+				<script type="text/javascript"> document.getElementById("banner").style.display = "none"; </script>
+			{/if}
 			<!-- {#if messages.length}
 				<button
 					class="flex flex-none items-center hover:text-gray-400 hover:underline max-sm:rounded-lg max-sm:bg-gray-50 max-sm:px-2.5 dark:max-sm:bg-gray-800"
