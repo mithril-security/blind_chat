@@ -5,7 +5,11 @@
 	import { browser } from "$app/environment";
 	import "../styles/main.css";
 	import { base } from "$app/paths";
-	import { PUBLIC_ORIGIN, PUBLIC_APP_DISCLAIMER, PUBLIC_SHOW_LOCAL_MODELS_WARNING } from "$env/static/public";
+	import {
+		PUBLIC_ORIGIN,
+		PUBLIC_APP_DISCLAIMER,
+		PUBLIC_SHOW_LOCAL_MODELS_WARNING,
+	} from "$env/static/public";
 
 	import { shareConversation } from "$lib/shareConversation";
 	import { UrlDependency } from "$lib/types/UrlDependency";
@@ -16,7 +20,7 @@
 	import Toast from "$lib/components/Toast.svelte";
 	import ConfirmModal from "$lib/components/ConfirmModal.svelte";
 	import ShouldLoginModal from "$lib/components/ShouldLoginModal.svelte";
-	import SettingsModal from "$lib/components/SettingsModal.svelte";
+	import SettingsModal from "$lib/components/SettingsModal2.svelte";
 	import LoadingModal from "$lib/components/LoadingModal.svelte";
 	import LoginModal from "$lib/components/LoginModal.svelte";
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME } from "$env/static/public";
@@ -42,7 +46,7 @@
 	export let data;
 	let isloading = false;
 	let isInit = false;
-	let showWarning = PUBLIC_SHOW_LOCAL_MODELS_WARNING === "true" ? true: false;
+	let showWarning = PUBLIC_SHOW_LOCAL_MODELS_WARNING === "true" ? true : false;
 	let shouldLogin = false;
 
 	let go_to_main = false;
