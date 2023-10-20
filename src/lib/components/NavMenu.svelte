@@ -26,6 +26,12 @@
 
 	export let loginModalVisible;
 
+	let isSubMenuOpen: boolean = false;
+
+	function toggleSubMenu() {
+		isSubMenuOpen = !isSubMenuOpen;
+	}
+
 	async function logoutSubmit(event: { preventDefault: () => void }) {
 		event.preventDefault();
 
@@ -74,9 +80,8 @@
 		<NavConversationItem on:editConversationTitle on:deleteConversation {conv} />
 	{/each}
 </div>
-<div
-	class="mt-0.5 flex flex-col gap-1 rounded-r-xl bg-gradient-to-l from-gray-50 p-3 text-sm dark:from-gray-800/30"
->
+
+<!--
 	{#if user?.username || user?.email}
 		<form
 			action="{base}/logout"
@@ -91,9 +96,75 @@
 				type="submit"
 				class="ml-auto h-6 flex-none items-center gap-1.5 rounded-md border bg-white px-2 text-gray-700 shadow-sm group-hover:flex hover:shadow-none dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400 dark:hover:text-gray-300 md:hidden"
 			>
-				Sign Out
+				Log Out
 			</button>
 		</form>
+	{/if}
+	-->
+
+<div class="display position relative inline-block">
+	<div
+		class="group flex h-11 flex-none items-end gap-1.5 rounded-lg pl-3 pr-2 font-semibold text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+		style="bottom: 90%; justify-content: space-between; border-top: 1px solid white; border-radius:0; margin: 5%"
+	>
+		{user?.email || "Legolas@lotr.com"}<button
+			class="ellipsis-button"
+			on:click={toggleSubMenu}
+			style="justify:right;">...</button
+		>
+	</div>
+	{#if isSubMenuOpen}
+		<script type="text/javascript">
+			document.getElementById("submenu").style.display = "block";
+		</script>
+		<div class="submenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%; background-color: #111827;">
+			<button
+				on:click={() => dispatch("clickSettings")}
+				type="button"
+				class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+				style="width: 100%;"
+				>
+				Settings
+			</button>
+			<button
+				on:click={logoutSubmit}
+				type="button"
+				class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+				style="width: 100%;"
+				>
+				Log out
+			</button>
+		</div>
+	{/if}
+</div>
+
+<!--
+	<div class="menu">
+		<div class="relative grow -space-y-px overflow-hidden text-ellipsis whitespace-nowrap text-left text-gray-700 gizmo:-top-px dark:text-white">
+		<div class="font-semibold">{user?.name || 'Legolas'}
+		</div>
+	</div>
+	{#if isSubMenuOpen}
+		<script type="text/javascript"> document.getElementById("submenu").style.display = "block"; </script>
+		<div class="submenu {isSubMenuOpen ? 'open' : ''}">
+		<button
+		on:click={() => dispatch("clickSettings")}
+		type="button"
+		class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+		>
+			Settings
+		</button>
+		<button
+			on:click={logoutSubmit}
+			type="button"
+			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+		>
+			Log out
+		</div>
+	{/if}
+</div>
+
+	
 	{/if}
 	{#if !signedIn}
 		<button
@@ -110,7 +181,7 @@
 			type="button"
 			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
 		>
-			Logout
+			Log out
 		</button>
 	{/if}
 	<button
@@ -143,4 +214,4 @@
 	>
 		About & Privacy
 	</a>
-</div>
+	-->
