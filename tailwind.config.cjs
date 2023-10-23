@@ -12,6 +12,9 @@ export default {
 		extend: {
 			colors: {
 				primary: colors[process.env.PUBLIC_APP_COLOR],
+				'darkSidebar': '#131a29',
+				'lightSidebar': '#fbfcfd',
+				'darkBackground': '#111827'
 			},
 			// fontFamily: {
 			// 	sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
