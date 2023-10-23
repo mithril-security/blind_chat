@@ -47,8 +47,8 @@
 </script>
 
 <div class="relative min-h-0 min-w-0">
-	<div class="banner" display="none">
-		<p id="banner" style="text-align: center; display: none;">
+	<div class="bg-bannerBack dark:bg-gray-800 dark:border-0 border-b" display="none">
+		<p class="text-black/white" id="banner" style="text-align: center; display: none;">
 			🔒 Prompts are end-to-end protected.<br
 			/>Not even Mithril Security can read or train on them. Learn more 
 			<a
