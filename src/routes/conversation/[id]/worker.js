@@ -168,7 +168,7 @@ self.addEventListener("message", async (event) => {
 		const newParameters = {
 			max_new_tokens: event.data.max_new_tokens,
 			temperature: event.data.temperature,
-			truncate: 2048,
+			truncate: 3072,
 			return_full_text: false,
 		};
 		let body = JSON.stringify({
@@ -239,15 +239,29 @@ self.addEventListener("message", async (event) => {
 					searchID: event.data.searchID,
 					id_now: event.data.id_now,
 				})
-				throw new Error("Error while sending an inference request");
+				self.postMessage({
+					status: "error",
+					output: text_output,
+					error: "Error while trying to communicate with the server",
+				})
+				return;
 			}
 		} catch (e) {
+			console.log(e)
 			self.postMessage({
 				status: "aborted",
 				output: text_output,
 				searchID: event.data.searchID,
 				id_now: event.data.id_now,
 			})
+			if (e.name != "AbortError") {
+				self.postMessage({
+					status: "error",
+					output: text_output,
+					error: "Error while trying to communicate with the server",
+				})
+			}
+			return;
 		}
 		self.postMessage({
 			status: "complete",

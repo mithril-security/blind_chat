@@ -107,6 +107,10 @@
 			case "done":
 				break;
 
+			case "error":
+				$error = e.data.error
+				break;
+
 			case "invalid_jwt":
 				api_key_writable.set("");
 				jwt_writable.set("");
