@@ -5,6 +5,7 @@
 	"packageManager": "npm@9.5.0",
 	"scripts": {
 		"dev": "vite dev",
+		"dev_expose": "vite dev --host",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
