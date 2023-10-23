@@ -117,7 +117,7 @@
 		<script type="text/javascript">
 			document.getElementById("submenu").style.display = "block";
 		</script>
-		<div class="submenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%; background-color: #111827;">
+		<div class="submenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%;">
 			<button
 				on:click={() => dispatch("clickSettings")}
 				type="button"
