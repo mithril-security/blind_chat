@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
 	import Modal from "$lib/components/BigModal.svelte";
+	import TextModal from "$lib/components/TextModal.svelte";
 	import { writable } from 'svelte/store';
 	import CarbonClose from "~icons/carbon/close";
 	import type { Model } from "$lib/types/Model";
@@ -9,6 +10,8 @@
 	export let settings: LayoutData["settings"];
 	export let models: Array<Model>;
 
+	let opSuccess = false;
+	let opFail = false;
 	let isConfirmingDeletion = false;
 	let isAccountView: boolean = true;
 	let isThemeView: boolean = false;
@@ -61,7 +64,9 @@
       });
 
       if (response.ok) {
+		opSuccess = true;
       } else {
+		opFail = true;
       }
     } catch (error) {
       console.error('Error:', error);
@@ -84,9 +89,9 @@
       });
 
       if (response.ok) {
-        // Handle a successful response here, e.g., show a success message or redirect
+		opSuccess = true;
       } else {
-        // Handle an error response here, e.g., show an error message
+        opFail = true;
       }
     } catch (error) {
       // Handle any network or request error here
@@ -109,7 +114,6 @@
 <Modal on:close>
 	<script>
 		import Overlay from 'svelte-overlay';
-	  
 		let overlayComp	  
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
@@ -140,12 +144,18 @@
 		document.getElementById("themeView").style.display = "block";
 	</script>
 		<div class="modal-content pl-5" id="accountView"> 
-		<!-- Change email section -->
+		
+			<!-- Change email section -->
 		<h2 class="pt-8 font-medium text-xl" style="color: #f0ba2d;">Change email</h2>
 		<p>New email address</p>
 		<div class="flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
     	<input type="email" placeholder="Enter new email address" class="p-2 w-3/5 border-1 border-black dark:border-gray max-w-xs flex-1" bind:value={newEmail} style="border: 1px solid black;" />
     	<button class="bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3" style="justify-content: space-between;" on:click={handleEmailChange}>Change Email</button>
+		{#if opSuccess}
+			<TextModal title="Operation succesful" text="Your email has succesfully been updated ✅"  on:close={() => (opSuccess = false)}/>
+		{:else if opFail}
+			<TextModal title="Operation not succesful" text="Please check your email address match and are valid" on:close={() => (opFail = false)}/>
+		{/if}
 		</div>
 
 		<!-- Create password section -->
@@ -156,6 +166,11 @@
 		<div class="border-1 border-black dark:border-gray flex justify-between items-center flex-wrap gap-2.5">
 		<input type="password" placeholder="Confirm new password" class="p-2 w-3/5 max-w-xs flex-1" style="justify-content: space-between; border: 1px solid black;" bind:value={confirmPassword}/>
 		<button class="bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3" style="justify-content: space-between;" on:click={handlePasswordChange}>Create password</button>
+		{#if opSuccess}
+			<TextModal title="Operation succesful" text="Your email has succesfully been updated ✅"  on:close={() => (opSuccess = false)}/>
+		{:else if opFail}
+			<TextModal title="Operation not succesful" text="Please check your email address match and are valid" on:close={() => (opFail = false)}/>
+		{/if}
 		</div>
 
 		<!-- Delete account section -->
