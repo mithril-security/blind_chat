@@ -12,11 +12,15 @@
 	export let settings: LayoutData["settings"];
 	export let models: Array<Model>;
 
+	let isConfirmingDeletion = false;
 	let isAccountView: boolean = true;
 	let isThemeView: boolean = false;
 	const themeStore = writable(
-		window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+		localStorage.theme
 	);
+	
+	const dispatch = createEventDispatcher<{ close: void }>();
+
 	export function switchTheme() {
 	const { classList } = document.querySelector("html") as HTMLElement;
 	if (classList.contains("dark")) {
@@ -40,7 +44,12 @@
 		isThemeView = false;
 	}
 
-	const dispatch = createEventDispatcher<{ close: void; deleteAllConversations: void }>();
+	async function deleteAccount() {
+			isConfirmingDeletion = false;
+			await fetch('/auth/deleteAccount', {
+				method: "POST",
+			});
+		}
 </script>
 
 <style>
@@ -121,6 +130,13 @@
 
 
 <Modal on:close>
+	<script>
+		import Overlay from 'svelte-overlay';
+	  
+		let overlayComp	  
+	  <Overlay bind:this={overlayComp} />
+	  overlayComp.setTheme();
+	</script>
 	<div class="header" style="position: relative; display: flex; min-width:700px!important; font-family: Sora,sans-serif; background-color:#111827; text-align:center; justify-content: center; align-items: center; padding: 0 15px;">
 		{#if isAccountView}
 			<t1>Account</t1>
@@ -168,7 +184,31 @@
 		<!-- Delete account section -->
 		<h2 style="color: #f0ba2d;">Delete account</h2>
 		<div class="delete-container">
-			<button class="delete-button"> Delete account</button>
+			<button on:click = {() => (isConfirmingDeletion = true)}
+				class="delete-button"> Delete account</button>
+			{#if isConfirmingDeletion}
+			<Modal on:close={() => (isConfirmingDeletion = false)}>
+				<form class="flex w-full flex-col gap-5 p-6">
+					<div class="flex items-start justify-between text-xl font-semibold text-gray-800">
+						<h2>Are you sure?</h2>
+						<button type="button" class="group" on:click={() => (isConfirmingDeletion = false)}>
+							<CarbonClose class="text-gray-900 group-hover:text-gray-500" />
+						</button>
+					</div>
+					<p class="text-gray-800">
+						This action will delete your account.<br>
+						This cannot be undone.
+					</p>
+					<button
+						type="button"
+						class="mt-2 rounded-full bg-red-700 px-5 py-2 text-lg font-semibold text-gray-100 ring-gray-400 ring-offset-1 transition-all hover:ring focus-visible:outline-none focus-visible:ring"
+						on:click={deleteAccount}
+					>
+						Confirm
+					</button>
+				</form>
+			</Modal>
+		{/if}
 		</div>
 	</div>
 {/if}
