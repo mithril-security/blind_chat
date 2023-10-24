@@ -32,6 +32,7 @@
 		api_key_writable,
 		is_logged_writable,
 		showLoggedPopup_writable,
+		is_magic_writable,
 	} from "./LayoutWritable";
 	import {
 		deleteAllChats,
@@ -196,6 +197,7 @@
 				loggedIn = true;
 				is_logged_writable.set(loggedIn);
 				api_key_writable.set(apiKey);
+				is_magic_writable.set(false);
 			} else {
 				// Handle errors here
 				console.error("User is not logged in");

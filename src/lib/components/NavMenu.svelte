@@ -28,6 +28,7 @@
 	export let loginModalVisible;
 
 	let isSubMenuOpen: boolean = false;
+	let magic = true;
 
 	function toggleSubMenu() {
 		isSubMenuOpen = !isSubMenuOpen;
@@ -60,6 +61,11 @@
 			console.error("Network error", error);
 		}
 	}
+
+	is_magic_writable.subscribe((val) => {
+		magic = val;
+	})
+
 	function handleTempClick() {
         loginModalVisible = true;
         is_magic_writable.set(false);
@@ -67,7 +73,7 @@
 </script>
 {#if !$is_logged_writable}
     <Login/>
-{:else if is_magic_writable}
+{:else if magic}
 	<LoginModal></LoginModal>
 {/if}
 <div class="sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0">
