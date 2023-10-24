@@ -57,9 +57,6 @@
 			>.
 		</p>
 	</div>
-	{#if loginModalOpen}
-		<LoginModal {settings} on:close={() => (loginModalOpen = false)} />
-	{/if}
 	<ChatMessages
 		{loading}
 		{pending}

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
+	import Overlay from 'svelte-overlay';
 	import Modal from "$lib/components/BigModal.svelte";
 	import Modal2 from "$lib/components/straightModal.svelte";
 	import TextModal from "$lib/components/TextModal.svelte";
@@ -116,7 +117,6 @@
 
 <Modal on:close>
 	<script>
-		import Overlay from 'svelte-overlay';
 		let overlayComp	  
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
