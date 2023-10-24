@@ -45,7 +45,6 @@
 					"Content-Type": "application/json",
 				},
 			});
-
 			if (response.ok) {
 				// Handle a successful response
 				console.log("Logout successful");

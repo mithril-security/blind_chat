@@ -189,8 +189,8 @@
 					"Content-Type": "application/json",
 				},
 			});
-
 			if (response.ok) {
+				console.log(response);
 				// Handle a successful response here
 				console.log("User is logged in successfully");
 				var apiKey = await getApiKey();
@@ -304,8 +304,5 @@
 		/>
 	{/if}
 	<!-- {#if (requiresLogin && data.messagesBeforeLogin === 0) || loginModalVisible} -->
-	{#if loginModalVisible}
-		<LoginModal settings={data.settings} on:close={() => (loginModalVisible = false)} />
-	{/if}
 	<slot />
 </div>

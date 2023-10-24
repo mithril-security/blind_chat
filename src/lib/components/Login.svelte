@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import Overlay from 'svelte-overlay';
     import CarbonClose from "~icons/carbon/close";
     import TextModal from "$lib/components/TextModal.svelte";
     import { Textfield, Checkbox } from "svelte-mui";
@@ -23,11 +24,13 @@
 
     async function sendMagicLink(event: { preventDefault: () => void }) {
     event.preventDefault();
+
     const data = {
-        email2,
+        email: email2,
         subscribeNewsletter,
     };
 
+    console.log("magic link");
     try {
         const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/blindChatRegister", {
             method: "POST",
@@ -37,8 +40,9 @@
             },
             body: JSON.stringify(data),
         });
-
         if (response.ok) {
+            magicSuccess = true;
+            console.log(response)
             // Handle a successful response
             console.log("Registration successful");
             magicSuccess = true;
@@ -53,30 +57,61 @@
     }
 	}
 
-    // Assuming usePost and useSession are related to fetching, you would replace them with standard fetch API calls or any other libraries you use with Svelte.
     async function apiCallLogin(arg: { email: string; password: string; }) {
-        // Simulating the 'usePost' functionality
-        const response = await fetch('/auth/login', {
+        const data = {
+        email,
+        password,
+        };
+        console.log("logging in...")
+        try {
+        const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(arg)
+            body: JSON.stringify(data)
         });
-        // handle response, error, etc.
-        return response.json();
+        if (response.ok)
+        {
+            console.log(response)
+            is_logged_writable.set(true)
+        }
+        else {
+            console.error("Login failed");
+        }
+        } catch (error) {
+            console.error("Network error", error);
+    }
     }
 
     async function registerUser(arg: { email: string; }) {
-        const response = await fetch('/auth/register', {
+        const data = {
+        email,
+        };
+        console.log("registering user")
+        try {
+        const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(arg)
+            body: JSON.stringify(data)
         });
-        // handle response, error, etc.
-        return response.json();
+        if (response.ok)
+        {
+        console.log("ok")
+        console.log(response)
+        }
+        else {
+            console.log("problem")
+            console.log(response);
+            // Handle errors
+            console.error("Registering failed");
+        }
+        } catch (error) {
+        // Handle network errors
+        console.error("Network error", error);
+    }
     }
 
     function reloadSession() {
@@ -95,7 +130,6 @@
                 .then(result => {
                     if(result.success) { // Assuming the API returns a success field
                         reloadSession();
-                        navigateTo('/home');
                     } else {
                         error = result.error;
                     }
@@ -123,16 +157,12 @@
 
 <Modal on:close>
     <script>
-		import Overlay from 'svelte-overlay';
 		let overlayComp	  
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
 	</script>
     <div class="border border-gray-200 pt-4 px-12 pb-12 bg-white dark:bg-darkBackground dark:text-white" style="min-width: 450px;">
         <div class = "flex justify-end">
-        <button type="button" class="group text-black dark:text-white" on:click={handleClick}>
-            <CarbonClose />
-        </button>
     </div>
             <div class="flex justify-between items-end">
                 <div class="font-bold text-3xl dark:text-white">
@@ -197,8 +227,9 @@
             </button>
         </div>
         <div class="p-3 underline justify-right text-right">
-            <!-- Error handling can be placed here -->
-            <a href="/auth/resetPassword">Forgot Password?</a>
+            <!-- Error handling can be placed here 
+            <button on:click={resetPassword}>Forgot Password?</button>
+            -->
         </div>
         <div class="flex items-center justify-center relative">
             <div class="absolute top-1/2 left-0 right-0 h-px bg-gray-300"></div>
