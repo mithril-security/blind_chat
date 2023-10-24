@@ -28,12 +28,6 @@
 			.replaceAll("<", "&lt;")
 			.trim();
 
-		for (const stop of [...(model.parameters?.stop ?? []), "<|endoftext|>"]) {
-			if (ret.endsWith(stop)) {
-				ret = ret.slice(0, -stop.length).trim();
-			}
-		}
-
 		return ret;
 	}
 	function unsanitizeMd(md: string) {
@@ -93,9 +87,6 @@
 		// }
 	});
 
-	$: downloadLink =
-		message.from === "user" ? `${$page.url.pathname}/message/${message.id}/prompt` : undefined;
-
 	let webSearchIsDone = true;
 
 	$: webSearchIsDone =
@@ -132,12 +123,14 @@
 				class="prose max-w-none dark:prose-invert max-sm:prose-sm prose-headings:font-semibold prose-h1:text-lg prose-h2:text-base prose-h3:text-base prose-pre:bg-gray-800 dark:prose-pre:bg-gray-900"
 				bind:this={contentEl}
 			>
-				{#if message.isCode == true}
-					<CodeBlock lang={"python"} code={unsanitizeMd(message.content)} />
+			{#each tokens as token}
+				{#if token.type === "code"}
+					<CodeBlock lang={token.lang} code={unsanitizeMd(token.text)} />
 				{:else}
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html marked(message.content, options)}
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+						{@html marked(token.raw, options)}
 				{/if}
+			{/each}
 			</div>
 		</div>
 	</div>

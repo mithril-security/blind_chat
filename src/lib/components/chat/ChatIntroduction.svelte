@@ -36,24 +36,19 @@
 	$: title = env.PUBLIC_APP_NAME;
 </script>
 
-<div class="my-auto grid gap-8 lg:grid-cols-3">
+<div class="my-auto grid gap-8 lg:grid-cols-2">
 	<div class="lg:col-span-1">
 		<div>
 			<div class="mb-3 flex items-center text-2xl font-semibold">
 				<Logo classNames="mr-1 flex-none" />
 				{PUBLIC_APP_NAME}
-				<div
-					class="ml-3 flex h-6 items-center rounded-lg border border-gray-100 bg-gray-50 px-2 text-base text-gray-400 dark:border-gray-700/60 dark:bg-gray-800"
-				>
-					v{PUBLIC_VERSION}
-				</div>
 			</div>
 			<p class="text-base text-gray-600 dark:text-gray-400">
 				Enjoying the best AI models, with privacy
 			</p>
 		</div>
 	</div>
-	<div class="lg:col-span-2 lg:pl-24">
+	<!-- <div class="lg:col-span-2 lg:pl-24">
 		{#each announcementBanners as banner}
 			<AnnouncementBanner classNames="mb-4" title={banner.title}>
 				<a
@@ -93,9 +88,9 @@
 			<ModelCardMetadata variant="dark" model={currentModel} />
 		</div>
 		{/if}
-	</div>
+	</div> -->
 	{#if currentModelMetadata.promptExamples}
-		<div class="lg:col-span-3 lg:mt-6">
+		<div class="lg:col-span-2 lg:mt-6">
 			<div class="grid gap-3 lg:grid-cols-3 lg:gap-5">
 				{#each currentModelMetadata.promptExamples as example}
 					<button
