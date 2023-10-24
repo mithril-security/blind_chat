@@ -7,7 +7,8 @@
 	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
 	import type { LayoutData } from "../../routes/$types";
-	import { api_key_writable, is_logged_writable, userWritable } from "../../routes/LayoutWritable";
+	import { api_key_writable, is_logged_writable, is_magic_writable, userWritable } from "../../routes/LayoutWritable";
+	import LoginModal from "./LoginModal.svelte";
 
 	const dispatch = createEventDispatcher<{
 		shareConversation: { id: string; title: string };
@@ -59,9 +60,15 @@
 			console.error("Network error", error);
 		}
 	}
+	function handleTempClick() {
+        loginModalVisible = true;
+        is_magic_writable.set(false);
+    }
 </script>
 {#if !$is_logged_writable}
     <Login/>
+{:else if is_magic_writable}
+	<LoginModal></LoginModal>
 {/if}
 <div class="sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
@@ -165,18 +172,10 @@
 		</div>
 	{/if}
 </div>
+	{/if}
+-->
 
-	
-	{/if}
-	{#if !signedIn}
-		<button
-			on:click={() => (loginModalVisible = true)}
-			type="button"
-			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-		>
-			Login
-		</button>
-	{/if}
+<!--
 	{#if signedIn}
 		<button
 			on:click={logoutSubmit}
