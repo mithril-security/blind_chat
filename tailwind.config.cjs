@@ -12,6 +12,14 @@ export default {
 		extend: {
 			colors: {
 				primary: colors[process.env.PUBLIC_APP_COLOR],
+				'prompts': '#394C75',
+				'mini-sidemenu': '#0d1830',
+				'message': '#1e418b',
+				'chat': '#0e1b35',
+				'sidebar': '#142343',
+				'mithril-border': '#196398',
+				'login': '#052448',
+				'mithril-yellow': '#f5c012',
 				'darkSidebar': '#121a28',
 				'lightSidebar': '#fbfcfd',
 				'darkBackground': '#111827',

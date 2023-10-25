@@ -65,6 +65,12 @@
 		magic = val;
 	})
 
+	function handleKeyDown(event: { key: string; }) {
+    if (event.key === 'Enter') {
+      toggleSubMenu();
+    }
+  }
+
 	function handleTempClick() {
         loginModalVisible = true;
         is_magic_writable.set(false);
@@ -82,73 +88,51 @@
 	</a>
 	<a
 		href={`${base}/`}
-		class="flex rounded-lg border bg-white px-2 py-0.5 text-center shadow-sm hover:shadow-none dark:border-gray-600 dark:bg-gray-700"
+		class="flex rounded-lg border bg-white px-2 py-0.5 text-center shadow-sm hover:shadow-none dark:border-mithril-border dark:bg-sidebar"
 	>
 		New Chat
 	</a>
 </div>
 <div
-	class="scrollbar-custom flex flex-col gap-1 overflow-y-auto rounded-r-xl bg-gradient-to-l from-gray-50 px-3 pb-3 pt-2 dark:from-gray-800/30"
+	class="scrollbar-custom border-r border-mithril-border flex flex-col gap-1 overflow-y-auto bg-gradient-to-l from-gray-50 px-3 pb-3 pt-2 dark:from-gray-800/30"
 >
 	{#each conversations as conv (conv.id)}
 		<NavConversationItem on:editConversationTitle on:deleteConversation {conv} />
 	{/each}
 </div>
-
-<!--
-	{#if user?.username || user?.email}
-		<form
-			action="{base}/logout"
-			method="post"
-			class="group flex items-center gap-1.5 rounded-lg pl-3 pr-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-		>
-			<span
-				class="flex h-9 flex-none shrink items-center gap-1.5 truncate pr-2 text-gray-500 dark:text-gray-400"
-				>{user?.username || user?.email}</span
-			>
-			<button
-				type="submit"
-				class="ml-auto h-6 flex-none items-center gap-1.5 rounded-md border bg-white px-2 text-gray-700 shadow-sm group-hover:flex hover:shadow-none dark:border-gray-600 dark:bg-gray-600 dark:text-gray-400 dark:hover:text-gray-300 md:hidden"
-			>
-				Log Out
-			</button>
-		</form>
-	{/if}
-	-->
-
 <div class="display position relative inline-block">
 	<div
-		class="group flex h-11 flex-none items-end gap-1.5 rounded-lg pl-3 pr-2 font-semibold text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-		style="bottom: 90%; justify-content: space-between; border-top: 1px solid white; border-radius:0; margin: 5%"
-	>
-		{user?.email || "Legolas@lotr.com"}<button
-			class="ellipsis-button"
-			on:click={toggleSubMenu}
-			style="justify:right;">...</button
-		>
-	</div>
+    class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+    on:click={toggleSubMenu}
+    on:keydown={handleKeyDown}
+>
+    {user?.email || "Legolas@lotr.com"}
+</div>
+
 	{#if isSubMenuOpen}
 		<script type="text/javascript">
 			document.getElementById("submenu").style.display = "block";
 		</script>
-		<div class="submenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%;">
-			<button
-				on:click={() => dispatch("clickSettings")}
-				type="button"
-				class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-				style="width: 100%;"
-				>
-				Settings
-			</button>
-			<button
-				on:click={logoutSubmit}
-				type="button"
-				class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-				style="width: 100%;"
-				>
-				Log out
-			</button>
-		</div>
+	 <div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%;">
+        <div class="flex flex-col items-center" style="width: 100%;">
+            <button
+                on:click={() => dispatch("clickSettings")}
+                type="button"
+                class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+                style="width: 100%;"
+            >
+                Settings
+            </button>
+            <button
+                on:click={logoutSubmit}
+                type="button"
+                class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
+                style="width: 100%;"
+            >
+                Log out
+            </button>
+        </div>
+    </div>
 	{/if}
 </div>
 
