@@ -76,8 +76,8 @@
 		{/if}
 		<div class="h-44 flex-none" />
 	</div>
-	<ScrollToBottomBtn
+</div>
+<ScrollToBottomBtn
 		class="bottom-36 right-4 max-md:hidden lg:right-10"
 		scrollNode={chatContainer}
 	/>
-</div>

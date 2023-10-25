@@ -158,27 +158,29 @@
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
 	</script>
-    <div class="border border-gray-200 pt-4 px-12 pb-12 bg-darkBackground text-white" style="min-width: 450px;">
-        <div class = "flex justify-end">
+    <div class="border rounded-2xl border-mithril-border pt-4 px-12 pb-12 bg-login text-white" style="min-width: 450px;">
+        <div class = "pb-4 flex justify-end">
+            <div>
+                <button type="button" class="underline" on:click={toggleAccountStatus}>                    
+                    {#if hasAccount}
+                        I don't have an account
+                    {:else if magicView}
+                        Return
+                    {:else}
+                        I have an account
+                    {/if}
+                </button>
+            </div>            
     </div>
-            <div class="flex justify-between items-end">
-                <div class="font-bold text-3xl text-white">
+            <div class="flex justify-center">
+                <div class="font-bold text-3xl text-mithril-yellow">
                 {#if hasAccount}
                     Sign in
                 {:else}
                     Sign up
                 {/if}
                 </div>
-                <button type="button" class="underline" on:click={toggleAccountStatus}>                    
-                    {#if hasAccount}
-                        I don't have an account
-                    {:else if magicView}
-                        return to previous screen
-                    {:else}
-                        I have an account
-                    {/if}
-                </button>
-            </div>            
+                </div>
         {#if hasAccount}
         <script>
             document.getElementById("login").style.display = "block";
@@ -187,8 +189,7 @@
         <form on:submit={submitForm}>
         <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
         <input id="email1" 
-        class="p-2 w-full border-1 border-gray"
-        style="border: 1px solid black; color:black;"
+        class="bg-login rounded text-white border border-mithril-border p-2 w-full"
         type="email" bind:value={email} placeholder="Email" />
         </div>
         <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray relative">
@@ -202,8 +203,7 @@
                 class:hidden={!showPassword}
                 />                
                 <input
-                class="text-black p-2 w-full border-1 border-gray pr-10"
-                style="border: 1px solid black; color:black;"
+                class="bg-login rounded text-white border border-mithril-border p-2 w-full"
                 type="password" 
                 bind:value={password} 
                 placeholder="Password" 
@@ -223,9 +223,9 @@
         
         <!-- ErrorIcon logic can be added here -->
         <div class="py-3 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">
-            <button class="p-3 flex justify-right content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
+            <button class="p-3 flex justify-right content-center bg-mithril-yellow text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             type="submit">
-            Sign in with password
+            Sign in
             </button>
         </div>
         {#if loginFail}
@@ -239,10 +239,10 @@
     </form>
         <div class="flex items-center justify-center relative">
             <div class="absolute top-1/2 left-0 right-0 h-px bg-gray-300"></div>
-            <span class="MuiDivider-wrapper css-c1ovea relative z-10 px-4 bg-darkBackground">OR</span>
+            <span class="MuiDivider-wrapper css-c1ovea relative z-10 px-4 bg-login">OR</span>
         </div>
-        <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">
-        <button class="flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
+        <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5">
+        <button class="bg-login rounded text-white border border-mithril-yellow p-2 w-full"
         on:click={setMagicView}>Sign in with magic link ✨</button>
         </div>
         </div>
@@ -252,8 +252,7 @@
             </script>
             <div class="py-3 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
             <input 
-            class="text-black p-2 w-full border-1 border-gray pr-10"
-            style="border: 1px solid black; color:black;"
+            class="bg-login rounded text-white border border-mithril-border p-2 w-full"
             type="email" bind:value={email2} placeholder="Email" />
             </div>
             <Checkbox
@@ -262,7 +261,7 @@
             type="checkbox"
             id="subscribeNewsletter"
             >
-            Subscribe to Newsletter
+            Subscribe to product updates
             </Checkbox>
             <div class="py-3 flex justify-center py-4 items-center flex-wrap gap-2.5 border-1 border-gray">
                 <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
@@ -277,14 +276,21 @@
         <script>
             document.getElementById("login").style.display = "none";
         </script>
-        <div class="relative flex flex-col space-y-4 py-4" style="max-width: 350px">
-        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
+        <div class="relative flex flex-col space-y-4 pt-4" style="max-width: 350px">
+        <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
             <input id="email1" 
-            class="p-2 w-full border-1 border-gray"
-            style="border: 1px solid black; color:black;"
+            class="bg-login rounded text-white border border-mithril-border p-2 w-full"
             type="email" bind:value={email} placeholder="Email" />
         </div>
-        <div class="pt-3 flex justify-left items-center flex-wrap gap-2.5 border-1 order-gray">
+        <div class="flex justify-center items-center flex-wrap gap-2.5 border-1 order-gray">
+            <Checkbox
+            bind:checked={subscribeNewsletter}
+            label="Subscribe to product updates"
+            type="checkbox"
+            id="subscribeNewsletter"
+            >
+            Subscribe to product updates
+            </Checkbox>
             <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             on:click={registerUser}>Sign up</button>
             {#if magicSuccess}
@@ -292,16 +298,8 @@
             {:else if magicFail}
             <TextModal title="Error" text="Please check your email address is valid and try again"  on:close={() => (magicFail = false)}/>
             {/if}
-            <Checkbox
-            bind:checked={subscribeNewsletter}
-            label="Subscribe to product updates"
-            type="checkbox"
-            id="subscribeNewsletter"
-            >
-            Subscribe to newsletter
-            </Checkbox>
-            <p>
-                By signing up, you agree to the{' '}<a href="https://www.mithrilsecurity.io/privacy-policy" target="_blank" style="color: #967000;">Terms of Service</a>.
+            <p class="pt-5">
+                By signing up, you agree to the{' '}<a class="text-mithril-yellow" href="https://www.mithrilsecurity.io/privacy-policy" target="_blank">Terms of Service</a>.
             </p>
         </div>
         </div>
