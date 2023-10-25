@@ -113,8 +113,8 @@
 		<script type="text/javascript">
 			document.getElementById("submenu").style.display = "block";
 		</script>
-	 <div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%;">
-        <div class="flex flex-col items-center" style="width: 0%;">
+	 <div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
+        <div class="">
             <button
                 on:click={() => dispatch("clickSettings")}
                 type="button"
