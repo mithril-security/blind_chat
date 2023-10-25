@@ -84,7 +84,7 @@
 <div class="sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
 		<Logo classNames="mr-1" />
-		{PUBLIC_APP_NAME}
+		<div class = "pl-2"> {PUBLIC_APP_NAME} </div>
 	</a>
 	<a
 		href={`${base}/`}
@@ -114,7 +114,7 @@
 			document.getElementById("submenu").style.display = "block";
 		</script>
 	 <div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 100%;">
-        <div class="flex flex-col items-center" style="width: 100%;">
+        <div class="flex flex-col items-center" style="width: 0%;">
             <button
                 on:click={() => dispatch("clickSettings")}
                 type="button"
