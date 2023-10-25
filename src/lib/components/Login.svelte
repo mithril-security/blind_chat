@@ -158,7 +158,7 @@
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
 	</script>
-    <div class="border rounded-2xl border-mithril-border pt-4 px-12 pb-12 bg-login text-white" style="min-width: 450px;">
+    <div class="border rounded-2xl border-mithril-border pt-4 px-12 pb-12 bg-login text-white md:min-w-[450px]">
         <div class = "pb-4 flex justify-end">
             <div>
                 <button type="button" class="underline" on:click={toggleAccountStatus}>                    
