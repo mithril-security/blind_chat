@@ -11,6 +11,8 @@
 		class={classNames}
 		data="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/chat.png"
 		title="{PUBLIC_APP_NAME} logo"
+		width="40"  
+		height="35" 
 	/>
 {:else}
 	<object

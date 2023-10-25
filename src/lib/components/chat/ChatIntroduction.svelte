@@ -40,8 +40,8 @@
 	<div class="lg:col-span-1">
 		<div>
 			<div class="mb-3 flex items-center text-2xl font-semibold">
-				<Logo classNames="mr-1 flex-none" />
-				{PUBLIC_APP_NAME}
+				<Logo classNames="mr-1flex-none" />
+				<div class = "pl-2"> {PUBLIC_APP_NAME} </div>
 			</div>
 			<p class="text-base text-gray-600 dark:text-gray-400">
 				Enjoying the best AI models, with privacy
