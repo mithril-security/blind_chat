@@ -4,7 +4,7 @@
     import CarbonClose from "~icons/carbon/close";
     import TextModal from "$lib/components/TextModal.svelte";
     import { Textfield, Checkbox } from "svelte-mui";
-	import Modal from "$lib/components/straightModal.svelte";
+	import Modal from "$lib/components/BigModal.svelte";
 	import { is_logged_writable, is_magic_writable } from "../../routes/LayoutWritable";
 
     let email = "";
@@ -12,6 +12,9 @@
     let password = "";
     let showPassword = false;
     let magicSuccess = false;
+    let loginFail = false;
+    let magicFail = false;
+    let magicView = false;
     let subscribeNewsletter = false; // The subscribeNewsletter value
     let error; // This will be set accordingly as per your error handling
     let hasAccount = true;
@@ -20,7 +23,13 @@
 
     function toggleAccountStatus() {
     hasAccount = !hasAccount;
+    magicView = false;
 }
+
+    function setMagicView() {
+        hasAccount = !hasAccount;
+        magicView = true;
+    }
 
     async function sendMagicLink(event: { preventDefault: () => void }) {
     event.preventDefault();
@@ -47,6 +56,7 @@
             console.log("Registration successful");
             magicSuccess = true;
         } else {
+            magicFail = true;
             console.log(response);
             // Handle errors
             console.error("Registration failed");
@@ -77,6 +87,7 @@
             is_logged_writable.set(true)
         }
         else {
+            loginFail = true;
             console.error("Login failed");
         }
         } catch (error) {
@@ -99,10 +110,10 @@
         });
         if (response.ok)
         {
-        console.log("ok")
-        console.log(response)
+        magicSuccess = true;
         }
         else {
+            magicFail = true;
             console.log("problem")
             console.log(response);
             // Handle errors
@@ -115,20 +126,13 @@
     }
 
     function reloadSession() {
-        // Simulate 'useSession'. This will be specific to how you manage sessions in your Svelte app.
     }
 
-    // I'll assume that you have a Svelte-based router and will pseudo-code it:
-    function navigateTo(route: string) {
-        // Use your Svelte-based routing library to navigate.
-    }
-
-    // useForm might be a complex hook that you need to break down, but I'm providing a basic structure:
     function submitForm() {
         if(email && password) { // Basic validation
             apiCallLogin({email, password})
                 .then(result => {
-                    if(result.success) { // Assuming the API returns a success field
+                    if(result.success) { 
                         reloadSession();
                     } else {
                         error = result.error;
@@ -146,13 +150,6 @@
         event.preventDefault();
     }
 
-    function handleClick() {
-        dispatch("close");
-        is_logged_writable.set(true);
-        is_magic_writable.set(true);
-
-    }
-
 </script>
 
 <Modal on:close>
@@ -161,11 +158,11 @@
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
 	</script>
-    <div class="border border-gray-200 pt-4 px-12 pb-12 bg-white dark:bg-darkBackground dark:text-white" style="min-width: 450px;">
+    <div class="border border-gray-200 pt-4 px-12 pb-12 bg-darkBackground text-white" style="min-width: 450px;">
         <div class = "flex justify-end">
     </div>
             <div class="flex justify-between items-end">
-                <div class="font-bold text-3xl dark:text-white">
+                <div class="font-bold text-3xl text-white">
                 {#if hasAccount}
                     Sign in
                 {:else}
@@ -175,32 +172,37 @@
                 <button type="button" class="underline" on:click={toggleAccountStatus}>                    
                     {#if hasAccount}
                         I don't have an account
+                    {:else if magicView}
+                        return to previous screen
                     {:else}
                         I have an account
                     {/if}
                 </button>
             </div>            
         {#if hasAccount}
-        <div class="lg:min-h-[430px] py-4" style="max-width: 350px">
+        <script>
+            document.getElementById("login").style.display = "block";
+        </script>
+        <div id="login" class="py-4" style="max-width: 350px">
         <form on:submit={submitForm}>
-        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
+        <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
         <input id="email1" 
-        class="p-2 w-full border-1 border-black dark:border-gray"
+        class="p-2 w-full border-1 border-gray"
         style="border: 1px solid black; color:black;"
         type="email" bind:value={email} placeholder="Email" />
         </div>
-        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray relative">
+        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray relative">
             <!-- Text input for the "shown" password -->
                 <input 
                 type="text"
-                class="text-black p-2 w-full border-1 border-black dark:border-gray pr-10"
+                class="text-black p-2 w-full border-1 border-gray pr-10"
                 style="border: 1px solid black; color:black;"
                 bind:value={password} 
                 placeholder="Password" 
                 class:hidden={!showPassword}
                 />                
                 <input
-                class="text-black p-2 w-full border-1 border-black dark:border-gray pr-10"
+                class="text-black p-2 w-full border-1 border-gray pr-10"
                 style="border: 1px solid black; color:black;"
                 type="password" 
                 bind:value={password} 
@@ -220,68 +222,88 @@
         </div>
         
         <!-- ErrorIcon logic can be added here -->
-        <div class="py-3 flex justify-left items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
+        <div class="py-3 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">
             <button class="p-3 flex justify-right content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             type="submit">
             Sign in with password
             </button>
         </div>
+        {#if loginFail}
+                <TextModal title="Login failed" text="Please check your credentials try again"  on:close={() => (loginFail = false)}/>    
+        {/if}
         <div class="p-3 underline justify-right text-right">
             <!-- Error handling can be placed here 
             <button on:click={resetPassword}>Forgot Password?</button>
             -->
         </div>
+    </form>
         <div class="flex items-center justify-center relative">
             <div class="absolute top-1/2 left-0 right-0 h-px bg-gray-300"></div>
-            <span class="MuiDivider-wrapper css-c1ovea relative z-10 px-4 bg-white dark:bg-darkBackground">OR</span>
-        </div>                
-        <div class="py-3 flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
-        <input 
-        class="text-black p-2 w-full border-1 border-black dark:border-gray pr-10"
-        style="border: 1px solid black; color:black;"
-        type="email" bind:value={email2} placeholder="Email" />
+            <span class="MuiDivider-wrapper css-c1ovea relative z-10 px-4 bg-darkBackground">OR</span>
         </div>
-        <Checkbox
-        bind:checked={subscribeNewsletter}
-        label="Subscribe to Newsletter"
-        type="checkbox"
-        id="subscribeNewsletter"
-        >
-        Subscribe to Newsletter
-        </Checkbox>
-        <div class="py-3 flex justify-left items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
-            <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
-            on:click={sendMagicLink}>Sign in with magic link ✨</button>
-            {#if magicSuccess}
-            <TextModal title="Magic link sent" text="✅ Check your emails for your magic login link"  on:close={() => (magicSuccess = false)}/>
-            {/if}
+        <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">
+        <button class="flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
+        on:click={setMagicView}>Sign in with magic link ✨</button>
         </div>
-    </form>
-    </div>
-        {:else if !hasAccount}
-        <div class="relative flex flex-col space-y-4 lg:min-h-[450px] py-4" style="max-width: 350px">
-        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
+        </div>
+        {:else if magicView}
+            <script>
+                document.getElementById("login").style.display = "none";
+            </script>
+            <div class="py-3 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
+            <input 
+            class="text-black p-2 w-full border-1 border-gray pr-10"
+            style="border: 1px solid black; color:black;"
+            type="email" bind:value={email2} placeholder="Email" />
+            </div>
+            <Checkbox
+            bind:checked={subscribeNewsletter}
+            label="Subscribe to Newsletter"
+            type="checkbox"
+            id="subscribeNewsletter"
+            >
+            Subscribe to Newsletter
+            </Checkbox>
+            <div class="py-3 flex justify-center py-4 items-center flex-wrap gap-2.5 border-1 border-gray">
+                <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
+                on:click={sendMagicLink}>Sign in with magic link ✨</button>
+                {#if magicSuccess}
+                <TextModal title="Magic link sent" text="✅ Check your emails for your magic login link"  on:close={() => (magicSuccess = false)}/>
+                {:else if magicFail}
+                <TextModal title="Error" text="Please check your email address is valid and try again"  on:close={() => (magicFail = false)}/>
+                {/if}
+        </div>
+        {:else if !hasAccount && !magicView}
+        <script>
+            document.getElementById("login").style.display = "none";
+        </script>
+        <div class="relative flex flex-col space-y-4 py-4" style="max-width: 350px">
+        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
             <input id="email1" 
-            class="p-2 w-full border-1 border-black dark:border-gray"
+            class="p-2 w-full border-1 border-gray"
             style="border: 1px solid black; color:black;"
             type="email" bind:value={email} placeholder="Email" />
         </div>
-        <div class="pt-3 flex justify-left items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
-                <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
-                on:click={registerUser}>Sign up</button>
-                <Checkbox
-                bind:checked={subscribeNewsletter}
-                label="Subscribe to product updates"
-                type="checkbox"
-                id="subscribeNewsletter"
-                >
-                Subscribe to product updates
-                </Checkbox>
-            </div>
-            <p class="absolute bottom-0 left-0 mt-auto" style="font-size: 15px;">
-                By signing up, you agree to the{' '}
-                <a href="https://www.mithrilsecurity.io/privacy-policy" target="_blank" style="color: #967000;">Terms of Service</a>.
+        <div class="pt-3 flex justify-left items-center flex-wrap gap-2.5 border-1 order-gray">
+            <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
+            on:click={registerUser}>Sign up</button>
+            {#if magicSuccess}
+                <TextModal title="Sign in link sent" text="✅ Check your emails for your login link"  on:close={() => (magicSuccess = false)}/>
+            {:else if magicFail}
+            <TextModal title="Error" text="Please check your email address is valid and try again"  on:close={() => (magicFail = false)}/>
+            {/if}
+            <Checkbox
+            bind:checked={subscribeNewsletter}
+            label="Subscribe to product updates"
+            type="checkbox"
+            id="subscribeNewsletter"
+            >
+            Subscribe to newsletter
+            </Checkbox>
+            <p>
+                By signing up, you agree to the{' '}<a href="https://www.mithrilsecurity.io/privacy-policy" target="_blank" style="color: #967000;">Terms of Service</a>.
             </p>
+        </div>
         </div>
         {/if}   
     </div>
