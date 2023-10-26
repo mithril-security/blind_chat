@@ -1,22 +1,20 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import Overlay from 'svelte-overlay';
-    import CarbonClose from "~icons/carbon/close";
     import TextModal from "$lib/components/TextModal.svelte";
-    import { Textfield, Checkbox } from "svelte-mui";
+    import { Checkbox } from "svelte-mui";
 	import Modal from "$lib/components/BigModal.svelte";
 	import { is_logged_writable, is_magic_writable } from "../../routes/LayoutWritable";
 
-    let email = "";
-    let email2 = "";
+    let email = ""; // email for login view
+    let email2 = ""; // email for magic link view
     let password = "";
     let showPassword = false;
     let magicSuccess = false;
     let loginFail = false;
     let magicFail = false;
     let magicView = false;
-    let subscribeNewsletter = false; // The subscribeNewsletter value
-    let error; // This will be set accordingly as per your error handling
+    let subscribeNewsletter = false;
+    let error;
     let hasAccount = true;
 
     const dispatch = createEventDispatcher<{ close: void }>();
@@ -51,18 +49,10 @@
         });
         if (response.ok) {
             magicSuccess = true;
-            console.log(response)
-            // Handle a successful response
-            console.log("Registration successful");
-            magicSuccess = true;
         } else {
             magicFail = true;
-            console.log(response);
-            // Handle errors
-            console.error("Registration failed");
         }
     } catch (error) {
-        // Handle network errors
         console.error("Network error", error);
     }
 	}
@@ -114,27 +104,18 @@
         }
         else {
             magicFail = true;
-            console.log("problem")
-            console.log(response);
-            // Handle errors
-            console.error("Registering failed");
         }
         } catch (error) {
-        // Handle network errors
         console.error("Network error", error);
     }
     }
 
-    function reloadSession() {
-    }
-
     function submitForm() {
         if(email && password) { // Basic validation
-            apiCallLogin({email, password})
+            apiCallLogin({email, password}) // TODO: sort out error handling here
                 .then(result => {
-                    if(result.success) { 
-                        reloadSession();
-                    } else {
+                    if(result.success) {} 
+                    else {
                         error = result.error;
                     }
                 });
@@ -145,11 +126,7 @@
     function handleClickShowPassword() {
         showPassword = !showPassword;
     }
-
-    function handleMouseDownPassword(event: { preventDefault: () => void; }) {
-        event.preventDefault();
-    }
-
+    
 </script>
 
 <Modal on:close>
@@ -161,6 +138,7 @@
     <div class="border rounded-2xl border-mithril-border pt-4 px-12 pb-12 bg-login text-white md:min-w-[450px]">
         <div class = "pb-4 flex justify-end">
             <div>
+                <!-- Top right link text -->
                 <button type="button" class="underline" on:click={toggleAccountStatus}>                    
                     {#if hasAccount}
                         I don't have an account
@@ -173,6 +151,7 @@
             </div>            
     </div>
             <div class="flex justify-center">
+                <!-- Title of modal -->
                 <div class="font-bold text-3xl text-mithril-yellow">
                 {#if hasAccount}
                     Sign in
@@ -183,6 +162,7 @@
                 {/if}
                 </div>
                 </div>
+        <!-- VIEW #1 Classic sign in view -->
         {#if hasAccount}
         <script>
             document.getElementById("login").style.display = "block";
@@ -190,6 +170,7 @@
         <div id="login" class="py-4" style="max-width: 350px">
         <form on:submit={submitForm}>
         <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
+         <!-- Classic sign in view -->
         <input id="email1" 
         class="bg-login rounded text-white border border-mithril-border p-2 w-full"
         type="email" bind:value={email} placeholder="Email" />
@@ -203,7 +184,8 @@
                 bind:value={password} 
                 placeholder="Password" 
                 class:hidden={!showPassword}
-                />                
+                />
+                <!-- Password input for the "hidden" password -->              
                 <input
                 class="bg-login rounded text-white border border-mithril-border p-2 w-full"
                 type="password" 
@@ -222,8 +204,7 @@
                 <path fill="#808080" d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path>
             </svg>
         </div>
-        
-        <!-- ErrorIcon logic can be added here -->
+        <!-- Sign in button -->
         <div class="py-3 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">
             <button class="p-3 flex justify-right content-center bg-mithril-yellow text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             type="submit">
@@ -234,7 +215,7 @@
                 <TextModal title="Login failed" text="Please check your credentials try again"  on:close={() => (loginFail = false)}/>    
         {/if}
         <div class="p-3 underline justify-right text-right">
-            <!-- Error handling can be placed here 
+            <!-- TODO Add in forgotten password later
             <button on:click={resetPassword}>Forgot Password?</button>
             -->
         </div>
@@ -243,11 +224,13 @@
             <div class="absolute top-1/2 left-0 right-0 h-px bg-gray-300"></div>
             <span class="MuiDivider-wrapper css-c1ovea relative z-10 px-4 bg-login">OR</span>
         </div>
+        <!-- Magic link screen button -->
         <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5">
         <button class="bg-login rounded text-white border border-mithril-yellow p-2 w-full"
         on:click={setMagicView}>Sign in with magic link ✨</button>
         </div>
         </div>
+        <!-- VIEW #2 Magic link -->
         {:else if magicView}
             <script>
                 document.getElementById("login").style.display = "none";
@@ -266,11 +249,14 @@
                 <TextModal title="Error" text="Please check your email address is valid and try again"  on:close={() => (magicFail = false)}/>
                 {/if}
         </div>
+        <!-- VIEW #3 Sign up -->
         {:else if !hasAccount && !magicView}
+        <!-- force get rid of login view in background -->
         <script>
             document.getElementById("login").style.display = "none";
         </script>
         <div class="relative flex flex-col space-y-4 pt-4" style="max-width: 350px">
+        <!-- email input -->
         <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
             <input id="email1" 
             class="bg-login rounded text-white border border-mithril-border p-2 w-full"
