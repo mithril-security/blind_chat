@@ -47,17 +47,22 @@
 			isConfirmingDeletion = false;
 			await fetch('/auth/deleteAccount', {
 				method: "POST",
+				credentials: "include",
 			});
 		}
 	
 	async function changeEmail(newEmail: string) {
     try {
-      const response = await fetch('/auth/changeEmail', {
+	const data = {
+        newEmail,
+    };
+      const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/changeEmail', {
         method: 'POST',
+		credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ new_email: newEmail }),
+        body: JSON.stringify(data),
       });
 
       if (response.ok) {
@@ -75,10 +80,11 @@
       if (newPassword !== confirmPassword) {
         mismatch = true;
         return;
-    	}
+    }
 
-      	const response = await fetch('/auth/changePassword', {
+      	const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/changePassword', {
         method: 'POST',
+		credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },
@@ -103,7 +109,7 @@
     await changePassword(newPassword, confirmPassword);
   }
 
-  async function handleEmailChange() {
+  async function handleEmailChange(newEmail: string) {
     	await changeEmail(newEmail);
 	}
 </script>
@@ -138,9 +144,9 @@
 		<p>New email address</p>
 		<div class="flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
     	<input type="email" placeholder="Enter new email address" class="p-2 w-3/5 border-1 border-black dark:border-gray max-w-xs flex-1" bind:value={newEmail} style="border: 1px solid black; color:black;" />
-    	<button class="bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3" style="justify-content: space-between;" on:click={handleEmailChange}>Change Email</button>
+    	<button class="bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3" style="justify-content: space-between;" on:click={handleEmailChange(newEmail)}>Change Email</button>
 		{#if emailOpSuccess}
-			<TextModal title="Email updated" text="✅ Your email has successfully been updated"  on:close={() => (emailOpSuccess = false)}/>
+			<TextModal title="Email updated" text="Please click on the confirmation link that has been sent to your updated email address."  on:close={() => (emailOpSuccess = false)}/>
 		{:else if emailOpFail}
 			<TextModal title="Update failed" text="Please check the email address entered is valid" on:close={() => (emailOpFail = false)}/>
 		{/if}

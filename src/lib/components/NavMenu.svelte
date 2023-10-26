@@ -6,8 +6,9 @@
 	import { switchTheme } from "$lib/switchTheme";
 	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
+	import PleaseWaitModal from "./PleaseWaitModal.svelte";
 	import type { LayoutData } from "../../routes/$types";
-	import { api_key_writable, is_logged_writable, is_magic_writable, userWritable } from "../../routes/LayoutWritable";
+	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable } from "../../routes/LayoutWritable";
 	import LoginModal from "./LoginModal.svelte";
 
 	const dispatch = createEventDispatcher<{
@@ -21,6 +22,7 @@
 		title: string;
 	}> = [];
 
+
 	export let canLogin: boolean;
 	export let signedIn: boolean;
 	export let user: LayoutData["user"];
@@ -28,7 +30,22 @@
 	export let loginModalVisible;
 
 	let isSubMenuOpen: boolean = false;
-	let magic = true;
+	let magic = false;
+	let isLogged = false;
+
+	is_magic_writable.subscribe((val) => {
+		magic = val;
+	})
+
+	is_logged_writable.subscribe((val) => {
+		isLogged = val;
+	})
+
+	let email_addr = ""
+
+	email_addr_writable.subscribe((val) => {
+		email_addr = val
+	})
 
 	function toggleSubMenu() {
 		isSubMenuOpen = !isSubMenuOpen;
@@ -61,10 +78,6 @@
 		}
 	}
 
-	is_magic_writable.subscribe((val) => {
-		magic = val;
-	})
-
 	function handleKeyDown(event: { key: string; }) {
     if (event.key === 'Enter') {
       toggleSubMenu();
@@ -78,8 +91,6 @@
 </script>
 {#if !$is_logged_writable}
     <Login/>
-{:else if magic}
-	<LoginModal></LoginModal>
 {/if}
 <div class="sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
@@ -106,7 +117,7 @@
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
-    {user?.email || "Legolas@lotr.com"}
+    {email_addr}
 </div>
 
 {#if isSubMenuOpen}
