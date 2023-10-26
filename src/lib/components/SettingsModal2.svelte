@@ -120,7 +120,7 @@
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
 	</script>
-	<div class="bg-white dark:bg-darkBackground dark:text-white dark:border-b-0 border-b border-b-gray" style="position: relative; display: flex; min-width:700px!important; font-family: Sora,sans-serif; text-align:center; justify-content: center; align-items: center; padding: 0 15px;">
+	<div class="border rounded-2xl border-mithril-border pt-4 px-12 pb-12 bg-login text-white md:min-w-[700px]">
 		{#if isAccountView}
 			<div class="text-2xl py-4 dark:text-white">Account</div>
 		{/if}
@@ -130,8 +130,8 @@
 		</button>
 	</div>
 	
-	<div id="modal" class="bg-white dark:bg-darkBackground dark:text-white" style="display: flex; min-width:700px!important; font-family: Sora,sans-serif;">	
-		<div class = views style="flex: 4; min-width:500px important; min-height:400px; margin-right:40px; padding 15px 15px;">
+	<div id="modal" class="bg-white dark:bg-login dark:text-white md:min-w-[700px]" style="display: flex; font-family: Sora,sans-serif;">	
+		<div class = "md:min-w-[500px] md:min-h-[400px]" style="flex: 4; margin-right:40px; padding 15px 15px;">
 		<!-- Account modal view -->
 		{#if isAccountView}
 	<script type="text/javascript">
@@ -140,10 +140,13 @@
 		<div class="modal-content pl-5" id="accountView"> 
 		
 			<!-- Change email section -->
-		<h2 class="pt-8 font-medium text-xl" style="color: #f0ba2d;">Change email</h2>
+		<h2 class="pt-8 font-medium text-xl text-mithril-yellow">Change email</h2>
 		<p>New email address</p>
-		<div class="flex justify-between items-center flex-wrap gap-2.5 border-1 border-black dark:border-gray">
-    	<input type="email" placeholder="Enter new email address" class="p-2 w-3/5 border-1 border-black dark:border-gray max-w-xs flex-1" bind:value={newEmail} style="border: 1px solid black; color:black;" />
+		<div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
+    	<input type="email" 
+		placeholder="Enter new email address" 
+		class="bg-login rounded text-white border border-mithril-border p-2 w-full"
+		bind:value={newEmail} style="border: 1px solid black; color:black;" />
     	<button class="bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3" style="justify-content: space-between;" on:click={handleEmailChange(newEmail)}>Change Email</button>
 		{#if emailOpSuccess}
 			<TextModal title="Email updated" text="Please click on the confirmation link that has been sent to your updated email address."  on:close={() => (emailOpSuccess = false)}/>
