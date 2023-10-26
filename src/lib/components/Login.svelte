@@ -176,6 +176,8 @@
                 <div class="font-bold text-3xl text-mithril-yellow">
                 {#if hasAccount}
                     Sign in
+                {:else if magicView}
+                    Sign in
                 {:else}
                     Sign up
                 {/if}
@@ -255,14 +257,6 @@
             class="bg-login rounded text-white border border-mithril-border p-2 w-full"
             type="email" bind:value={email2} placeholder="Email" />
             </div>
-            <Checkbox
-            bind:checked={subscribeNewsletter}
-            label="Subscribe to Newsletter"
-            type="checkbox"
-            id="subscribeNewsletter"
-            >
-            Subscribe to product updates
-            </Checkbox>
             <div class="py-3 flex justify-center py-4 items-center flex-wrap gap-2.5 border-1 border-gray">
                 <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
                 on:click={sendMagicLink}>Sign in with magic link ✨</button>
@@ -294,7 +288,7 @@
             <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             on:click={registerUser}>Sign up</button>
             {#if magicSuccess}
-                <TextModal title="Sign in link sent" text="✅ Check your emails for your login link"  on:close={() => (magicSuccess = false)}/>
+            <TextModal title="Thank you" text="✅ Please click on the magic link we have sent you to access your account"  on:close={() => (magicSuccess = false)}/>
             {:else if magicFail}
             <TextModal title="Error" text="Please check your email address is valid and try again"  on:close={() => (magicFail = false)}/>
             {/if}
