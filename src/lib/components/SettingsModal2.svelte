@@ -29,16 +29,9 @@
 
 	export function switchTheme() {
 	const { classList } = document.querySelector("html") as HTMLElement;
-	if (classList.contains("dark")) {
-		classList.remove("dark");
-		localStorage.theme = "light";
-		themeStore.set('light');
-
-	} else {
-		classList.add("dark");
-		localStorage.theme = "dark";
-		themeStore.set('dark');
-	}
+	classList.add("dark");
+	localStorage.theme = "dark";
+	themeStore.set('dark');
 }
 	function themeViewToggle() {
 		isAccountView = false;
@@ -124,8 +117,6 @@
 	<div class="bg-white dark:bg-darkBackground dark:text-white dark:border-b-0 border-b border-b-gray" style="position: relative; display: flex; min-width:700px!important; font-family: Sora,sans-serif; text-align:center; justify-content: center; align-items: center; padding: 0 15px;">
 		{#if isAccountView}
 			<div class="text-2xl py-4 dark:text-white">Account</div>
-		{:else}
-			<div class="text-2xl py-4 dark:text-white">Theme</div>
 		{/if}
 		
 		<button type="button" class="group text-black dark:text-white" on:click={() => dispatch("close")} style="position: absolute; right: 15px;">
@@ -133,13 +124,7 @@
 		</button>
 	</div>
 	
-	<div id="modal" class="bg-white dark:bg-darkBackground dark:text-white" style="display: flex; min-width:700px!important; font-family: Sora,sans-serif;">
-		<!-- Left-hand side menu -->
-		<div class="dark:border-r-0 border-r border-r-gray bg-lightSidebar dark:bg-darkSidebar" style="flex:1; display: flex; flex-direction: column;">
-			<button class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-400" id="accountButton" on:click={accountViewToggle} type="button">Account</button>
-			<button class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-gray-400" id="themeButton" on:click={themeViewToggle} type="button">Theme</button>
-		</div>
-	
+	<div id="modal" class="bg-white dark:bg-darkBackground dark:text-white" style="display: flex; min-width:700px!important; font-family: Sora,sans-serif;">	
 		<div class = views style="flex: 4; min-width:500px important; min-height:400px; margin-right:40px; padding 15px 15px;">
 		<!-- Account modal view -->
 		{#if isAccountView}
@@ -204,22 +189,6 @@
 		</div>
 	</div>
 {/if}
-				
-		{#if isThemeView}
-		<script type="text/javascript">
-			document.getElementById("themeView").style.display = "block";
-		</script>
-		<!-- Theme modal view -->
-        <div class="flex p-5" id="themeView">
-        <button
-		on:click={switchTheme}
-		id="darkButton"
-		type="button"
-		class="yellow-button flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700">
-		Switch to {$themeStore === 'dark' ? 'light' : 'dark'} mode
-		</button>
-	</div>
-		{/if}
 	</div>
 	</div>
 </Modal>

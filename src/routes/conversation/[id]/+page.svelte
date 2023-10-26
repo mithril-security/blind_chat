@@ -247,13 +247,8 @@
 
 		let lastMessage = messages[messages.length - 1];
 		pipelineWorker.postMessage({
-			is_local: curr_model_obj.is_local ?? true,
-			server_addr: curr_model_obj.server_addr ?? "",
-			is_phi: curr_model_obj.is_phi ?? false,
+			model_obj: curr_model_obj,
 			id_now: id_now,
-			task: curr_model_obj.type,
-			max_new_tokens: curr_model_obj.parameters?.max_new_tokens ?? 256,
-			temperature: curr_model_obj.parameters?.temperature ?? 0.7,
 			model: curr_model,
 			text: inputs,
 			webSearchId: webSearchId,

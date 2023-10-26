@@ -86,8 +86,7 @@ const modelsRaw = z
 						"{{#each messages}}" +
 						"{{#ifUser}}{{@root.userMessageToken}}{{content}}{{@root.userMessageEndToken}}{{/ifUser}}" +
 						"{{#ifAssistant}}{{@root.assistantMessageToken}}{{content}}{{@root.assistantMessageEndToken}}{{/ifAssistant}}" +
-						"{{/each}}" +
-						"{{assistantMessageToken}}"
+						"{{/each}}"
 				),
 			webSearchSummaryPromptTemplate: z
 				.string()

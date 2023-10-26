@@ -1,5 +1,5 @@
 import type { Message } from "$lib/types/Message";
-import type { LegacyParamatersTemplateInput } from "$lib/types/Template";
+import type { ChatTemplateInput, LegacyParamatersTemplateInput } from "$lib/types/Template";
 import Handlebars from "handlebars";
 
 Handlebars.registerHelper("ifUser", function (this: Pick<Message, "from" | "content">, options) {
@@ -25,4 +25,8 @@ export function compileTemplate<T>(input: string, model: LegacyParamatersTemplat
 	return function render(inputs: T, options?: RuntimeOptions) {
 		return template({ ...model, ...inputs }, options);
 	};
+}
+
+export function compileTemplate2(input: string, model: LegacyParamatersTemplateInput) {
+	return compileTemplate<ChatTemplateInput>(input, model)
 }

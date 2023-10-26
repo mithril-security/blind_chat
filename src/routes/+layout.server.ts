@@ -56,6 +56,7 @@ export const load: LayoutServerLoad = async ({ locals, depends, url }) => {
 			promptExamples: model.promptExamples,
 			parameters: model.parameters,
 			preprompt: model.preprompt,
+			chatPromptTemplate: model.chatPromptTemplate
 		})),
 		oldModels,
 		user: locals.user && {

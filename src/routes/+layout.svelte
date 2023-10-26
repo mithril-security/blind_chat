@@ -154,6 +154,7 @@
 	}
 
 	onMount(async () => {
+		localStorage.theme = "dark";
 		await refreshChats();
 	});
 

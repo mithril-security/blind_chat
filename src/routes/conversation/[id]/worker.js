@@ -2,6 +2,7 @@ import { pipeline, env } from "@xenova/transformers";
 import init, { Model } from "./phi/m.js";
 import { streamToAsyncIterable } from "$lib/utils/streamToAsyncIterable";
 import URI from "urijs";
+import { compileTemplate2 } from "$lib/utils/template";
 
 // Shamelessly stolen from Transformers.js
 
@@ -128,8 +129,8 @@ self.addEventListener("message", async (event) => {
 				console.log(e);
 			}
 		}
-	} else if (event.data.is_local) {
-		if (event.data.is_phi) {
+	} else if (event.data.model_obj.is_local ?? true) {
+		if (event.data.model_obj.is_phi ?? false) {
 			controller = new AbortController();
 			generate_phi(event.data);
 		} else {
@@ -138,12 +139,12 @@ self.addEventListener("message", async (event) => {
 					self.postMessage(x);
 				},
 				event.data.model,
-				event.data.task
+				event.data.model_obj.type
 			);
 
 			let output = await pipe(event.data.text, {
-				max_new_tokens: event.data.max_new_tokens,
-				temperature: event.data.temperature,
+				max_new_tokens: event.data.model_obj.parameters?.max_new_tokens ?? 256,
+				temperature: event.data.model_obj.parameters?.temperature ?? 0.7,
 				callback_function: (x) => {
 					self.postMessage({
 						status: "update",
@@ -163,21 +164,33 @@ self.addEventListener("message", async (event) => {
 			});
 		}
 	} else {
+		const m = {
+			preprompt: event.data.model_obj.preprompt,
+			userMessageToken: event.data.model_obj.userMessageToken,
+			userMessageEndToken: event.data.model_obj.userMessageEndToken,
+			assistantMessageToken: event.data.model_obj.assistantMessageToken,
+			assistantMessageEndToken: event.data.model_obj.assistantMessageEndToken,
+		}
+		console.log(event.data.model_obj.chatPromptTemplate)
+		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m)
+		const res = t({messages: event.data.messages, preprompt: ""})
+		console.log(res)
 		controller = new AbortController();
 		const context = buildContext(event.data);
 		const newParameters = {
-			max_new_tokens: event.data.max_new_tokens,
-			temperature: event.data.temperature,
+			max_new_tokens: event.data.model_obj.parameters?.max_new_tokens ?? 256,
+			temperature: event.data.model_obj.parameters?.temperature ?? 0.7,
 			truncate: 3072,
 			return_full_text: false,
 		};
 		let body = JSON.stringify({
-			inputs: context,
+			inputs: res,
 			parameters: newParameters,
 		});
 		let text_output = "";
+		const server_addr = event.data.model_obj.server_addr ?? ""
 		try {
-			let resp = await fetch(event.data.server_addr + "/generate_stream", {
+			let resp = await fetch(server_addr + "/generate_stream", {
 				headers: {
 					"Content-Type": "application/json",
 					accesstoken: event.data.jwt,
@@ -276,8 +289,8 @@ async function generate_phi(data) {
 	const tokenizerURL = "https://huggingface.co/microsoft/phi-1_5/raw/main/tokenizer.json";
 	const weightsURL = "https://huggingface.co/lmz/candle-quantized-phi/resolve/main/model-q4k.gguf";
 	let prompt = data.text;
-	let maxSeqLen = data.max_new_tokens;
-	let temp = data.temperature;
+	let maxSeqLen = data.model_obj.parameters?.max_new_tokens ?? 256;
+	let temp = data.model_obj.parameters?.temperature ?? 0.7;
 	let modelID = 0;
 	let quantized = true;
 	let top_p = 1;
@@ -371,6 +384,5 @@ function buildContext(data) {
 	} else {
 		context = context + "<s>[INST] " + data.text + " [/INST]";
 	}
-	console.log(context);
 	return context;
 }
