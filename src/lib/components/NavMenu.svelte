@@ -68,6 +68,7 @@
 				signedIn = false;
 				is_logged_writable.set(false);
 				api_key_writable.set("");
+				email_addr_writable.set("");
 			} else {
 				// Handle errors
 				console.error("Logout failed");
@@ -117,7 +118,7 @@
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
-    {email_addr}
+    {email_addr.length > 0 ? email_addr : "Not logged in"}
 </div>
 
 {#if isSubMenuOpen}

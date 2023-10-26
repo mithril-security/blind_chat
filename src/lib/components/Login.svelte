@@ -3,9 +3,10 @@
     import TextModal from "$lib/components/TextModal.svelte";
     import { Checkbox } from "svelte-mui";
 	import Modal from "$lib/components/BigModal.svelte";
-	import { is_logged_writable, is_magic_writable } from "../../routes/LayoutWritable";
+	import { api_key_writable, email_addr_writable, is_logged_writable, is_magic_writable } from "../../routes/LayoutWritable";
 	import { goto } from "$app/navigation";
 	import { base } from "$app/paths";
+    import { getApiKey } from "../../routes/tools";
 
     let email = ""; // email for login view
     let email2 = ""; // email for magic link view
@@ -30,6 +31,30 @@
         hasAccount = !hasAccount;
         magicView = true;
     }
+
+    async function isLogged() {
+		try {
+			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/getUserInfo", {
+				method: "GET",
+				credentials: "include",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			if (response.ok) {
+				const res = await response.text()
+				const json: JSON = JSON.parse(res)
+				email_addr_writable.set(json.email)
+			} 
+			else {
+				// Handle errors here
+				console.error("User is not logged in");
+			}
+		} catch (err) {
+			// Handle network errors here
+			console.error("Network error", err);
+		}
+	}
 
     async function sendMagicLink(event: { preventDefault: () => void }) {
     event.preventDefault();
@@ -82,6 +107,8 @@
         {
             console.log(await response.text())
             is_logged_writable.set(true)
+            api_key_writable.set(await getApiKey());
+            isLogged()
             result.success = true;
         }
         else {
@@ -111,7 +138,8 @@
         });
         if (response.ok)
         {
-        magicSuccess = true;
+            magicSuccess = true;
+            api_key_writable.set(await getApiKey());
         }
         else {
             magicFail = true;

@@ -44,6 +44,7 @@
 	} from "../routes/LocalDB";
 	import { env } from "$env/dynamic/public";
 	import InitModelModal from "$lib/components/InitModelModal.svelte";
+	import { getApiKey } from "./tools";
 
 	export let data;
 	let isloading = false;
@@ -124,34 +125,6 @@
 
 	async function editConversationTitle(id: string, title: string) {
 		await modifyTitle(id, title);
-	}
-
-	async function getApiKey() {
-		try {
-			const response = await fetch("https://cloud.mithrilsecurity.io/api/apiKeys/chat", {
-				method: "GET",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-
-			if (response.ok) {
-				// Parse the JSON response
-				const data = await response.json();
-
-				const apiKeyValue = data.value;
-
-				return apiKeyValue;
-			} else {
-				// Handle errors
-				console.error("API Key retrieval failed");
-			}
-		} catch (error) {
-			// Handle network errors
-			console.error("Network error", error);
-		}
-		return "";
 	}
 
 	onMount(async () => {
