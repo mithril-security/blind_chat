@@ -109,31 +109,35 @@
     {user?.email || "Legolas@lotr.com"}
 </div>
 
-	{#if isSubMenuOpen}
-		<script type="text/javascript">
-			document.getElementById("submenu").style.display = "block";
-		</script>
-	 <div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
-        <div class="">
-            <button
-                on:click={() => dispatch("clickSettings")}
-                type="button"
-                class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-                style="width: 100%;"
-            >
-                Settings
-            </button>
-            <button
-                on:click={logoutSubmit}
-                type="button"
-                class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-                style="width: 100%;"
-            >
-                Log out
-            </button>
-        </div>
-    </div>
-	{/if}
+{#if isSubMenuOpen}
+<script type="text/javascript">
+	document.getElementById("submenu").style.display = "block";
+</script>
+<div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
+	<div>
+		<button
+			on:click={() => dispatch("clickSettings")}
+			type="button"
+			class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700"
+			style="width: 100%;"
+		>
+			Settings
+		</button>
+		<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+			Give Feedback
+		</a>
+		<button
+			on:click={logoutSubmit}
+			type="button"
+			class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700"
+			style="width: 100%;"
+		>
+			Log out
+		</button>
+	</div>
+</div>
+{/if}
+
 </div>
 
 <!--
