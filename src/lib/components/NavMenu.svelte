@@ -134,7 +134,7 @@
 		>
 			Settings
 		</button>
-		<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
 			Give Feedback
 		</a>
 		<button
