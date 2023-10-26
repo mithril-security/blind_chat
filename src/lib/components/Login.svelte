@@ -4,6 +4,8 @@
     import { Checkbox } from "svelte-mui";
 	import Modal from "$lib/components/BigModal.svelte";
 	import { is_logged_writable, is_magic_writable } from "../../routes/LayoutWritable";
+	import { goto } from "$app/navigation";
+	import { base } from "$app/paths";
 
     let email = ""; // email for login view
     let email2 = ""; // email for magic link view
@@ -62,10 +64,15 @@
         email,
         password,
         };
+        let result = {
+            success:true,
+            error:"",
+        }
         console.log("logging in...")
         try {
         const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/login', {
             method: 'POST',
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -73,16 +80,20 @@
         });
         if (response.ok)
         {
-            console.log(response)
+            console.log(await response.text())
             is_logged_writable.set(true)
+            result.success = true;
         }
         else {
             loginFail = true;
             console.error("Login failed");
+            result.error = "Login failed";
         }
         } catch (error) {
             console.error("Network error", error);
+            result.error = "Login failed";
     }
+    return result;
     }
 
     async function registerUser(arg: { email: string; }) {
@@ -110,12 +121,19 @@
     }
     }
 
+    function reloadSession() {
+        
+    }
+
     function submitForm() {
         if(email && password) { // Basic validation
             apiCallLogin({email, password}) // TODO: sort out error handling here
                 .then(result => {
-                    if(result.success) {} 
-                    else {
+                    console.log(result)
+                    if(result.success) { 
+                        reloadSession();
+                        goto(`${base}/`, { invalidateAll: true });                  
+                    } else {
                         error = result.error;
                     }
                 });
