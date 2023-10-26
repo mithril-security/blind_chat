@@ -33,6 +33,7 @@
 		is_logged_writable,
 		showLoggedPopup_writable,
 		is_magic_writable,
+		email_addr_writable
 	} from "./LayoutWritable";
 	import {
 		deleteAllChats,
@@ -191,22 +192,27 @@
 				},
 			});
 			if (response.ok) {
-				console.log(response);
+				const res = await response.text()
+				const json: JSON = JSON.parse(res)
+				email_addr_writable.set(json.email)
+				console.log(res)
 				// Handle a successful response here
 				console.log("User is logged in successfully");
 				var apiKey = await getApiKey();
 				loggedIn = true;
 				is_logged_writable.set(loggedIn);
 				api_key_writable.set(apiKey);
-				is_magic_writable.set(false);
-			} else {
+			} 
+			else {
 				// Handle errors here
 				console.error("User is not logged in");
 			}
 		} catch (err) {
 			// Handle network errors here
 			console.error("Network error", err);
+
 		}
+		is_magic_writable.set(true);
 	}
 	isLogged();
 </script>
