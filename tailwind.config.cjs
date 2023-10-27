@@ -12,6 +12,9 @@ export default {
 		extend: {
 			colors: {
 				primary: colors[process.env.PUBLIC_APP_COLOR],
+				'ai-chat': '#142F69',
+				'user-chat': '#072A5F',
+				'privacy-banner': '#142343',
 				'prompts': '#394C75',
 				'mini-sidemenu': '#0d1830',
 				'message': '#1e418b',
@@ -25,9 +28,6 @@ export default {
 				'darkBackground': '#111827',
 				'bannerBack': '#f3f4f6',
 			},
-			// fontFamily: {
-			// 	sans: ['"Inter"', ...defaultTheme.fontFamily.sans]
-			// },
 			fontSize: {
 				xxs: "0.625rem",
 				smd: "0.94rem",

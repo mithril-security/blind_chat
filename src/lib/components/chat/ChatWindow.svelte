@@ -66,8 +66,8 @@
 </script>
 
 <div class="relative min-h-0 min-w-0">
-	<div class="justify-center text-center items-center flex bg-bannerBack dark:bg-chat dark:border-0 border-b">
-		<p class="p-3 text-black/white">
+	<div class="justify-center text-center items-center flex bg-[#141c2a] border-b border-b-[#1E9FE7]">
+		<p class="p-5 text-black/white">
 			🔒 Prompts are end-to-end protected.<br
 			/>Not even Mithril Security can read or train on them. Learn more 
 			<a
@@ -159,7 +159,7 @@
 				<br /><br /> 🔒 All conversations are end-to-end protected
 			</p>
 			<div
-			class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+			class="rounded-2xl text-center bg-privacy banner flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
 			on:click={toggleHelpMenu}
 			on:keydown={handleKeyDown}
 			>
