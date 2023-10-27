@@ -225,8 +225,7 @@
             <!-- Text input for the "shown" password -->
                 <input 
                 type="text"
-                class="text-black p-2 w-full border-1 border-gray pr-10"
-                style="border: 1px solid black; color:black;"
+                class="bg-login rounded text-white border border-mithril-border p-2 w-full"
                 bind:value={password} 
                 placeholder="Password" 
                 class:hidden={!showPassword}
@@ -239,6 +238,8 @@
                 placeholder="Password" 
                 class:hidden={showPassword}
             />
+            {#if !showPassword}
+             <!-- show password icon -->    
             <svg 
                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv toggle-visibility-icon absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
                 focusable="false" 
@@ -249,6 +250,19 @@
             >
                 <path fill="#808080" d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path>
             </svg>
+            {:else}
+             <!-- TODO: hide password icon -->    
+            <svg 
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv toggle-visibility-icon absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                focusable="false" 
+                aria-hidden="true" 
+                viewBox="0 0 24 24" 
+                on:click={handleClickShowPassword}
+                style="width: 24px; height: 24px;" 
+            >
+                <path fill="#808080" d="M12 6c3.79 0 7.17 2.13 8.82 5.5C19.17 14.87 15.79 17 12 17s-7.17-2.13-8.82-5.5C4.83 8.13 8.21 6 12 6m0-2C7 4 2.73 7.11 1 11.5 2.73 15.89 7 19 12 19s9.27-3.11 11-7.5C21.27 7.11 17 4 12 4zm0 5c1.38 0 2.5 1.12 2.5 2.5S13.38 14 12 14s-2.5-1.12-2.5-2.5S10.62 9 12 9m0-2c-2.48 0-4.5 2.02-4.5 4.5S9.52 16 12 16s4.5-2.02 4.5-4.5S14.48 7 12 7z"></path>
+            </svg>
+            {/if}
         </div>
         <!-- Sign in button -->
         <div class="py-3 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">

@@ -2,10 +2,7 @@
 	import { page } from "$app/stores";
 	import { PUBLIC_APP_ASSETS, PUBLIC_APP_NAME, PUBLIC_ORIGIN } from "$env/static/public";
 	import { base } from "$app/paths";
-	import { helpMenu } from "../../../routes/LayoutWritable";
-
 	export let classNames = "";
-	let isHelpMenuOpen: boolean;
 	
 	function toggleHelpMenu() {
 	}

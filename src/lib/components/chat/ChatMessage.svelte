@@ -96,7 +96,7 @@
 
 {#if message.from === "assistant"}
 	<div
-		class="group relative -mb-8 flex items-start justify-start gap-4 pb-8 leading-relaxed"
+		class="group relative -mb-8 flex items-start justify-start gap-4 pb-8 leading-relaxed max-w-[80%]"
 		on:click={() => (isTapped = !isTapped)}
 		on:keypress={() => (isTapped = !isTapped)}
 	>
@@ -106,7 +106,7 @@
 			class="mt-5 h-3 w-3 flex-none select-none rounded-full shadow-lg"
 		/>
 		<div
-			class="relative min-h-[calc(2rem+theme(spacing[3.5])*2)] min-w-[60px] break-words rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 px-5 py-3.5 text-gray-600 prose-pre:my-2 dark:border-gray-800 dark:from-gray-800/40 dark:text-gray-300"
+			class="bg-ai-chat relative min-h-[calc(2rem+theme(spacing[3.5])*2)] min-w-[60px] break-words rounded-2xl border border-gray-100 px-5 py-3.5 prose-pre:my-2 dark:border-gray-800 dark:from-gray-800/40 text-white"
 		>
 			{#if webSearchMessages && webSearchMessages.length > 0}
 				<OpenWebSearchResults
@@ -120,7 +120,7 @@
 			{/if}
 
 			<div
-				class="prose max-w-none dark:prose-invert max-sm:prose-sm prose-headings:font-semibold prose-h1:text-lg prose-h2:text-base prose-h3:text-base prose-pre:bg-gray-800 dark:prose-pre:bg-gray-900"
+				class="prose max-w-none dark:prose-invert max-sm:prose-sm prose-headings:font-semibold prose-h1:text-lg prose-h2:text-base prose-h3:text-base prose-pre:bg-gray-800 dark:prose-pre:bg-gray-900 text-white"
 				bind:this={contentEl}
 			>
 			{#each tokens as token}
@@ -136,10 +136,10 @@
 	</div>
 {/if}
 {#if message.from === "user"}
-	<div class="group relative flex items-start justify-start gap-4 max-sm:text-sm">
+	<div class="group relative flex items-start justify-end gap-4 max-sm:text-sm">
 		<div class="mt-5 h-3 w-3 flex-none rounded-full" />
 		<div
-			class="max-w-full whitespace-break-spaces break-words rounded-2xl px-5 py-3.5 text-gray-500 dark:text-gray-400"
+			class="bg-user-chat max-w-full whitespace-break-spaces break-words rounded-2xl px-5 py-3.5 text-white"
 		>
 			{message.content.trim()}
 		</div>

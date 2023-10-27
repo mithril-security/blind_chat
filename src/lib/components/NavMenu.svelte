@@ -93,7 +93,8 @@
 {#if !$is_logged_writable}
     <Login/>
 {/if}
-<div class="sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0">
+<!-- top right corner -->
+<div class="bg-[#141c2a] sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0 border-r border-r-[#1E9FE7]">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
 		<Logo classNames="mr-1" />
 		<div class = "pl-2"> {PUBLIC_APP_NAME} </div>
@@ -105,8 +106,10 @@
 		New Chat
 	</a>
 </div>
+<!-- left side bar -->
 <div
-	class="scrollbar-custom border-r border-mithril-border flex flex-col gap-1 overflow-y-auto bg-gradient-to-l from-gray-50 px-3 pb-3 pt-2 dark:from-gray-800/30"
+	class="border-r border-r-[#1E9FE7] scrollbar-custom flex flex-col gap-1 overflow-y-auto px-3 pb-3 pt-2 dark:from-gray-800/30"
+	style = "background-color: #141c2a !important;"
 >
 	{#each conversations as conv (conv.id)}
 		<NavConversationItem on:editConversationTitle on:deleteConversation {conv} />
@@ -114,7 +117,7 @@
 </div>
 <div class="display position relative inline-block">
 	<div
-    class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg text-white hover:bg-gray-600"
+    class="border-r border-r-[#1E9FE7] text-center bg-[#1a2133] flex items-center justify-center group h-11 -lg text-white hover:bg-gray-600"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
@@ -125,7 +128,7 @@
 <script type="text/javascript">
 	document.getElementById("submenu").style.display = "block";
 </script>
-<div class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
+<div class="justify-center items-center rounded-2xl {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
 	<div>
 		<button
 			on:click={() => dispatch("clickSettings")}
