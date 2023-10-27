@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Message } from "$lib/types/Message";
 	import { createEventDispatcher } from "svelte";
+	import Help from "$lib/components/icons/Help.svelte"
 
 	import CarbonSendAltFilled from "~icons/carbon/send-alt-filled";
 	import CarbonExport from "~icons/carbon/export";
@@ -17,6 +18,7 @@
 	import LoginModal from "../LoginModal.svelte";
 
 	export let messages: Message[] = [];
+	let isHelpMenuOpen: boolean = false;
 	export let loading = false;
 	export let pending = false;
 	export let shared = false;
@@ -31,6 +33,21 @@
 
 	let loginModalOpen = false;
 	let message: string;
+
+	function closeHelpMenu() {
+		isHelpMenuOpen = false;
+	}
+
+	function toggleHelpMenu() {
+		console.log("hello");
+		isHelpMenuOpen = true;
+	}
+
+	function handleKeyDown(event: { key: string; }) {
+    if (event.key === 'Enter') {
+      toggleHelpMenu();
+    }
+  	}
 
 	const dispatch = createEventDispatcher<{
 		message: string;
@@ -139,6 +156,40 @@
 				inaccurate or false.
 				<br /><br /> 🔒 All conversations are end-to-end protected
 			</p>
+			<button
+			class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+			on:click={toggleHelpMenu}
+			on:keydown={handleKeyDown}
+			>
+			<Help classNames="" />
+		</button>
+	</div>
+			{#if isHelpMenuOpen}
+			<script type="text/javascript">
+				document.getElementById("helpMenu").style.display = "block";
+			</script>
+				<div id="helpMenu" class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isHelpMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
+					<div>
+						<div class = "flex justify-end">
+							<button type="button" class="justify-end" on:click={closeHelpMenu}>
+							  <CarbonClose class="justify-end dark:text-white text-gray-900 group-hover:text-gray-500" />
+							</button>
+						</div>
+						<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+						Help
+						</a>
+						<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+						Give Feedback
+						</a>
+						<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+						FAQ
+						</a>
+						<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+						Report an issue
+						</a>
+					</div>
+				</div>
+				{/if}
 			{#if messages.length}
 				<script type="text/javascript">
 					document.getElementById("banner").style.display = "block";
@@ -160,4 +211,3 @@
 			{/if} -->
 		</div>
 	</div>
-</div>
