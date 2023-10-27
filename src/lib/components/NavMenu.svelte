@@ -93,8 +93,8 @@
 {#if !$is_logged_writable}
     <Login/>
 {/if}
-<!-- top right corner -->
-<div class="bg-[#141c2a] sticky top-0 flex flex-none items-center justify-between px-3 py-3.5 max-sm:pt-0 border-r border-r-[#1E9FE7]">
+<!-- top left corner -->
+<div class="bg-[#141c2a] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0 border-r border-r-[#1E9FE7]">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
 		<Logo classNames="mr-1" />
 		<div class = "pl-2"> {PUBLIC_APP_NAME} </div>
