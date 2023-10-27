@@ -152,7 +152,7 @@
     	<input type="email" 
 		placeholder="Enter new email" 
 		class="bg-login rounded text-white border border-mithril-border p-2 md:w-[60%]"
-		bind:value={newEmail} style="border: 1px solid black; color:black;" />
+		bind:value={newEmail} />
     	
 		<!-- Yellow change email button -->
 		<button class="bg-yellow-500 text-black rounded-lg min-w-[156px] py-2 px-3" style="justify-content: space-between;" on:click={handleEmailChange(newEmail)}>Change Email</button>
