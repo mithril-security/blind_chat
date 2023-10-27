@@ -2,12 +2,11 @@
 	import type { Message } from "$lib/types/Message";
 	import { createEventDispatcher } from "svelte";
 	import Help from "$lib/components/icons/Help.svelte"
-
 	import CarbonSendAltFilled from "~icons/carbon/send-alt-filled";
-	import CarbonExport from "~icons/carbon/export";
 	import CarbonStopFilledAlt from "~icons/carbon/stop-filled-alt";
 	import EosIconsLoading from "~icons/eos-icons/loading";
-
+	import CarbonClose from "~icons/carbon/close";
+	import { helpMenu } from "../../../routes/LayoutWritable";
 	import ChatMessages from "./ChatMessages.svelte";
 	import ChatInput from "./ChatInput.svelte";
 	import StopGeneratingBtn from "../StopGeneratingBtn.svelte";
@@ -15,7 +14,6 @@
 	import type { LayoutData } from "../../../routes/$types";
 	import WebSearchToggle from "../WebSearchToggle.svelte";
 	import type { WebSearchMessage } from "$lib/types/WebSearch";
-	import LoginModal from "../LoginModal.svelte";
 
 	export let messages: Message[] = [];
 	let isHelpMenuOpen: boolean = false;
@@ -33,14 +31,18 @@
 
 	let loginModalOpen = false;
 	let message: string;
+	
+	helpMenu.subscribe((val) => {
+		isHelpMenuOpen = val;
+	})
 
 	function closeHelpMenu() {
-		isHelpMenuOpen = false;
+		helpMenu.set(false);
 	}
 
 	function toggleHelpMenu() {
-		console.log("hello");
-		isHelpMenuOpen = true;
+		helpMenu.set(!isHelpMenuOpen);
+		console.log($helpMenu);
 	}
 
 	function handleKeyDown(event: { key: string; }) {
@@ -156,58 +158,59 @@
 				inaccurate or false.
 				<br /><br /> 🔒 All conversations are end-to-end protected
 			</p>
-			<button
+			<div
 			class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
 			on:click={toggleHelpMenu}
 			on:keydown={handleKeyDown}
 			>
-			<Help classNames="" />
-		</button>
+			<Help/>
+			</div>
+
 	</div>
-			{#if isHelpMenuOpen}
+		{#if messages.length}
 			<script type="text/javascript">
-				document.getElementById("helpMenu").style.display = "block";
+				document.getElementById("banner").style.display = "block";
 			</script>
-				<div id="helpMenu" class="flex justify-center items-center rounded-2xl bg-mini-sidemenu {isHelpMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
-					<div>
-						<div class = "flex justify-end">
-							<button type="button" class="justify-end" on:click={closeHelpMenu}>
-							  <CarbonClose class="justify-end dark:text-white text-gray-900 group-hover:text-gray-500" />
-							</button>
-						</div>
-						<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
-						Help
-						</a>
-						<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
-						Give Feedback
-						</a>
-						<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
-						FAQ
-						</a>
-						<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
-						Report an issue
-						</a>
+		{:else}
+			<script type="text/javascript">
+				document.getElementById("banner").style.display = "none";
+			</script>
+		{/if}
+		<!-- {#if messages.length}
+			<button
+				class="flex flex-none items-center hover:text-gray-400 hover:underline max-sm:rounded-lg max-sm:bg-gray-50 max-sm:px-2.5 dark:max-sm:bg-gray-800"
+				type="button"
+				on:click={() => dispatch("share")}
+			>
+				<CarbonExport class="text-[.6rem] sm:mr-1.5 sm:text-primary-500" />
+				<div class="max-sm:hidden">Share this conversation</div>
+			</button>
+		{/if} -->
+		{#if isHelpMenuOpen}
+		<script type="text/javascript">
+			document.getElementById("helpMenu").style.display = "block";
+		</script>
+			<div id="helpMenu" class="bottom-[45%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-18%] py-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-darkBackground {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
+				<div>
+					<div class = "flex justify-end">
+						<button type="button" class="pr-2 justify-end" on:click={closeHelpMenu}>
+							<CarbonClose class="justify-end text-white" />
+						</button>
 					</div>
+					<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;">
+					Help
+					</a>
+					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
+					Give Feedback
+					</a>
+					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
+					FAQ
+					</a>
+					<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
+					Report an issue
+					</a>
 				</div>
-				{/if}
-			{#if messages.length}
-				<script type="text/javascript">
-					document.getElementById("banner").style.display = "block";
-				</script>
-			{:else}
-				<script type="text/javascript">
-					document.getElementById("banner").style.display = "none";
-				</script>
-			{/if}
-			<!-- {#if messages.length}
-				<button
-					class="flex flex-none items-center hover:text-gray-400 hover:underline max-sm:rounded-lg max-sm:bg-gray-50 max-sm:px-2.5 dark:max-sm:bg-gray-800"
-					type="button"
-					on:click={() => dispatch("share")}
-				>
-					<CarbonExport class="text-[.6rem] sm:mr-1.5 sm:text-primary-500" />
-					<div class="max-sm:hidden">Share this conversation</div>
-				</button>
-			{/if} -->
-		</div>
+			</div>
+	{/if}
+	</div>
 	</div>

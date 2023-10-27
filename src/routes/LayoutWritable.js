@@ -14,3 +14,4 @@ export const email_addr_writable = writable("");
 export const is_magic_writable = writable(false);
 export const showLoggedPopup_writable = writable(false);
 export const userWritable = writable(undefined);
+export const helpMenu = writable(false);
