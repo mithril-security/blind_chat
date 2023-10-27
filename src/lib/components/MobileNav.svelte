@@ -45,7 +45,7 @@
 	>
 </nav>
 <nav
-	class="fixed inset-0 z-30 grid max-h-screen grid-cols-1 grid-rows-[auto,auto,1fr,auto] bg-white bg-gradient-to-l from-gray-50 dark:bg-chat {isOpen
+	class="fixed inset-0 z-30 grid max-h-screen grid-cols-1 grid-rows-[auto,auto,1fr,auto] dark:bg-chat {isOpen
 		? 'block'
 		: 'hidden'}"
 >
