@@ -48,11 +48,11 @@
 </script>
 
 <div
-	class="scrollbar-custom mr-1 h-full overflow-y-auto"
+	class="scrollbar-custom mr-1 h-[95%] overflow-y-auto"
 	use:snapScrollToBottom={messages.length ? [...messages, ...webSearchMessages] : false}
 	bind:this={chatContainer}
 >
-	<div class="mx-auto flex h-full max-w-3xl flex-col gap-6 px-5 pt-6 sm:gap-8 xl:max-w-4xl">
+	<div class="mx-auto flex h-[95%] max-w-3xl flex-col gap-6 px-5 pt-6 sm:gap-8 xl:max-w-4xl">
 		{#each messages as message, i}
 			<ChatMessage
 				loading={loading && i === messages.length - 1}

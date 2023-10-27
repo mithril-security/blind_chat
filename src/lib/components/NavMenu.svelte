@@ -9,7 +9,6 @@
 	import PleaseWaitModal from "./PleaseWaitModal.svelte";
 	import type { LayoutData } from "../../routes/$types";
 	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable } from "../../routes/LayoutWritable";
-	import LoginModal from "./LoginModal.svelte";
 
 	const dispatch = createEventDispatcher<{
 		shareConversation: { id: string; title: string };
