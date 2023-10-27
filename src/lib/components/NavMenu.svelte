@@ -114,7 +114,7 @@
 </div>
 <div class="display position relative inline-block">
 	<div
-    class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+    class="rounded-2xl text-center bg-mini-sidemenu flex items-center justify-center group h-11 -lg text-white hover:bg-gray-600"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
@@ -130,18 +130,19 @@
 		<button
 			on:click={() => dispatch("clickSettings")}
 			type="button"
-			class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700"
-			style="width: 100%;"
+			class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;"
 		>
 			Settings
 		</button>
-		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="block text-center h-11 py-3 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700" style="width: 100%;">
+		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
+		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" 
+		style="width: 100%;">
 			Give Feedback
 		</a>
 		<button
 			on:click={logoutSubmit}
 			type="button"
-			class="h-11 flex-none rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover-bg-gray-700"
+			class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" 
 			style="width: 100%;"
 		>
 			Log out
