@@ -92,8 +92,8 @@
 {#if !$is_logged_writable}
     <Login/>
 {/if}
-<!-- top left corner -->
-<div class="bg-[#141c2a] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0 border-r border-r-[#1E9FE7]">
+<!-- top left corner - remove from class bg-[#141c2a] -->
+<div class="bg-[#142343] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
 		<Logo classNames="mr-1" />
 		<div class = "pl-2"> {PUBLIC_APP_NAME} </div>
@@ -105,18 +105,22 @@
 		New Chat
 	</a>
 </div>
-<!-- left side bar -->
+<!-- left side bar 
+style = "background-color: #141c2a !important;"
+-->
 <div
-	class="border-r border-r-[#1E9FE7] scrollbar-custom flex flex-col gap-1 overflow-y-auto px-3 pb-3 pt-2 dark:from-gray-800/30"
-	style = "background-color: #141c2a !important;"
+	class="bg-[#142343] scrollbar-custom flex flex-col gap-1 overflow-y-auto px-3 pb-3 pt-2 dark:from-gray-800/30"
+	
 >
 	{#each conversations as conv (conv.id)}
-		<NavConversationItem on:editConversationTitle on:deleteConversation {conv} />
+		<div class="border border-mithril-border rounded-2xl">
+		<NavConversationItem on:editConversationTitle on:deleteConversation {conv}/>
+		</div>
 	{/each}
 </div>
-<div class="display position relative inline-block">
+<div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
 	<div
-    class="rounded-2xl text-center bg-[#1a2133] flex items-center justify-center group h-11 -lg text-white hover:bg-gray-600"
+    class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
@@ -127,7 +131,7 @@
 <script type="text/javascript">
 	document.getElementById("submenu").style.display = "block";
 </script>
-<div class="justify-center items-center rounded-2xl {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%; background-color: #1a2133 !important;">
+<div class="justify-center items-center rounded-2xl {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 96%; background-color: #0d1830 !important;">
 	<div>
 		<button
 			on:click={() => dispatch("clickSettings")}
@@ -141,86 +145,18 @@
 		style="width: 100%;">
 			Give Feedback
 		</a>
+		<div class="justify flex items-center justify-center">
+		<p class="border-t border-mithril-border w-[80%]"></p>
+		</div>
 		<button
 			on:click={logoutSubmit}
 			type="button"
 			class="px-8 py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
 			style="width: 100%;"
 		>
-			Log out
+			<p class="">Log out</p>
 		</button>
 	</div>
 </div>
 {/if}
-
 </div>
-
-<!--
-	<div class="menu">
-		<div class="relative grow -space-y-px overflow-hidden text-ellipsis whitespace-nowrap text-left text-gray-700 gizmo:-top-px dark:text-white">
-		<div class="font-semibold">{user?.name || 'Legolas'}
-		</div>
-	</div>
-	{#if isSubMenuOpen}
-		<script type="text/javascript"> document.getElementById("submenu").style.display = "block"; </script>
-		<div class="submenu {isSubMenuOpen ? 'open' : ''}">
-		<button
-		on:click={() => dispatch("clickSettings")}
-		type="button"
-		class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-		>
-			Settings
-		</button>
-		<button
-			on:click={logoutSubmit}
-			type="button"
-			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-		>
-			Log out
-		</div>
-	{/if}
-</div>
-	{/if}
--->
-
-<!--
-	{#if signedIn}
-		<button
-			on:click={logoutSubmit}
-			type="button"
-			class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-		>
-			Log out
-		</button>
-	{/if}
-	<button
-		on:click={switchTheme}
-		type="button"
-		class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-	>
-		Theme
-	</button>
-	<button
-		on:click={() => dispatch("clickSettings")}
-		type="button"
-		class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-	>
-		Settings
-	</button>
-	<a
-		href="https://github.com/mithril-security/blind_chat/issues"
-		target="_blank"
-		rel="noreferrer"
-		class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-	>
-		Feedback
-	</a>
-	<a
-		href="https://www.mithrilsecurity.io/faq"
-		target="_blank"
-		rel="noreferrer"
-		class="flex h-9 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
-	>
-		About & Privacy
-	</a>
-	-->

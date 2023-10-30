@@ -18,7 +18,7 @@
     let loginFail = false;
     let magicFail = false;
     let magicView = false;
-    let subscribeNewsletter = false;
+    let subscribeNewsletter = true;
     let error;
     let hasAccount = true;
 
@@ -323,14 +323,6 @@
             type="email" bind:value={email} placeholder="Email" />
         </div>
         <div class="flex justify-center items-center flex-wrap gap-2.5 border-1 order-gray">
-            <Checkbox
-            bind:checked={subscribeNewsletter}
-            label="Subscribe to product updates"
-            type="checkbox"
-            id="subscribeNewsletter"
-            >
-            Subscribe to product updates
-            </Checkbox>
             <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             on:click={registerUser}>Sign up</button>
             {#if magicSuccess}

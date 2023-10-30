@@ -47,8 +47,9 @@
 		}));
 </script>
 
+<!-- main chat background-->
 <div
-	class="scrollbar-custom mr-1 h-[95%] overflow-y-auto"
+	class="scrollbar-custom mr-1 h-[95%] overflow-y-auto bg-chat"
 	use:snapScrollToBottom={messages.length ? [...messages, ...webSearchMessages] : false}
 	bind:this={chatContainer}
 >
