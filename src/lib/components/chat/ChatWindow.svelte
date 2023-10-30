@@ -17,6 +17,7 @@
 
 	export let messages: Message[] = [];
 	let isHelpMenuOpen: boolean = false;
+	let isPrivacyBannerOpen: boolean = true;
 	export let loading = false;
 	export let pending = false;
 	export let shared = false;
@@ -38,6 +39,10 @@
 
 	function closeHelpMenu() {
 		helpMenu.set(false);
+	}
+
+	function closePrivacyBanner() {
+		isPrivacyBannerOpen = false;
 	}
 
 	function toggleHelpMenu() {
@@ -64,10 +69,19 @@
 		message = "";
 	};
 </script>
-
 <div class="relative min-h-0 min-w-0">
-	<div class="justify-center text-center items-center flex bg-[#141c2a]" id="privacy-banner">
-		<p class="p-4 text-black/white">
+	{#if isPrivacyBannerOpen}
+	<script type="text/javascript">
+		document.getElementById("PrivacyBanner").style.display = "block";
+	</script>
+	<div class="bg-[#141c2a]" id="privacy-banner">
+		<div class = "pr-2 pt-2 flex justify-end ">
+			<button type="button" class="justify-end" on:click={closePrivacyBanner}>
+				<CarbonClose class="justify-end text-white" />
+			</button>
+		</div>
+		<div class="justify-center text-center items-center flex">
+		<p class="pb-4 px-4 text-black/white">
 			🔒 Prompts are end-to-end protected.<br
 			/>Not even Mithril Security can read or train on them. Learn more 
 			<a
@@ -76,6 +90,8 @@
 			>.
 		</p>
 	</div>
+	</div>
+{/if}
 	<ChatMessages
 		{loading}
 		{pending}
@@ -147,19 +163,9 @@
 				{/if}
 			</div>
 		</form>
-		<div class="mt-2 flex justify-between self-stretch px-1 text-xs text-gray-400/90 max-sm:gap-2">
-			<p>
-				Model: <a
-					href={currentModel.modelUrl || "https://huggingface.co/" + currentModel.name}
-					target="_blank"
-					rel="noreferrer"
-					class="hover:underline">{currentModel.displayName}</a
-				> <span class="max-sm:hidden">·</span><br class="sm:hidden" /> Generated content may be
-				inaccurate or false.
-				<br /><br /> 🔒 All conversations are end-to-end protected
-			</p>
+		<div class="mt-2 flex justify-end self-stretch px-1 text-xs text-gray-400/90 max-sm:gap-2">
 			<div
-			class="rounded-2xl text-center bg-privacy banner flex items-center justify-center group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+			class="rounded-2xl text-center bg-privacy banner flex items-center justify-end group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
 			on:click={toggleHelpMenu}
 			on:keydown={handleKeyDown}
 			>
