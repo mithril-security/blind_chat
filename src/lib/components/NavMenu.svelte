@@ -116,7 +116,7 @@
 </div>
 <div class="display position relative inline-block">
 	<div
-    class="border-r border-r-[#1E9FE7] text-center bg-[#1a2133] flex items-center justify-center group h-11 -lg text-white hover:bg-gray-600"
+    class="rounded-2xl text-center bg-[#1a2133] flex items-center justify-center group h-11 -lg text-white hover:bg-gray-600"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
@@ -127,24 +127,24 @@
 <script type="text/javascript">
 	document.getElementById("submenu").style.display = "block";
 </script>
-<div class="justify-center items-center rounded-2xl {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%;">
+<div class="justify-center items-center rounded-2xl {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 99%; background-color: #1a2133 !important;">
 	<div>
 		<button
 			on:click={() => dispatch("clickSettings")}
 			type="button"
-			class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;"
+			class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" style="width: 100%;"
 		>
 			Settings
 		</button>
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
-		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" 
+		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
 		style="width: 100%;">
 			Give Feedback
 		</a>
 		<button
 			on:click={logoutSubmit}
 			type="button"
-			class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" 
+			class="px-8 py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
 			style="width: 100%;"
 		>
 			Log out

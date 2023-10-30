@@ -66,8 +66,8 @@
 </script>
 
 <div class="relative min-h-0 min-w-0">
-	<div class="justify-center text-center items-center flex bg-[#141c2a] border-b border-b-[#1E9FE7]">
-		<p class="p-5 text-black/white">
+	<div class="justify-center text-center items-center flex bg-[#141c2a]" id="privacy-banner">
+		<p class="p-4 text-black/white">
 			🔒 Prompts are end-to-end protected.<br
 			/>Not even Mithril Security can read or train on them. Learn more 
 			<a
