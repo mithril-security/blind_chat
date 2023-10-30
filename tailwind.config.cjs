@@ -13,7 +13,7 @@ export default {
 			colors: {
 				primary: colors[process.env.PUBLIC_APP_COLOR],
 				'ai-chat': '#142F69',
-				'user-chat': '#072A5F',
+				'user-chat': '#1650a8',
 				'privacy-banner': '#142343',
 				'prompts': '#394C75',
 				'mini-sidemenu': '#0d1830',
