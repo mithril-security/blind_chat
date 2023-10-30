@@ -180,7 +180,7 @@ self.addEventListener("message", async (event) => {
 		const newParameters = {
 			max_new_tokens: event.data.model_obj.parameters?.max_new_tokens ?? 256,
 			temperature: event.data.model_obj.parameters?.temperature ?? 0.7,
-			truncate: 3072,
+			truncate: event.data.model_obj.parameters?.truncate ?? 2048,
 			return_full_text: false,
 		};
 		let body = JSON.stringify({
