@@ -302,7 +302,7 @@
             </div>
             <div class="py-3 flex justify-center py-4 items-center flex-wrap gap-2.5 border-1 border-gray">
                 <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
-                on:click={sendMagicLink}>Sign in with magic link ✨</button>
+                on:click={sendMagicLink}>Sign in with magic link 🎩</button>
                 {#if magicSuccess}
                 <TextModal title="Magic link sent" text="✅ Check your emails for your magic login link"  on:close={() => (magicSuccess = false)}/>
                 {:else if magicFail}
