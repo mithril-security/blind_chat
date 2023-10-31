@@ -173,7 +173,7 @@ self.addEventListener("message", async (event) => {
 		}
 		console.log(event.data.model_obj.chatPromptTemplate)
 		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m)
-		const res = t({messages: event.data.messages, preprompt: ""})
+		const res = t({messages: event.data.messages, preprompt: m.preprompt})
 		console.log(res)
 		controller = new AbortController();
 		const context = buildContext(event.data);
