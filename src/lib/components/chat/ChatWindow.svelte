@@ -163,17 +163,16 @@
 					</button>
 				{/if}
 			</div>
-		</form>
-		<div class="mt-2 flex justify-end self-stretch px-1 text-xs text-gray-400/90 max-sm:gap-2">
-			<div
-			class="rounded-2xl text-center bg-privacy banner flex items-center justify-end group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
-			on:click={toggleHelpMenu}
-			on:keydown={handleKeyDown}
-			>
-			<Help/>
+			<div class="mt-2 flex justify-end self-stretch text-xs text-gray-400/90 max-sm:gap-2">
+				<div
+				class="pb-2 pr-2 rounded-2xl text-center bg-privacy banner flex items-center justify-end group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+				on:click={toggleHelpMenu}
+				on:keydown={handleKeyDown}
+				>
+				<Help/>
+				</div>
 			</div>
-
-	</div>
+		</form>
 		{#if messages.length}
 			<script type="text/javascript">
 				document.getElementById("banner").style.display = "block";
@@ -197,7 +196,7 @@
 		<script type="text/javascript">
 			document.getElementById("helpMenu").style.display = "block";
 		</script>
-			<div id="helpMenu" class="bottom-[45%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-18%] pt-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-[#0d1830] {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
+			<div id="helpMenu" class="bottom-[80%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-20%] p-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-[#0d1830] {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
 				<div>
 					<div class = "flex justify-end">
 						<button type="button" class="pr-2 justify-end" on:click={closeHelpMenu}>
