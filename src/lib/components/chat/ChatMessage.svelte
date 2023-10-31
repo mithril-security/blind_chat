@@ -136,10 +136,10 @@
 	</div>
 {/if}
 {#if message.from === "user"}
-	<div class="group relative flex items-start justify-end gap-4 max-sm:text-sm">
+	<div class="group relative flex items-start justify-end gap-4">
 		<div class="mt-5 h-3 w-3 flex-none rounded-full" />
 		<div
-			class="bg-user-chat max-w-full whitespace-break-spaces break-words rounded-2xl px-5 py-3.5 text-white"
+			class="bg-user-chat max-w-[80%] whitespace-break-spaces break-words rounded-2xl px-5 py-3.5 text-white prose dark:prose-invert max-sm:prose-sm prose-headings:font-semibold prose-h1:text-lg prose-h2:text-base prose-h3:text-base prose-pre:bg-gray-900 text-white"
 		>
 			{message.content.trim()}
 		</div>

@@ -302,12 +302,17 @@
             </div>
             <div class="py-3 flex justify-center py-4 items-center flex-wrap gap-2.5 border-1 border-gray">
                 <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
-                on:click={sendMagicLink}>Sign in with magic link 🎩</button>
+                on:click={sendMagicLink}>Sign in with magic link ✉️ </button>
                 {#if magicSuccess}
                 <TextModal title="Magic link sent" text="✅ Check your emails for your magic login link"  on:close={() => (magicSuccess = false)}/>
                 {:else if magicFail}
                 <TextModal title="Error" text="Please check your email address is valid and try again"  on:close={() => (magicFail = false)}/>
                 {/if}
+            </div>
+            <div>
+                <p class="pt-5">
+                    By using our services, you agree to the{' '}<a class="text-mithril-yellow" href="https://www.mithrilsecurity.io/privacy-policy" target="_blank">Terms of Service</a>.
+                </p>
         </div>
         <!-- VIEW #3 Sign up -->
         {:else if !hasAccount && !magicView}
