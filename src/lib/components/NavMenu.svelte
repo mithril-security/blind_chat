@@ -113,14 +113,14 @@ style = "background-color: #141c2a !important;"
 	
 >
 	{#each conversations as conv (conv.id)}
-		<div class="border border-mithril-border rounded-2xl">
+		<div class="py-1">
 		<NavConversationItem on:editConversationTitle on:deleteConversation {conv}/>
 		</div>
 	{/each}
 </div>
 <div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
 	<div
-    class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600"
+    class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
@@ -143,7 +143,7 @@ style = "background-color: #141c2a !important;"
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
 		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
 		style="width: 100%;">
-			Give Feedback
+			Give Feedback ⤵️
 		</a>
 		<div class="justify flex items-center justify-center">
 		<p class="border-t border-mithril-border w-[80%]"></p>
