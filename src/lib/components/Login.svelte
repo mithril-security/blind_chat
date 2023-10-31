@@ -97,7 +97,7 @@
         }
         console.log("logging in...")
         try {
-        const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/login', {
+        const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/blindChatRegister', {
             method: 'POST',
             credentials: "include",
             headers: {
