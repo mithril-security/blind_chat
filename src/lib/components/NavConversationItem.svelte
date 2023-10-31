@@ -28,11 +28,13 @@
 		params_writable.set(conv.id);
 	}}
 	href="{base}/conversation/{conv.id}"
-	class="group flex h-11 flex-none items-center gap-1.5 pl-3 pr-2 text-gray-500 rounded-2xl hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 {conv.id ===
+	class="group flex h-11 flex-none items-center gap-1.5 pl-3 pr-2 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 {conv.id ===
 	$page.params.id
-		? 'bg-gray-100 dark:bg-gray-700 rounded-2xl '
-		: ''}"
+		? 'border border-[#1E9FE7] dark:text-white'
+		: 'border border-[#0F4A81] dark:text-[#B4B4B4]'}"
 >
+<!-- styling for current chat goes just after question mark above-->
+
 	<div class="flex-1 truncate">
 		{#if confirmDelete}
 			<span class="font-semibold"> Delete </span>
@@ -43,7 +45,7 @@
 	{#if confirmDelete}
 		<button
 			type="button"
-			class="flex h-5 w-5 items-center justify-center rounded md:hidden md:group-hover:flex"
+			class="flex h-5 w-5 items-center justify-center rounded-2xl md:hidden md:group-hover:flex"
 			title="Confirm delete action"
 			on:click|preventDefault={() => dispatch("deleteConversation", conv.id)}
 		>
@@ -51,7 +53,7 @@
 		</button>
 		<button
 			type="button"
-			class="flex h-5 w-5 items-center justify-center rounded md:hidden md:group-hover:flex"
+			class="flex h-5 w-5 items-center justify-center rounded-2xl md:hidden md:group-hover:flex"
 			title="Cancel delete action"
 			on:click|preventDefault={() => {
 				confirmDelete = false;
@@ -62,7 +64,7 @@
 	{:else}
 		<button
 			type="button"
-			class="flex h-5 w-5 items-center justify-center rounded md:hidden md:group-hover:flex"
+			class="flex h-5 w-5 items-center justify-center rounded-2xl md:hidden md:group-hover:flex"
 			title="Edit conversation title"
 			on:click|preventDefault={() => {
 				const newTitle = prompt("Edit this conversation title:", conv.title);
@@ -75,7 +77,7 @@
 
 		<button
 			type="button"
-			class="flex h-5 w-5 items-center justify-center rounded md:hidden md:group-hover:flex"
+			class="flex h-5 w-5 items-center justify-center rounded-2xl md:hidden md:group-hover:flex"
 			title="Delete conversation"
 			on:click|preventDefault={(event) => {
 				if (event.shiftKey) {

@@ -12,8 +12,8 @@ export default {
 		extend: {
 			colors: {
 				primary: colors[process.env.PUBLIC_APP_COLOR],
-				'ai-chat': '#142F69',
-				'user-chat': '#1650a8',
+				'ai-chat': '#1650a8',
+				'user-chat': '#142F69',
 				'privacy-banner': '#142343',
 				'prompts': '#394C75',
 				'mini-sidemenu': '#0d1830',

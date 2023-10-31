@@ -220,21 +220,21 @@
         <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
          <!-- Classic sign in view -->
         <input id="email1" 
-        class="bg-login rounded text-white border border-mithril-border p-2 w-full"
+        class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
         type="email" bind:value={email} placeholder="Email" />
         </div>
         <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray relative">
             <!-- Text input for the "shown" password -->
                 <input 
                 type="text"
-                class="bg-login rounded text-white border border-mithril-border p-2 w-full"
+                class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
                 bind:value={password} 
                 placeholder="Password" 
                 class:hidden={!showPassword}
                 />
                 <!-- Password input for the "hidden" password -->              
                 <input
-                class="bg-login rounded text-white border border-mithril-border p-2 w-full"
+                class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
                 type="password" 
                 bind:value={password} 
                 placeholder="Password" 
@@ -286,7 +286,7 @@
         </div>
         <!-- Magic link screen button -->
         <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5">
-        <button class="bg-login rounded text-white border border-mithril-yellow p-2 w-full"
+        <button class="bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full"
         on:click={setMagicView}>Sign in with magic link ✨</button>
         </div>
         </div>
@@ -297,7 +297,7 @@
             </script>
             <div class="py-3 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
             <input 
-            class="bg-login rounded text-white border border-mithril-border p-2 w-full"
+            class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
             type="email" bind:value={email2} placeholder="Email" />
             </div>
             <div class="py-3 flex justify-center py-4 items-center flex-wrap gap-2.5 border-1 border-gray">
@@ -324,7 +324,7 @@
         <!-- email input -->
         <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
             <input id="email1" 
-            class="bg-login rounded text-white border border-mithril-border p-2 w-full"
+            class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
             type="email" bind:value={email} placeholder="Email" />
         </div>
         <div class="flex justify-center items-center flex-wrap gap-2.5 border-1 order-gray">

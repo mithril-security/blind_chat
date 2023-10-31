@@ -75,21 +75,20 @@
 		document.getElementById("PrivacyBanner").style.display = "block";
 	</script>
 	<div class="bg-chat" id="privacy-banner">
-		<div class = "pr-2 pt-2 flex justify-end ">
-			<button type="button" class="justify-end" on:click={closePrivacyBanner}>
-				<CarbonClose class="justify-end text-white" />
-			</button>
-		</div>
-		<div class="border-b border-white justify-center text-center items-center flex">
-		<p class="pb-4 px-4 text-black/white">
-			🔒 Prompts are end-to-end protected.<br
-			/>Not even Mithril Security can read or train on them. Learn more 
+		<div class="border-b border-gray-600 flex justify-between px-4">
+			<div class="justify-center items-center text-center flex-1">
+		<p class="px-4 py-3 text-black/white">
+			🔒 Prompts are end-to-end protected.<br>
+			Not even Mithril Security can read or train on them. Learn more 
 			<a
 				href="https://www.mithrilsecurity.io/privacy-policy#new-pp"
 				style="text-decoration: underline; color: #f0b92d;">here</a
-			>.
-		</p>
-	</div>
+			>.</p>
+			</div>
+		<button type="button" class="pt-2" style="align-self: flex-start;" on:click={closePrivacyBanner}>
+			<CarbonClose class="text-white" />
+		</button>
+		</div>
 	</div>
 {/if}
 	<ChatMessages
@@ -196,24 +195,26 @@
 		<script type="text/javascript">
 			document.getElementById("helpMenu").style.display = "block";
 		</script>
-			<div id="helpMenu" class="bottom-[80%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-20%] p-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-[#0d1830] {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
+			<div id="helpMenu" class="bottom-[80%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-22%] p-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-[#0d1830] {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
 				<div>
-					<div class = "flex justify-end">
-						<button type="button" class="pr-2 justify-end" on:click={closeHelpMenu}>
-							<CarbonClose class="justify-end text-white" />
-						</button>
-					</div>
+					<div class="justify-center items-center text-center flex-1">
+					<div class="flex justify-between px-2">
 					<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;">
-					Help
+					Help ⤵️
 					</a>
+					<button type="button" class="pt-2" style="align-self: flex-start;" on:click={closeHelpMenu}>
+						<CarbonClose class="text-white" />
+					</button>
+					</div>
+					</div>
 					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Give Feedback
+					Give Feedback ⤵️
 					</a>
 					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="rounded-xl block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					FAQ
+					FAQ ⤵️
 					</a>
 					<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="rounded-2xl block text-center h-11 pt-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Report an issue
+					Report an issue ⤵️
 					</a>
 				</div>
 			</div>
