@@ -28,9 +28,9 @@
 		params_writable.set(conv.id);
 	}}
 	href="{base}/conversation/{conv.id}"
-	class="group flex h-11 flex-none items-center gap-1.5 rounded-lg pl-3 pr-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 {conv.id ===
+	class="group flex h-11 flex-none items-center gap-1.5 pl-3 pr-2 text-gray-500 rounded-2xl hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 {conv.id ===
 	$page.params.id
-		? 'bg-gray-100 dark:bg-gray-700'
+		? 'bg-gray-100 dark:bg-gray-700 rounded-2xl '
 		: ''}"
 >
 	<div class="flex-1 truncate">
