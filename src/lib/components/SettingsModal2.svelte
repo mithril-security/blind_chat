@@ -7,6 +7,7 @@
 	import CarbonClose from "~icons/carbon/close";
 	import type { Model } from "$lib/types/Model";
 	import type { LayoutData } from "../../routes/$types";
+	import { api_key_writable, email_addr_writable, is_logged_writable } from "../../routes/LayoutWritable";
 
 	export let settings: LayoutData["settings"];
 	export let models: Array<Model>;
@@ -44,10 +45,23 @@
 
 	async function deleteAccount() {
 			isConfirmingDeletion = false;
-			await fetch('/auth/deleteAccount', {
+			try {
+				const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/deleteAccount', {
 				method: "POST",
 				credentials: "include",
 			});
+			if (response.ok) {
+				dispatch("close")
+				is_logged_writable.set(false);
+				api_key_writable.set("");
+				email_addr_writable.set("");
+			} else {
+				opFail = true;
+				}
+			}
+			catch (error) {
+      			console.error('Error:', error);
+    		}
 		}
 	
 	async function changeEmail(newEmail: string) {
@@ -79,14 +93,14 @@
         mismatch = true;
         return;
     }
-
-      	const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/changePassword', {
+		console.log("ping")
+      	const response = await fetch('https://cloud.mithrilsecurity.io/api/auth/createPassword', {
         method: 'POST',
 		credentials: "include",
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ new_password: newPassword }),
+        body: JSON.stringify({ password: newPassword, passwordConfirm: confirmPassword }),
       });
 
       if (response.ok) {
@@ -97,6 +111,7 @@
       }
     } catch (error) {
       console.error('Error:', error);
+	  opFail = true;
     }
   }
 
@@ -167,7 +182,8 @@
 		<p>New password</p>
 		
 		<input type="password" 
-		placeholder="Enter new password" 
+		placeholder="Enter new password"
+		bind:value={newPassword}
 		class="bg-login rounded-2xl text-white border border-mithril-border p-2 md:w-[60%]">
 		<p style="padding-top:20px;">Confirm password</p>
 		<div class="flex justify-between items-center flex-wrap gap-2.5">
