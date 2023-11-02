@@ -33,6 +33,15 @@
 
 	const dispatch = createEventDispatcher<{ message: string }>();
 
+	function getTitles(str: string) {
+		const split = str.split(' ')
+		const map_str = new Map();
+		for (let i = 0; i < split.length; i++) {
+			map_str.set(i, split[i])
+		}
+    	return map_str
+	}
+
 	$: title = env.PUBLIC_APP_NAME;
 </script>
 
@@ -101,7 +110,13 @@
 							dispatch("message", example.prompt)}
 					}
 					>
-						{example.title}
+					{#each [...getTitles(example.title)] as [key, value]}
+						{#if key < 3}
+							<b>{value + " "} </b>
+						{:else}
+							{value + " "} 
+						{/if}
+					{/each}
 					</button>
 				{/each}
 			</div>

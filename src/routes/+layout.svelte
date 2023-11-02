@@ -164,7 +164,6 @@
 					"Content-Type": "application/json",
 				},
 			});
-			dataLayer.push({'event': 'signup-validate'});
 			dataLayer.push({'event': 'login'});
 			if (response.ok) {
 				const res = await response.text()
@@ -194,7 +193,7 @@
 
 <svelte:head>
 	<title>{PUBLIC_APP_NAME}</title>
-	<meta name="description" content="Private Conversational AI" />
+	<meta name="og:description" content="Private Conversational AI" />
 	<meta property="og:title" content={PUBLIC_APP_NAME} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="{PUBLIC_ORIGIN || $page.url.origin}{base}" />

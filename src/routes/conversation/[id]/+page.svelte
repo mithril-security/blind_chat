@@ -85,7 +85,7 @@
 				try {
 					if (e.data.file == "tokenizer.json")
 						// Avoid to send the tag multiple times
-						dataLayer.push({ event: "debut_chargement_chat", nom_modele: [e.data.name] });
+						dataLayer.push({ event: "debut_chargement_chat", nom_modele: [e.curr_model_obj.name] });
 				} catch (e) {
 					console.log("Google Tag Manager might not be loaded. Ignoring the error");
 					console.log(e);
@@ -118,7 +118,7 @@
 
 			case "ready":
 				try {
-					dataLayer.push({ event: "fin_chargement_chat", nom_modele: [e.data.model] });
+					dataLayer.push({ event: "fin_chargement_chat", nom_modele: [e.curr_model_obj.name] });
 				} catch (e) {
 					console.log("Google Tag Manager might not be loaded. Ignoring the error");
 					console.log(e);
@@ -236,13 +236,6 @@
 			isCode: false,
 		};
 
-		try {
-			dataLayer.push({ event: "envoi_message", nom_modele: [curr_model_obj.name] });
-		} catch (e) {
-			console.log("Google Tag Manager might not be loaded. Ignoring the error");
-			console.log(e);
-		}
-
 		addMessageToChat(conversationId, msg, curr_model);
 
 		let lastMessage = messages[messages.length - 1];
@@ -256,6 +249,15 @@
 			messages: messages,
 			jwt: jwt,
 		});
+
+		try {
+			dataLayer.push({ event: "envoi_message", nom_modele: [curr_model_obj.name] });
+		} catch (e) {
+			console.log("Google Tag Manager might not be loaded. Ignoring the error");
+			console.log(e);
+		}
+
+		console.log(dataLayer)
 	}
 
 	async function summarizeTitle(id: string) {
