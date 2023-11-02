@@ -9,15 +9,18 @@
 {#if PUBLIC_APP_ASSETS === "chatui"}
 	<object
 		class={classNames}
-		data="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/chat.png"
+		data="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/chat-new-logo.png"
 		title="{PUBLIC_APP_NAME} logo"
-		width="40"  
-		height="35" 
+		width="60"  
+		height="60" 
+		style="border:none ! important;"
 	/>
 {:else}
 	<object
 		class={classNames}
-		data="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/favicon.png"
+		data="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/chat-new-logo.png"
 		title="{PUBLIC_APP_NAME} logo"
+		width="60"  
+		height="60" 
 	/>
 {/if}
