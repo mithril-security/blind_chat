@@ -82,6 +82,8 @@
 			Not even Mithril Security can read or train on them. Learn more 
 			<a
 				href="https://www.mithrilsecurity.io/privacy-policy#new-pp"
+				target="_blank" 
+				rel="noopener noreferrer"
 				style="text-decoration: underline; color: #f0b92d;">here</a
 			>.</p>
 			</div>
