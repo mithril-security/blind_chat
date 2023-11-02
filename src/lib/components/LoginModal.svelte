@@ -37,7 +37,7 @@
 				},
 				body: JSON.stringify(data),
 			});
-
+			dataLayer.push({'event': 'signup-start'});
 			if (response.ok) {
 				// Handle a successful response
 				console.log("Registration successful");

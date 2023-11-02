@@ -96,7 +96,10 @@
 					<button
 						type="button"
 						class="rounded-xl border bg-gray-50 p-2.5 text-gray-600 hover:bg-gray-100 dark:border-gray-800 dark:bg-prompts dark:text-gray-300 dark:hover:bg-gray-700 sm:p-4"
-						on:click={() => dispatch("message", example.prompt)}
+						on:click={() => {
+							dataLayer.push({ event: "prompt", titre_prompt: [example.title] });
+							dispatch("message", example.prompt)}
+					}
 					>
 						{example.title}
 					</button>

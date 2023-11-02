@@ -164,6 +164,8 @@
 					"Content-Type": "application/json",
 				},
 			});
+			dataLayer.push({'event': 'signup-validate'});
+			dataLayer.push({'event': 'login'});
 			if (response.ok) {
 				const res = await response.text()
 				const json: JSON = JSON.parse(res)

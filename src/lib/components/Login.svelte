@@ -66,7 +66,6 @@
         subscribeNewsletter,
     };
 
-    console.log("magic link");
     try {
         const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/blindChatRegister", {
             method: "POST",
@@ -76,6 +75,7 @@
             },
             body: JSON.stringify(data),
         });
+        dataLayer.push({'event': 'signup-start'});
         if (response.ok) {
             magicSuccess = true;
         } else {
@@ -138,6 +138,7 @@
             },
             body: JSON.stringify(data)
         });
+        dataLayer.push({'event': 'signup-start'});
         if (response.ok)
         {
             magicSuccess = true;
