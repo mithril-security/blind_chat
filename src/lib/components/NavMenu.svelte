@@ -96,7 +96,7 @@
 <div class="bg-[#142343] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
 		<Logo classNames="mr-1" />
-		<div class = "pl-2"> {PUBLIC_APP_NAME} </div>
+		<div class = "pl-2 text-white"> {PUBLIC_APP_NAME} </div>
 	</a>
 	<a
 		href={`${base}/`}
