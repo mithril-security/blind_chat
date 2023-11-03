@@ -145,7 +145,7 @@
 		{#if isAccountView}
 		<!-- Title div -->
 		<div class="flex justify-center">
-			<div class="font-bold text-l md:text-2xl text-mithril-yellow">Account</div>
+			<div class="font-bold text-2xl text-mithril-yellow">Account</div>
 		</div>
 		{/if}
 	
@@ -164,12 +164,12 @@
 		<div class="flex justify-between items-center flex-wrap gap-2.5">
 		<input type="email" 
 		placeholder="Enter new email" 
-		class="bg-login rounded-lg text-sm md:text-base text-white border border-mithril-border p-2 w-[60%]"
+		class="bg-login rounded-lg text-base text-white border border-mithril-border p-2 w-[60%]"
 		style="justify-content: space-between;" 
 		bind:value={newEmail} />
     	
 		<!-- Yellow change email button -->
-		<button class="bg-yellow-500 text-sm md:text-base text-black rounded-lg min-w-[160px] py-2 px-3 justify-between" on:click={handleEmailChange(newEmail)}>Change Email</button>
+		<button class="bg-yellow-500 text-base text-black rounded-lg min-w-[160px] py-2 px-3 justify-between" on:click={handleEmailChange(newEmail)}>Change Email</button>
 		{#if emailOpSuccess}
 			<TextModal title="Email updated" text="Please click on the confirmation link that has been sent to your updated email address."  on:close={() => (emailOpSuccess = false)}/>
 		{:else if emailOpFail}
@@ -183,17 +183,17 @@
 		<input type="password" 
 		placeholder="Enter new password"
 		bind:value={newPassword}
-		class="bg-login rounded-lg text-sm md:text-base text-white border border-mithril-border p-2 w-[60%]">
+		class="bg-login rounded-lg text-base text-white border border-mithril-border p-2 w-[60%]">
 		<p style="padding-top:20px;">Confirm password</p>
 		
 		<div class="flex justify-between items-center flex-wrap gap-2.5">
 		<input type="password" 
 		placeholder="Confirm new password"
-		class="bg-login rounded-lg text-sm md:text-base text-white border border-mithril-border p-2 w-[60%]" 
+		class="bg-login rounded-lg text-base text-white border border-mithril-border p-2 w-[60%]" 
 		style="justify-content: space-between;" 
 		bind:value={confirmPassword}/>
 		
-		<button class="bg-yellow-500 text-sm md:text-base text-black rounded-lg min-w-[160px] py-2 px-3 justify-between" on:click={handlePasswordChange}>Change password</button>
+		<button class="bg-yellow-500 text-base text-black rounded-lg min-w-[160px] py-2 px-3 justify-between" on:click={handlePasswordChange}>Change password</button>
 		{#if opSuccess}
 			<TextModal title="Password updated" text="✅ Your password has successfully been created"  on:close={() => (opSuccess = false)}/>
 		{:else if opFail}
@@ -205,7 +205,7 @@
 		<h2 class="pt-8 font-semibold text-xl text-mithril-yellow">Delete account</h2>
 		<div class="flex justify-between items-center flex-wrap gap-2.5 py-5">
 			<button on:click = {() => (isConfirmingDeletion = true)}
-				class="rounded-lg text-sm md:text-base min-w-[160px] py-2 px-3 ml-auto border border-red-700 hover:bg-red-700">Delete account</button>
+				class="rounded-lg md:text-base min-w-[160px] py-2 px-3 ml-auto border border-red-700 hover:bg-red-700">Delete account</button>
 			{#if isConfirmingDeletion}
 			<Modal2 on:close={() => (isConfirmingDeletion = false)}>
 				<form class="dark:bg-darkBackground flex w-full flex-col gap-5 p-6 dark:border dark:border-gray-400">
