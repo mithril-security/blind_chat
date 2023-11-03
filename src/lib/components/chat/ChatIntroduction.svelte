@@ -57,7 +57,7 @@
 			</p>
 		</div>
 	</div>
-	<!-- <div class="lg:col-span-2 lg:pl-24">
+	<div class="lg:col-span-2 lg:pl-24 w-[50%] flex absolute right-[0%]">
 		{#each announcementBanners as banner}
 			<AnnouncementBanner classNames="mb-4" title={banner.title}>
 				<a
@@ -97,7 +97,7 @@
 			<ModelCardMetadata variant="dark" model={currentModel} />
 		</div>
 		{/if}
-	</div> -->
+	</div>
 	{#if currentModelMetadata.promptExamples}
 		<div class="lg:col-span-2 lg:mt-6">
 			<div class="grid gap-3 lg:grid-cols-3 lg:gap-5">
