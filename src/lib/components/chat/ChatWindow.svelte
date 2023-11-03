@@ -1,5 +1,8 @@
 <script lang="ts">
 	import type { Message } from "$lib/types/Message";
+	import { base } from "$app/paths";
+	import { page } from "$app/stores";
+	import { PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
 	import { createEventDispatcher } from "svelte";
 	import Help from "$lib/components/icons/Help.svelte"
 	import CarbonSendAltFilled from "~icons/carbon/send-alt-filled";
@@ -201,23 +204,59 @@
 				<div>
 					<div class="justify-center items-center text-center flex-1">
 					<div class="flex justify-between px-2">
+					<div class="flex justify-between items-center">
 					<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;">
-					Help ⤵️
+					Help
+					<img
+						alt="redirect to page in new tab icon"
+						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
+						title="link to open new page"
+						width="15"  
+						height="15"
+					/>
 					</a>
+					</div>
 					<button type="button" class="pt-2" style="align-self: flex-start;" on:click={closeHelpMenu}>
 						<CarbonClose class="text-white" />
 					</button>
 					</div>
 					</div>
+					<div class="flex justify-between items-center">
 					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Give Feedback ⤵️
+					Give Feedback 
+					<img
+						alt="redirect to page in new tab icon"
+						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
+						title="link to open new page"
+						width="15"  
+						height="15"
+					/>
 					</a>
+					</div>
+					<div class="flex justify-between items-center">
 					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="rounded-xl block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					FAQ ⤵️
+					FAQ
+					<img
+						alt="redirect to page in new tab icon"
+						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
+						title="link to open new page"
+						width="15"  
+						height="15"
+					/>
 					</a>
+					</div>
+					<div class="flex justify-between items-center">
 					<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="rounded-2xl block text-center h-11 pt-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Report an issue ⤵️
+					Report an issue
+					<img
+						alt="redirect to page in new tab icon"
+						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
+						title="link to open new page"
+						width="15"  
+						height="15"
+					/>
 					</a>
+					</div>
 				</div>
 			</div>
 	{/if}

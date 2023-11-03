@@ -3,10 +3,9 @@
 	import { createEventDispatcher } from "svelte";
 	import Login from "$lib/components/Login.svelte";
 	import Logo from "$lib/components/icons/Logo.svelte";
-	import { switchTheme } from "$lib/switchTheme";
-	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN } from "$env/static/public";
+	import { page } from "$app/stores";
+	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
-	import PleaseWaitModal from "./PleaseWaitModal.svelte";
 	import type { LayoutData } from "../../routes/$types";
 	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable } from "../../routes/LayoutWritable";
 
@@ -140,18 +139,18 @@ style = "background-color: #141c2a !important;"
 		>
 			Settings
 		</button>
+		<div class="flex justify-center" style="position: relative;">
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
-		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
-		style="width: 100%;">
+		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl w-[100%]">
 			Give Feedback
-			<img
-			alt="show password button"
+		</a>
+		<img
+			class="absolute max-w-[3%] md:max-w-[6%] bottom-[32%] right-[35%] md:right-[20%]"
+			alt="redirect to page in new tab icon"
 			src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
 			title="link to open new page"
-			width="32"  
-			height="32"
 		   />
-		</a>
+	</div>
 		<div class="justify flex items-center justify-center">
 		<p class="border-t border-mithril-border w-[80%]"></p>
 		</div>
