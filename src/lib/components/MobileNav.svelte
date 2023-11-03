@@ -30,7 +30,7 @@
 </script>
 
 <nav
-	class="flex h-12 items-center justify-between border-b bg-gray-50 px-4 dark:border-gray-800 dark:bg-chat md:hidden"
+	class="font-semibold flex h-12 items-center justify-between border-b bg-gray-50 px-4 dark:border-gray-800 dark:bg-chat md:hidden"
 >
 	<button
 		type="button"
@@ -49,7 +49,7 @@
 		? 'block'
 		: 'hidden'}"
 >
-	<div class="flex h-12 items-center px-4">
+	<div class="bg-[#142343] flex h-12 items-center px-4">
 		<button
 			type="button"
 			class="-mr-3 ml-auto flex h-9 w-9 items-center justify-center"

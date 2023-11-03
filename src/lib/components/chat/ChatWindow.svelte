@@ -77,7 +77,7 @@
 	<div class="bg-chat" id="privacy-banner">
 		<div class="border-b border-gray-600 flex justify-between px-4">
 			<div class="justify-center items-center text-center flex-1">
-		<p class="px-4 py-3 text-black/white">
+		<p class="px-4 py-3 text-black/white text-xs lg:text-base">
 			🔒 Prompts are end-to-end protected.<br>
 			Not even Mithril Security can read or train on them. Learn more 
 			<a
@@ -112,7 +112,7 @@
 	/>
 	<!-- chat input background bg-gradient-to-t from-white via-white/80 to-white/0 -->
 <div
-		class="dark:bg-chat pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto flex w-full max-w-3xl flex-col items-center justify-center px-3.5 py-2 dark:border-gray-800 dark:from-gray-900 dark:to-gray-900/0 max-md:border-t max-md:bg-white max-md:dark:bg-gray-900 sm:px-5 md:pb-6 md:pt-4 xl:max-w-4xl [&>*]:pointer-events-auto"
+		class="dark:bg-chat border-0 pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto flex w-full max-w-3xl flex-col items-center justify-center px-3.5 py-2 sm:px-5 md:pb-6 md:pt-4 xl:max-w-4xl [&>*]:pointer-events-auto"
 	>
 		<div class="flex w-full pb-3 max-md:justify-between">
 			{#if settings?.searchEnabled}

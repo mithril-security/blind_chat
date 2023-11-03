@@ -133,7 +133,7 @@
 	  <Overlay bind:this={overlayComp} />
 	  overlayComp.setTheme();
 	</script>
-	<div class= "border rounded-2xl border-mithril-border pt-4 px-4 pb-12 bg-login text-white md:min-w-[500px]>">
+	<div class= "border rounded-2xl border-mithril-border py-4 md:pt-4 px-4 md:pb-8 bg-login text-white md:min-w-[500px]>">
 		<!-- Close button div -->
 		<div class="flex justify-end">
 		<button type="button" class="text-xl flex justify-end group text-black dark:text-white" on:click={() => dispatch("close")}>
@@ -145,12 +145,12 @@
 		{#if isAccountView}
 		<!-- Title div -->
 		<div class="flex justify-center">
-			<div class="font-bold text-3xl text-mithril-yellow">Account</div>
+			<div class="font-bold text-2xl text-mithril-yellow">Account</div>
 		</div>
 		{/if}
 	
-	<div id="modal" class="bg-white dark:bg-login dark:text-white md:min-w-[500px]" style="display: flex; font-family: Sora,sans-serif;">	
-		<div class = "md:min-w-[500px] md:min-h-[400px]" style="flex: 4; margin-right:40px; padding 15px 15px;">
+	<div id="modal" class="bg-white dark:bg-login dark:text-white md:min-w-[500px]" style="display: flex;">	
+		<div class = "md:min-w-[500px] md:min-h-[400px]" style="flex: 4; margin-right:40px;">
 		<!-- Account modal view -->
 		{#if isAccountView}
 	<script type="text/javascript">
@@ -159,17 +159,17 @@
 		<div class="modal-content pl-5" id="accountView"> 
 		
 		<!-- Change email section -->
-		<h2 class="pt-8 font-medium text-xl font-semibold text-mithril-yellow">Change email</h2>
-		<p>New email address</p>
-		
-		<div class="pt-4 flex justify-between items-center flex-wrap gap-2.5">
-    	<input type="email" 
+		<h2 class="pt-4 md:pt-8 font-semibold text-xl text-mithril-yellow">Change email</h2>
+		<p class="text-base">New email address</p>
+		<div class="flex justify-between items-center flex-wrap gap-2.5">
+		<input type="email" 
 		placeholder="Enter new email" 
-		class="bg-login rounded-2xl text-white border border-mithril-border p-2 md:w-[60%]"
+		class="bg-login rounded-lg text-base text-white border border-mithril-border p-2 w-[60%]"
+		style="justify-content: space-between;" 
 		bind:value={newEmail} />
     	
 		<!-- Yellow change email button -->
-		<button class="bg-yellow-500 text-black rounded-lg min-w-[160px] py-2 px-3" style="justify-content: space-between;" on:click={handleEmailChange(newEmail)}>Change Email</button>
+		<button class="bg-yellow-500 text-base text-black rounded-lg min-w-[160px] py-2 px-3 justify-between" on:click={handleEmailChange(newEmail)}>Change Email</button>
 		{#if emailOpSuccess}
 			<TextModal title="Email updated" text="Please click on the confirmation link that has been sent to your updated email address."  on:close={() => (emailOpSuccess = false)}/>
 		{:else if emailOpFail}
@@ -180,21 +180,20 @@
 		<!-- Create password section -->
 		<h2 class="pt-8 font-medium font-semibold text-xl text-mithril-yellow">Create password</h2>
 		<p>New password</p>
-		
 		<input type="password" 
 		placeholder="Enter new password"
 		bind:value={newPassword}
-		class="bg-login rounded-2xl text-white border border-mithril-border p-2 md:w-[60%]">
+		class="bg-login rounded-lg text-base text-white border border-mithril-border p-2 w-[60%]">
 		<p style="padding-top:20px;">Confirm password</p>
-		<div class="flex justify-between items-center flex-wrap gap-2.5">
 		
+		<div class="flex justify-between items-center flex-wrap gap-2.5">
 		<input type="password" 
 		placeholder="Confirm new password"
-		class="bg-login rounded-2xl text-white border border-mithril-border p-2 md:w-[60%]" 
+		class="bg-login rounded-lg text-base text-white border border-mithril-border p-2 w-[60%]" 
 		style="justify-content: space-between;" 
 		bind:value={confirmPassword}/>
 		
-		<button class="bg-yellow-500 text-black rounded-lg min-w-[160px] py-2 px-3" style="justify-content: space-between;" on:click={handlePasswordChange}>Change password</button>
+		<button class="bg-yellow-500 text-base text-black rounded-lg min-w-[160px] py-2 px-3 justify-between" on:click={handlePasswordChange}>Change password</button>
 		{#if opSuccess}
 			<TextModal title="Password updated" text="✅ Your password has successfully been created"  on:close={() => (opSuccess = false)}/>
 		{:else if opFail}
@@ -203,10 +202,10 @@
 		</div>
 
 		<!-- Delete account section -->
-		<h2 class="pt-8 font-medium font-semibold text-xl text-mithril-yellow">Delete account</h2>
+		<h2 class="pt-8 font-semibold text-xl text-mithril-yellow">Delete account</h2>
 		<div class="flex justify-between items-center flex-wrap gap-2.5 py-5">
 			<button on:click = {() => (isConfirmingDeletion = true)}
-				class="rounded-lg min-w-[160px] py-2 px-3 ml-auto border border-red-700 hover:bg-red-700">Delete account</button>
+				class="rounded-lg md:text-base min-w-[160px] py-2 px-3 ml-auto border border-red-700 hover:bg-red-700">Delete account</button>
 			{#if isConfirmingDeletion}
 			<Modal2 on:close={() => (isConfirmingDeletion = false)}>
 				<form class="dark:bg-darkBackground flex w-full flex-col gap-5 p-6 dark:border dark:border-gray-400">
