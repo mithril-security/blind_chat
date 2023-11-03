@@ -196,33 +196,34 @@
 	<meta name="og:description" content="Private Conversational AI" />
 	<meta property="og:title" content={PUBLIC_APP_NAME} />
 	<meta property="og:type" content="website" />
+	<meta name="twitter:image" content="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/thumbnail.jpg?24"
+	/>
 	<meta property="og:url" content="{PUBLIC_ORIGIN || $page.url.origin}{base}" />
 	<meta
 		property="og:image"
-		content="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/thumbnail.jpg"
+		content="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/thumbnail.jpg"
 	/>
 	<link
 		rel="icon"
-		href="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/favicon.png"
+		href="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/favicon.png"
 		type="image/png"
 	/>
 	<!-- Icon Support for iOS Bookmark Home Screen -->
 	<link
 		rel="apple-touch-icon"
-		href="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/touch-icon-ipad-retina.png"
+		href="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/touch-icon-ipad-retina.png"
 		sizes="167x167"
 		type="image/png"
 	/>
 	<link
 		rel="apple-touch-icon"
-		href="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/touch-icon-ipad.png"
+		href="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/touch-icon-ipad.png"
 		sizes="152x152"
 		type="image/png"
 	/>
 	<link
 		rel="apple-touch-icon"
-		href="{PUBLIC_ORIGIN ||
-			$page.url.origin}{base}/{PUBLIC_APP_ASSETS}/touch-icon-iphone-retina.png"
+		href="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/touch-icon-iphone-retina.png"
 		sizes="180x180"
 		type="image/png"
 	/>
