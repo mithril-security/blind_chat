@@ -1,8 +1,5 @@
 <script lang="ts">
 	import type { Message } from "$lib/types/Message";
-	import { base } from "$app/paths";
-	import { page } from "$app/stores";
-	import { PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
 	import { createEventDispatcher } from "svelte";
 	import Help from "$lib/components/icons/Help.svelte"
 	import CarbonSendAltFilled from "~icons/carbon/send-alt-filled";
@@ -80,7 +77,7 @@
 	<div class="bg-chat" id="privacy-banner">
 		<div class="border-b border-gray-600 flex justify-between px-4">
 			<div class="justify-center items-center text-center flex-1">
-		<p class="px-4 py-3 text-black/white">
+		<p class="px-4 py-3 text-black/white text-xs lg:text-base">
 			🔒 Prompts are end-to-end protected.<br>
 			Not even Mithril Security can read or train on them. Learn more 
 			<a
@@ -115,7 +112,7 @@
 	/>
 	<!-- chat input background bg-gradient-to-t from-white via-white/80 to-white/0 -->
 <div
-		class="dark:bg-chat pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto flex w-full max-w-3xl flex-col items-center justify-center px-3.5 py-2 dark:border-gray-800 dark:from-gray-900 dark:to-gray-900/0 max-md:border-t max-md:bg-white max-md:dark:bg-gray-900 sm:px-5 md:pb-6 md:pt-4 xl:max-w-4xl [&>*]:pointer-events-auto"
+		class="dark:bg-chat border-0 pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto flex w-full max-w-3xl flex-col items-center justify-center px-3.5 py-2 sm:px-5 md:pb-6 md:pt-4 xl:max-w-4xl [&>*]:pointer-events-auto"
 	>
 		<div class="flex w-full pb-3 max-md:justify-between">
 			{#if settings?.searchEnabled}
@@ -204,59 +201,23 @@
 				<div>
 					<div class="justify-center items-center text-center flex-1">
 					<div class="flex justify-between px-2">
-					<div class="flex justify-between items-center">
 					<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;">
-					Help
-					<img
-						alt="redirect to page in new tab icon"
-						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
-						title="link to open new page"
-						width="15"  
-						height="15"
-					/>
+					Help ⤵️
 					</a>
-					</div>
 					<button type="button" class="pt-2" style="align-self: flex-start;" on:click={closeHelpMenu}>
 						<CarbonClose class="text-white" />
 					</button>
 					</div>
 					</div>
-					<div class="flex justify-between items-center">
 					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Give Feedback 
-					<img
-						alt="redirect to page in new tab icon"
-						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
-						title="link to open new page"
-						width="15"  
-						height="15"
-					/>
+					Give Feedback ⤵️
 					</a>
-					</div>
-					<div class="flex justify-between items-center">
 					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="rounded-xl block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					FAQ
-					<img
-						alt="redirect to page in new tab icon"
-						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
-						title="link to open new page"
-						width="15"  
-						height="15"
-					/>
+					FAQ ⤵️
 					</a>
-					</div>
-					<div class="flex justify-between items-center">
 					<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="rounded-2xl block text-center h-11 pt-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Report an issue
-					<img
-						alt="redirect to page in new tab icon"
-						src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
-						title="link to open new page"
-						width="15"  
-						height="15"
-					/>
+					Report an issue ⤵️
 					</a>
-					</div>
 				</div>
 			</div>
 	{/if}
