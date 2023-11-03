@@ -143,7 +143,14 @@ style = "background-color: #141c2a !important;"
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
 		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
 		style="width: 100%;">
-			Give Feedback ⤵️
+			Give Feedback
+			<img
+			alt="show password button"
+			src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
+			title="link to open new page"
+			width="32"  
+			height="32"
+		   />
 		</a>
 		<div class="justify flex items-center justify-center">
 		<p class="border-t border-mithril-border w-[80%]"></p>
