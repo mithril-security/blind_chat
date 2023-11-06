@@ -34,29 +34,29 @@
         magicView = true;
     }
 
-    async function isLogged() {
-		try {
-			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/getUserInfo", {
-				method: "GET",
-				credentials: "include",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			});
-			if (response.ok) {
-				const res = await response.text()
-				const json: JSON = JSON.parse(res)
-				email_addr_writable.set(json.email)
-			} 
-			else {
-				// Handle errors here
-				console.error("User is not logged in");
-			}
-		} catch (err) {
-			// Handle network errors here
-			console.error("Network error", err);
-		}
-	}
+    // async function isLogged() {
+	// 	try {
+	// 		const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/getUserInfo", {
+	// 			method: "GET",
+	// 			credentials: "include",
+	// 			headers: {
+	// 				"Content-Type": "application/json",
+	// 			},
+	// 		});
+	// 		if (response.ok) {
+	// 			const res = await response.text()
+	// 			const json: JSON = JSON.parse(res)
+	// 			email_addr_writable.set(json.email)
+	// 		} 
+	// 		else {
+	// 			// Handle errors here
+	// 			console.error("User is not logged in");
+	// 		}
+	// 	} catch (err) {
+	// 		// Handle network errors here
+	// 		console.error("Network error", err);
+	// 	}
+	// }
 
     async function sendMagicLink(event: { preventDefault: () => void }) {
     event.preventDefault();

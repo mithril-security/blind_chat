@@ -70,10 +70,10 @@
 	};
 </script>
 <div class="bg-chat relative min-h-0 min-w-0">
-	{#if isPrivacyBannerOpen}
+	<!-- {#if isPrivacyBannerOpen}
 	<script type="text/javascript">
 		document.getElementById("PrivacyBanner").style.display = "block";
-	</script>
+	</script> -->
 	<!-- <div class="bg-chat" id="privacy-banner">
 		<div class="border-b border-gray-600 flex justify-between px-4">
 			<div class="justify-center items-center text-center flex-1">
@@ -92,7 +92,7 @@
 		</button>
 		</div>
 	</div> -->
-{/if}
+<!-- {/if} -->
 	<ChatMessages
 		{loading}
 		{pending}
