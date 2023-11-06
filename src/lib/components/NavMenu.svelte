@@ -114,7 +114,7 @@ style = "background-color: #141c2a !important;"
 		</div>
 	{/each}
 </div>
-<div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
+<!-- <div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
 	<div
     class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold"
     on:click={toggleSubMenu}
@@ -161,5 +161,5 @@ style = "background-color: #141c2a !important;"
 		</button>
 	</div>
 </div>
-{/if}
-</div>
+{/if} -->
+<!-- </div> -->

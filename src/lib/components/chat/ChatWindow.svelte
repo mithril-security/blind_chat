@@ -69,12 +69,12 @@
 		message = "";
 	};
 </script>
-<div class="relative min-h-0 min-w-0">
+<div class="bg-chat relative min-h-0 min-w-0">
 	{#if isPrivacyBannerOpen}
 	<script type="text/javascript">
 		document.getElementById("PrivacyBanner").style.display = "block";
 	</script>
-	<div class="bg-chat" id="privacy-banner">
+	<!-- <div class="bg-chat" id="privacy-banner">
 		<div class="border-b border-gray-600 flex justify-between px-4">
 			<div class="justify-center items-center text-center flex-1">
 		<p class="px-4 py-3 text-black/white text-xs lg:text-base">
@@ -91,7 +91,7 @@
 			<CarbonClose class="text-white" />
 		</button>
 		</div>
-	</div>
+	</div> -->
 {/if}
 	<ChatMessages
 		{loading}
@@ -166,7 +166,7 @@
 			</div>
 			<div class="mt-2 flex justify-end self-stretch text-xs text-gray-400/90 max-sm:gap-2">
 				<div
-				class="pb-2 pr-2 rounded-2xl text-center bg-privacy banner flex items-center justify-end group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
+				class="pb-2 pr-2 rounded-2xl text-center flex items-center justify-end group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
 				on:click={toggleHelpMenu}
 				on:keydown={handleKeyDown}
 				>
@@ -209,9 +209,9 @@
 					</button>
 					</div>
 					</div>
-					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
+					<!-- <a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
 					Give Feedback ⤵️
-					</a>
+					</a> -->
 					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="rounded-xl block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
 					FAQ ⤵️
 					</a>
