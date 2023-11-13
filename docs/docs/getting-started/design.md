@@ -1,6 +1,8 @@
-# 🧑‍🎨 Design
-
 ---
+description: "Learn about the principles and design of Blindchat: private conversational AI through remote enclave inference or on-device inference"
+---
+
+# 🧑‍🎨 Design
 
 ## Principles
 

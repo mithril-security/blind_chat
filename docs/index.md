@@ -1,3 +1,7 @@
+---
+description: "Discover Blindchat: an open-source private conversational AI solution"
+---
+
 # 👋 Welcome to BlindChat!
 
 ---

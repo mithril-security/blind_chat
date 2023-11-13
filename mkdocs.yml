@@ -2,9 +2,6 @@
 site_name: BlindChat
 site_url: https://www.blindchat.mithrilsecurity.io/en/latest/
 site_author: Mithril Security
-site_description: >-
-  Create a simple privacy framework for data science collaboration, 
-  covering data exploration and machine learning.
 
 # Repository
 repo_name: mithril-security/blind_chat

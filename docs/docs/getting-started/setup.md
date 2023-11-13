@@ -1,3 +1,7 @@
+---
+description: "Instruction for developers on how to install and deploy Blindchat locally"
+---
+
 # 👋 Getting started for devs
 
 ---
