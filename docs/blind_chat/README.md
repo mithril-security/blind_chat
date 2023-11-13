@@ -10,6 +10,7 @@
 
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
+[![Docs][docs-shield]][docs-url]
 
 </div>
 
@@ -217,7 +218,7 @@ Thank you for your support!
 [twitter-url]: https://twitter.com/MithrilSecurity
 [contact-url]: https://www.mithrilsecurity.io/contact
 [docs-shield]: https://img.shields.io/badge/Docs-000000?style=for-the-badge&colorB=555
-[docs-url]: https://blindllama.mithrilsecurity.io/en/latest/
+[docs-url]: https://blindchat.mithrilsecurity.io/en/latest/
 [license-shield]: https://img.shields.io/github/license/mithril-security/aicert.svg?style=for-the-badge
 [contact]: https://img.shields.io/badge/Contact_us-000000?style=for-the-badge&colorB=555
 [project]: https://img.shields.io/badge/Project-000000?style=for-the-badge&colorB=555
