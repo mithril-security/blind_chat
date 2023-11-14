@@ -256,8 +256,6 @@
 			console.log("Google Tag Manager might not be loaded. Ignoring the error");
 			console.log(e);
 		}
-
-		console.log(dataLayer)
 	}
 
 	async function summarizeTitle(id: string) {
