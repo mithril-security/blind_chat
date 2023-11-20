@@ -22,7 +22,9 @@ Check out our HuggingFace blog post [here](https://huggingface.co/blog/dhuynh95/
 
 ## Presentation of BlindAI to the Confidential Computing Consortium
 
-See our Head of Cybersecurity, Corentin Lauverjat, presenting our BlindAI project in detail [in this video](https://www.youtube.com/watch?v=LzqSFVaN4hE&t=134s)
+See our Head of Cybersecurity, Corentin Lauverjat, presenting our BlindAI project in detail in the following video.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LzqSFVaN4hE?si=8lPdpHcsTPLapwQV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ## PoisonGPT
 
