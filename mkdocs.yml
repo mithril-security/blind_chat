@@ -95,8 +95,41 @@ markdown_extensions:
       emoji_generator: !!python/name:materialx.emoji.to_svg # Documentation tree
 
 
+# Documentation tree
 nav:
-  - 🏠 Home:
-      - 🐱 BlindChat: "./index.md"
-      - 🧑‍🎨 Design: "./docs/getting-started/design.md"
-      - 🛠️ Set-up: "./docs/getting-started/setup.md"
+- 🏠 Home: "./index.md"
+
+- 🐱 BlindChat: "./docs/getting-started/design.md"
+
+- 🦙 BlindLlama: './docs/blind_llama/architecture.md'
+
+- 🚀 Getting Started: 
+#  - Quick tour:  
+  - How we make APIs confidential: 'docs/getting-started/how-we-achieve-zero-trust.md'
+
+- 💡 Concepts:
+  - Overview: 'docs/concepts/overview.md'
+  - Enclaves: 'docs/concepts/enclaves.md'
+  - Trusted Platform Modules: 'docs/concepts/TPMs.md'
+  - Attestation : 'docs/concepts/attestation.md'
+  - Attested TLS: 'docs/concepts/attested-tls.md'
+#  - Trusted Computing Base: 'docs/concepts/TCB.md'
+
+- 🔒 Security:
+  - Trust model: './docs/security/trust-model.md'
+  - BlindLlama whitepaper: 'docs/security/whitepaper.md'
+
+- 🔎 Advanced:
+  - 🛠️ How to customize and deploy BlindChat: "./docs/advanced/blindchat-setup.md"
+  - 🦙 How to deploy your own API with BlindLLama: 'docs/advanced/blindllama-quick-tour.ipynb'
+
+# - 🛠️ API reference: 
+#   - Completion: blind_llama/completion.html
+#   - Index: blind_llama/index.html
+#   - Errors: blind_llama/errors.html
+
+- 💫 Other projects: 
+#  - BlindAI: 'docs/projects/blindai.md'
+  - Project library: 'docs/projects/library.md'
+#   - BastionLab: 'docs/past-projects/bastionlab.md'
+
