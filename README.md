@@ -23,8 +23,8 @@ We are **Mithril Security**, a startup on a mission to **democratize confidentia
 
 ---
 
-![our-solutions](docs/assets/blind-chat-llama-light.jpg#only-light)
-![our-solutions-dark](docs/assets/blind-chat-llama-dark.jpg#only-dark)
+![our-solutions](docs/assets/blind-chat-llama-light.jpg#gh-light-mode-only)
+![our-solutions-dark](docs/assets/blind-chat-llama-dark.jpg#gh-dark-mode-only)
 ### 🐱 BlindChat
 
 **BlindChat** is a **confidential & verifiable Conversational AI**.
