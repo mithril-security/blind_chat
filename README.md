@@ -6,17 +6,15 @@
     <img src="https://github.com/mithril-security/blindai/raw/main/docs/assets/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h1 align="center">BlindChat</h1>
-
+<h1 align="center">🔐 Confidential and trustable AI solutions </h1>
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
 [![Docs][docs-shield]][docs-url]
 
 </div>
 
-## 🔐 Confidential and trustable AI solutions  
-
 We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](docs/docs/concepts/enclaves)!
+
 
 ## What are our main solutions?
 
