@@ -43,7 +43,7 @@ You can test BlindChat [here](https://chat.mithrilsecurity.io/).
 
 Fore more information about the design of BlindChat, check out our dedicated page [here](docs/blind_chat_page.md).
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/CNqStjJ7EVE?si=wKz_Yg_NBKOaotF6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+![demo](./assets/demo_blind_chat.gif)
 
 ### 🦙 BlindLlama
 
