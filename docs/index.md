@@ -1,69 +1,69 @@
 ---
-description: "Discover Blindchat: an open-source private conversational AI solution"
+description: "Discover BlindChat and BlindLlama: confidential and trustable AI solutions"
 ---
 
-# 👋 Welcome to BlindChat!
+# 🔐 Confidential and trustable AI solutions  
 
----
+## Welcome
 
-<font size="5"><span style="font-weight: 200">
-Making Conversational AI Confidential & Transparent
-</font></span>
+We are **Mithril Security**, a startup on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](./docs/concepts/enclaves)!
 
-## 📜 What is BlindChat?
 
----
-
-### Introduction
-
-🐱 **BlindChat** is an open-source project to develop **the first fully in-browser and private Conversational AI**.
-
-Most conversational AI solutions today require users to send their data to AI providers who serve AI models as a Service. This poses privacy issues for users who **lose control over their data**.
-
-⚠️ Because data is a key asset to improve LLMs, **many solutions more or less implicitly fine-tune users’ data to improve their model**.
-
-This creates privacy risks for users as LLMs might learn their data by heart. Carlini et al.[1] showed that LLMs such as GPT-J could learn at least 1% of their training set by heart.
-
-🔐 BlindChat solves this issue as users have guarantees that their data remains private at all times and have full control over it, either by doing local inference or using secure isolated environments called secure enclaves.
-
-## 💬 BlindChat Local: Demo
+## What are our main solutions?
 
 ---
 
-![demo](https://github.com/mithril-security/blind_chat/blob/main/docs/assets/demo_blind_chat.gif?raw=true)
+![our-solutions](./assets/blind-chat-llama-light.jpg#only-light)
+![our-solutions-dark](./assets/blind-chat-llama-dark.jpg#only-dark)
+### 🐱 BlindChat
 
-### 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)!
+**BlindChat** is a **confidential & verifiable Conversational AI**.
 
-We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
+It is available via an easy-to-use web API similar to ChatGPT, Bard, or Claude, but with BlindChat, users have cryptographic guarantees that their prompts remain private from the AI provider (in this case Mithril Security). Not even our admins can access user data.
 
-## 🌎 Who is BlindChat for?
+We achieve this by leveraging a **privacy-enhacing technology called enclaves** with our **underlying core solution, BlindLlama**.
 
+Before each connection with BlindChat, we verify the system, providing **technical proofs** that:
+
+- **we cannot see your data**
+- **we cannot train on your data** 
+- **we cannot leak your data.**
+
+You can test BlindChat [here](https://chat.mithrilsecurity.io/).
+
+Fore more information about the design of BlindChat, check out our dedicated page [here](./blind_chat_page.md).
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CNqStjJ7EVE?si=wKz_Yg_NBKOaotF6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+### 🦙 BlindLlama
+
+**BlindLlama** is the core technology behind BlindChat. It enables AI providers to deploy easy-to-use AI APIs within a **privacy-by-design system** using **enclaves**. With BlindLlama, AI providers can provide **cryptograhic guarantees** that they will not be able to access user data. 
+
+Fore more information about the design of BlindLlama, check out our dedicated page [here](/blind_chat_page.md).
+
+### 🐈 BlindChat Local
+
+BlindChat Local is a variant of the BlindChat project, but instead of protecting user data by deploying our conversational AI server within an enclave - we eliminate the need for a remote server altogether! Instead, BlindChat Local operates entirely in your browser, using [transformers.js](https://github.com/xenova/transformers.js) for local inference and saving conversations in the browser cache - this means **your data never leaves your device**!
+
+You can try BlindChat local [here](https://huggingface.co/spaces/mithril-security/blind_chat)
+
+> Note that the models and performance with BlindChat Local are restricted by the user's device. For best performance, we recommend remote inference with our standard BlindChat solution.
+
+### 📊 Comparisons
+
+|                         | Client-side bandwidth requirements | Client-side computing requirements | Model capabilities | Privacy |
+| --------------------    | ---------------------------------- | ---------------------------------- | ------------------ | ------- |
+| ⭐ BlindChat with BlindLlama  | Low                                | Low                                | High               | High    |
+| BlindChat Local         | High                               | High                               | Low                | High    |
+| Regular AI APIs         | Low                                | Low                                | High               | ⚠️ Low     |
+
+
+## Getting started
 ---
 
-BlindChat aims to serve two users:
-
-- **End users:** We want to provide privacy-by-design alternatives to change the current status quo. Most users today are forced to give up their data to leverage AI services, and opaque or inexistent privacy controls are the norm.
-
-- **Developers:** We want to help developers easily serve privacy-by-design Conversational AI, which is why we are focused on making BlindChat easy to customize and deploy.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## 🎯 Roadmap
-
----
-
-You can check out our progress in more detail on our [official roadmap](https://github.com/orgs/mithril-security/projects/2/views/4). We highlight feature on which we would love help from contributors in our [help wanted section](https://github.com/orgs/mithril-security/projects/2/views/3).
-
-Roadmap quick summary:
-
-- [x] Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.)
-- [x] Integration of privacy-by-design inference with local model
-- [x] Local caching of conversations
-- [ ] Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm))
-- [ ] Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B)
-- [ ] Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG)
-- [ ] Internet search
-- [ ] Connectors to pull data from different sources
+- [Try out BlindChat](https://chat.mithrilsecurity.io/)
+- Learn more about [how we protect your data](docs/getting-started/how-we-protect-your-data.md)
+- Discover the [technologies behind BlindChat](docs/concepts/overview.md)
 
 ## 📇 Get in touch
 
@@ -81,9 +81,3 @@ Want to hear more about our work on privacy in the field AI?
 - Subscribe to our newsletter [here](https://blog.mithrilsecurity.io/)
 
 Thank you for your support!
-
-## References
-
----
-
-[1] Carlini, N., Ippolito, D., Jagielski, M., Lee, K., Tramer, F., & Zhang, C. (2022). Quantifying Memorization Across Neural Language Models. ArXiv. /abs/2202.07646
