@@ -7,6 +7,7 @@
   </a>
 
 <h1 align="center">🔐 Confidential and trustable AI solutions </h1>
+
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
 [![Docs][docs-shield]][docs-url]
