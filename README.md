@@ -14,10 +14,9 @@
 
 </div>
 
-# 🔐 Confidential and trustable AI solutions  
+## 🔐 Confidential and trustable AI solutions  
 
-We are **Mithril Security**, a startup on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](docs/docs/concepts/enclaves)!
-
+We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](docs/docs/concepts/enclaves)!
 
 ## What are our main solutions?
 
