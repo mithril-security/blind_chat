@@ -69,7 +69,7 @@
 		message = "";
 	};
 </script>
-<div class="relative min-h-0 min-w-0">
+<div class="relative min-h-0 min-w-0 bg-[#0e1b35]">
 	{#if isPrivacyBannerOpen}
 	<script type="text/javascript">
 		document.getElementById("PrivacyBanner").style.display = "block";
@@ -164,7 +164,7 @@
 					</button>
 				{/if}
 			</div>
-			<div class="mt-2 flex justify-end self-stretch text-xs text-gray-400/90 max-sm:gap-2">
+			<!-- <div class="mt-2 flex justify-end self-stretch text-xs text-gray-400/90 max-sm:gap-2">
 				<div
 				class="pb-2 pr-2 rounded-2xl text-center bg-privacy banner flex items-center justify-end group h-11 -lg font-semibold text-gray-400 hover:bg-gray-700"
 				on:click={toggleHelpMenu}
@@ -172,7 +172,7 @@
 				>
 				<Help/>
 				</div>
-			</div>
+			</div> -->
 		</form>
 		{#if messages.length}
 			<script type="text/javascript">
@@ -193,7 +193,7 @@
 				<div class="max-sm:hidden">Share this conversation</div>
 			</button>
 		{/if} -->
-		{#if isHelpMenuOpen}
+		<!-- {#if isHelpMenuOpen}
 		<script type="text/javascript">
 			document.getElementById("helpMenu").style.display = "block";
 		</script>
@@ -220,6 +220,6 @@
 					</a>
 				</div>
 			</div>
-	{/if}
+	{/if} -->
 	</div>
 	</div>

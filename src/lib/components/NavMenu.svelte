@@ -88,9 +88,9 @@
         is_magic_writable.set(false);
     }
 </script>
-{#if !$is_logged_writable}
-    <Login/>
-{/if}
+<!-- {#if !$is_logged_writable}
+    <Login/> -->
+<!-- {/if} -->
 <!-- top left corner - remove from class bg-[#141c2a] -->
 <div class="bg-[#142343] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
@@ -117,16 +117,16 @@ style = "background-color: #141c2a !important;"
 		</div>
 	{/each}
 </div>
-<div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
+<!-- <div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
 	<div
     class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
     {email_addr.length > 0 ? email_addr : "Not logged in"}
-</div>
+</div> -->
 
-{#if isSubMenuOpen}
+<!-- {#if isSubMenuOpen}
 <script type="text/javascript">
 	document.getElementById("submenu").style.display = "block";
 </script>
@@ -164,5 +164,5 @@ style = "background-color: #141c2a !important;"
 		</button>
 	</div>
 </div>
-{/if}
-</div>
+{/if} -->
+<!-- </div> -->
