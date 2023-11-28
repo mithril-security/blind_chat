@@ -103,9 +103,9 @@ nav:
   # - 🦙 What is BlindLlama?:
   # - Architecture: './docs/blind_llama/architecture.md'
 
-- 🚀 Getting Started:
-  - Architecture: 'docs/getting-started/architecture.md'
-  - How it works: 'docs/getting-started/how-we-protect-your-data.md'
+# - 🚀 Getting Started:
+#   - Architecture: 'docs/getting-started/design.md'
+#   - How it works: 'docs/getting-started/how-we-protect-your-data.md'
   #  - Quick tour: 'docs/getting-started/quick-tour.ipynb'
 
 - 💡 Concepts:
