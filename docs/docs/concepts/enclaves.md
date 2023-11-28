@@ -1,46 +1,46 @@
-# Hardened systems
+# Enclaves
 ________________________________________________________
 
-## What are hardened systems?
+## What are enclaves?
 
-Hardened systems operate without special administrative privileges or backdoors. The underlying principle is that once a system comes into contact with confidential data, it should not be possible even for administrators to get privileged access to the system and the system should operate predictably. This is essential for achieving high-security standards, as the security of a system is only as strong as its weakest link, and it is often the humans that are the weakest link in otherwise reasonably secure systems.
+Enclaves are secure and verifiable computing environments designed to protect data in use.
 
-Protecting data within an environment from external access and manipulation, is not a new concept, with one of the most robust examples coming in the form of [Confidential Computing's](https://www.ibm.com/topics/confidential-computing) [Trusted Execution Environments](https://www.techtarget.com/searchitoperations/definition/trusted-execution-environment-TEE).
+They have two key properties:
 
-Let's now find out more about BlindLlama's hardened environments and how we protect these environments from outside access.
+- **Confidentiality**: Data analyzed in an enclave is not exposed even to the party that manages the enclave thanks to isolation and encryption. 
+- **Code integrity**: Enclaves can provide verifiable cryptographic guarantees that they are correctly configured and contain the expected code. 
 
-## How do we create hardened environments in BlindLlama?
+![enclave](../../assets/enclaves.png#only-dark)
+![enclaves](../../assets/enclaves-light.png#only-light)
 
-To ensure data security, we:
+Users’ data sent to an enclave application is encrypted and is only decrypted and analyzed inside of the enclave, which is isolated from the rest of the system. 
 
-+ Modify the OS image and VM configurations to eliminate all system administrator's access. For instance, there is no SSH access to the server.
-+ Limit or remove telemetry and logging that is sent to external monitoring services.
+While the type of encryption can vary depending on the enclave provider, the keys are created in protected memory, often inside of the enclave itself, so no one can access the encryption key.
 
-> We consider local-only logs to be safe as long as they never leave the hardened system, so there is no need to disable them.
+### Enclaves providers
 
-For enhanced security, we deploy a minimal OS. The OS runs entirely in RAM rather than using the disk. This is to eliminate the risks associated with disk usage such as confidential data leakage via the filesystem and system integrity corruption.
+There are various different enclaves, which come with different trade-offs and implementations, but all of them provide confidentiality for data in use and a way to verify the enclave.
 
-![hardened-env-dark](../../assets/hardened-dark.png#only-dark)
-![hardened-env-light](../../assets/hardened-light.png#only-light)
+The table below gives a quick overview of some available enclave solutions today.
 
-## Security measures and process
+![enclaves-table](../../assets/enclaves-table.jpg#only-dark)
+![enclaves-table](../../assets/enclaves-table-light.jpg#only-light)
 
-Before deploying a service, a full hardening and audit of the application layer is done.
+Let's now find out more about the enclaves leveraged in BlindLlama
 
-A pen testing of the server is done to:
+## How we use enclaves in BlindLlama
 
-+ Have an overview of the software and its attack surface
-+ Remove all the possible accesses or controls that represent a threat 
+Due to their lack of compatibility with GPU, which is a must for LLM inference tasks, we did not create BlindLLama around an existing solution, but rather we created our own type of enclaves using virtual Trusted Platform Modules (TPMs). 
 
-Following this, remediation of any issues found is done.
+> TPMs are a tried and tested technology that can be used to measure, store and verify the whole software stack of a machine.
 
-While hardening the server image, memory management is a crucial part of securing the runtime software. Strict isolation of the image is done through configuration by disabling or restricting multiple accesses.
+![our-enclaves](../../assets/our-enclaves.png#only-dark)
+![our-enclaves](../../assets/our-enclaves-light.png#only-light)
 
-On the network side, only the required ports will be open and used, and all the data in transit will be encrypted through the attested TLS encryption mechanism (which we discuss [in the last section this guide](./attested-tls.md)) to ensure the integrity and confidentiality of the data. Furthermore, a thorough review of the web-based APIs included is taken into account. 
+Our enclaves **ensure confidentiality** through the deployment of a container with strict isolation policies, as well as a custom minimal OS, loaded in RAM to mitigate attacks on disk. 
 
-Access control is also reviewed, as it is a common attack surface. If needed, we limit and restrict users and privileges.
- 
-Every verification that goes into delivering the hardened environment will be detailed in a deliverable that will also contain a full auditing report resulting from the pen testing and remediation actions.
+We ensure code integrity through **TPM-based attestation**, which verifies the customs OS, application and TLS certificate of our enclave.
+
 
 <div style="text-align: left;">
   <a href="../overview" class="btn">Back</a>

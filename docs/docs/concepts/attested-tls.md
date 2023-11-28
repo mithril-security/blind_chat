@@ -13,6 +13,9 @@ By binding a TLS certificate to an attested secure environment we protect oursel
 
 ## How does attested TLS work in BlindLlama?
 
+![aTLS-light-mode](../../assets/aTLS-light.png#only-light)
+![aTLS-dark-mode](../../assets/aTLS-dark.png#only-dark)
+
 Let's take a look at how we attested TLS works in BlindLlama step-by-step:
 
 ### Server side

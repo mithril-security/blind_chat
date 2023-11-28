@@ -29,5 +29,3 @@ We can prove such controls are in place using [TPM-based attestation](../concept
 
 ![trust-model-light](../../assets/trust-model-light.png#only-light)
 ![trust-model-dark](../../assets/trust-model-dark.png#only-dark)
-
-> See our section on BlindLlama's [Trusted Computing Base (TCB)](../concepts/TCB.md) to see which components we trust or verify in our stack!

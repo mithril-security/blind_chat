@@ -1,29 +1,35 @@
-# Trusted Platform Modules (TPMs)
+# Attestation
 ________________________________________________________
 
-### What is a TPM?
 
-TPMs are secure hardware components (usually in the form of a small chip), with built-in cryptographic capabilities and secure storage in the form of Platform Configuration Registers (PCRs). They are generally used to protect secrets such as encryption keys with enhanced security since they cannot be directly accessed or tampered with by the OS. 
+Enclaves are able to provide us with cryptographic proof of their code and settings. These proofs can be verified, meaning the client can verify that it is:
 
-In our case, we make use of the TPMs to ensure the integrity of a whole software stack by measuring each component, from the UEFI to the OS, which can then be verified (or **attested**).
+- Communicating with a genuine enclave from the expected enclave provider
+- That the enclave serves the expected application code
+- That the enclave is correctly configured
 
-In addition, we also use TPMs to measure and attest additional data such as the server code and model weights.
+The process of receieving and verifying these proofs is called **attestation**, since we **attest** the enclave and its code are as expected.
 
-The enhanced security and platform integrity of TPMs is leveraged and offered by all the major Cloud providers in the form of vTPMs, or virtual TPMS. Azure leverages TPMs in their [Trusted Launch](https://learn.microsoft.com/en-us/azure/virtual-machines/trusted-launch) offer, AWS with [NitroTPM & Secure Boot](https://aws.amazon.com/blogs/aws/amazon-ec2-now-supports-nitrotpm-and-uefi-secure-boot/) and Google Cloud with vTPM-compatibility provided across their [VMware Engine](https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-vtpm).
+!!! important
 
-A virtual Trusted Platform Module (vTPM) is a software-based implementation of a physical Trusted Platform Module (TPM) chip which provides all the same functions as the physical chip. The hypervisor creates a secure and isolated region of memory which replicates the isolation of a physical TPM.
+    The goal of this process is to check that the code running is indeed the code of the application we are expecting and has not been tampered with. It isn't to audit the application code itself. You can think of this a bit like a checksum when you download a software!
 
-![tpm-vs-vtpm-light](../../assets/tpm-vs-vtpm-light.png#only-light)
-![tpm-vs-vtpm-dark](../../assets/tpm-vs-vtpm-dark.png#only-dark)
+## How do we implemet attestation in BlindLlama?
 
+With BlindLlama, we measure our enclave code using a virtual TPM (vTPM). We are able to measure the whole software stack of our enclave, from the UEFI to our custom OS, which can then be verified (or **attested**).We also measure and attest additional custom data such as the enclave's application code and TLS certificate.
 
-## How do we use TPMs in BlindLlama?
+??? example "What is a TPM?"
 
-BlindLlama achieves confidentiality of data by first hardening our AI server, i.e. having it reviewed to ensure it is not leaking data, and then proving such a hardened server is actually used by verifying the expected server is loaded. 
+      TPMs are secure hardware components (usually in the form of a small chip), with built-in cryptographic capabilities and secure storage in the form of Platform Configuration Registers (PCRs). They are often used to protect secrets such as encryption keys but can also measure and store cryptographic hashes relating to the whole software stack of a platform.
 
-### Server side
+      vTPMs are a software-based implementation of a physical Trusted Platform Module (TPM) chip which provides all the same functions as the physical chip. The hypervisor creates a secure and isolated region of memory which replicates the isolation of a physical TPM. vTPMs are offered by all the major Cloud providers. Azure leverages TPMs in their [Trusted Launch](https://learn.microsoft.com/en-us/azure/virtual-machines/trusted-launch) offer, AWS with [NitroTPM & Secure Boot](https://aws.amazon.com/blogs/aws/amazon-ec2-now-supports-nitrotpm-and-uefi-secure-boot/) and Google Cloud with vTPM-compatibility provided across their [VMware Engine](https://cloud.google.com/vmware-engine/docs/vmware-ecosystem/howto-vtpm).
 
-#### Measuring the software stack
+      ![tpm-vs-vtpm-light](../../assets/tpm-vs-vtpm-light.png#only-light)
+      ![tpm-vs-vtpm-dark](../../assets/tpm-vs-vtpm-dark.png#only-dark)
+
+### Server side: Measuring the software stack
+
+Let's firstly takea  look at how the server provides cryptographic proof of its codebase.
 
 When the TPM-enabled machine used for server deployment is booted, various default measurements are taken, such as hashes of firmware, boot loaders, and critical system files. These hashes are stored in the TPM's PCRs (Platform Configuration Registers), a set of registers, or locations in memory, within the TPM itself.
 
@@ -68,8 +74,6 @@ The client validates the AK using the certificate chain. This certificate chain 
 ![chain-dark](../../assets/chain-dark.png#only-dark)
 ![chain-light](../../assets/chain-light.png#only-light)
 
-!!! warning 
-    There is currently no signed endorsement from Azure for the TPM’s attestation key. We are currently working on resolving this issue. 
 
 #### 2. Verifying the TPM quote
 

@@ -145,3 +145,45 @@
 	cursor: pointer;
 	transition: 0.3s;
 }
+
+
+/******* max width for large images *******/
+
+@media screen and (min-width: 350px) {
+	img[alt=PCR-alloc-dark] { max-width: 350px;}
+	img[alt=PCR-alloc-light] { max-width: 350px;}
+	img[alt=tpm-quote-dark] { max-width: 350px;}
+	img[alt=tpm-quote-light] { max-width: 350px;}
+	img[alt=PCR-alloc-extra-dark] { max-width: 350px;}
+	img[alt=PCR-alloc-extra-light] { max-width: 350px;}
+	}
+	
+	@media screen and (min-width: 600px) {
+	img[alt=trust-model-light] { max-width: 600px;}
+	img[alt=trust-model-dark] { max-width: 600px;}
+	img[alt=tcb-light] { max-width: 600px;}
+	img[alt=tcb-dark] { max-width: 600px}
+	img[alt=proof-light] { max-width: 600px;}
+	img[alt=proof-dark] { max-width: 600px;}
+	img[alt=certificates-light] { max-width: 600px;}
+	img[alt=certificates-dark] { max-width: 600px;}
+	img[alt=matching-light] { max-width: 600px;}
+	img[alt=matching-dark] { max-width: 600px;}
+	}
+	
+	@media screen and (min-width: 650px) {
+	img[alt=hash-check-light] { max-width: 650px;}
+	img[alt=hash-check-dark] { max-width: 650px;}
+	img[alt=arch-light] { max-width: 650px;}
+	img[alt=arch-dark] { max-width: 650px;
+	}
+	
+	@media screen and (min-width: 550px) {
+	img[alt=chain-light] { max-width: 550px;}
+	img[alt=chain-dark] { max-width: 550px;}
+	}
+	
+	@media screen and (min-width: 400px) {
+	img[alt=tpm-vs-vtpm-light] { max-width: 400px;}
+	img[alt=tpm-vs-vtpm-dark] { max-width: 400px;}
+	}

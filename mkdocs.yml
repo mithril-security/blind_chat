@@ -104,7 +104,8 @@ nav:
   # - Architecture: './docs/blind_llama/architecture.md'
 
 - 🚀 Getting Started:
-  - How we protect user data: 'docs/getting-started/how-we-protect-your-data.md'
+  - Architecture: 'docs/getting-started/architecture.md'
+  - How it works: 'docs/getting-started/how-we-protect-your-data.md'
   #  - Quick tour: 'docs/getting-started/quick-tour.ipynb'
 
 - 💡 Concepts:

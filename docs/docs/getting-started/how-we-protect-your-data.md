@@ -1,9 +1,9 @@
 # How we protect your data
 ________________________________________________________
 
-On this page, we will present a global overview of how we ensure that data sent to our confidential AI APIs remains confidential and how we prove that even our own admins cannot see users’ data. 
+On this page, we will present a global overview of how we ensure that data sent to BlindChat, or any other API deployed with BlindLLama, remains confidential and how we can prove that even our own admins cannot see users’ data. 
 
-> The [concepts section](../concepts/overview.md) provides a more in-depth explanation of the building blocks we use to ensure user data remains private in our confidential AI APIs.
+> The [concepts section](../concepts/overview.md) provides a more in-depth explanation of the technologies that undepin our solutions.
 
 The key to achieving zero trust is our **secure and transparent systems by design**:
 
@@ -17,22 +17,29 @@ At the end of this process, users will know that when using our Python SDK, **th
 
 ## Server side
 
+[TODO: UPDATE THIS IMAGE]
+
 ![toolchain-light](../../assets/secure-tooling-light.png#only-light)
 ![toolchain-dark](../../assets/secure-tooling-dark.png#only-dark)
 
-### 1. Hardening the AI server to ensure privacy
+### 1. Deploying the API in an enclave
 
-We remove all admin/operator access from the AI server, such as SSH access to the machine. This means that once the AI server is running, we are blind to data sent to the service. Because we have no access to data, we can neither see it nor use it for any other purposes. This ensures that no insider threat can impact our production services.
+[TEXT TODO]
 
-We provide more details about **hardened systems** in our [concepts guide](../concepts/hardened-systems.md).
+We provide more details about **enclaves** in our [concepts guide](../concepts/enclaves.md).
 
 ### 2. Proving privacy controls are applied
 
 While other solutions may also claim to put similar controls in place, they usually provide no technical evidence regarding how AI providers will handle or use data. Even where a code base is open-source, users cannot check the server they connect to hosts the application they expect and nothing else.
 
-With BlindLlama, we use secure hardware, [Trusted Platform Modules (TPMs)](../concepts/TPMs.md), to create a cryptographic proof file to show that the expected hardened server really is deployed in our backend. Before sending any data, end users verify this proof file to make sure they are talking to a privacy-preserving AI infrastructure using our client-side SDK. 
+With BlindLlama, we use secure hardware, [Trusted Platform Modules (TPMs)](../concepts/TPMs.md), to create a cryptographic proof file to show that the expected hardened server really is deployed in our backend. Before sending any data, end users verify this proof file to make sure they are talking to a privacy-preserving AI infrastructure using our client-side SDK. This process of verification is called attestation. 
 
-We provide more information about TPMs in our [concepts guide](../concepts/TPMs.md).
+Not only do we attest the code loaded in our backend.
+
+You can learn more about attestation and attested TLS in our [concepts guide](../concepts/attestation.md).
+
+
+
 
 ### 3. Auditing the whole stack
 
