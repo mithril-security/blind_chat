@@ -14,7 +14,7 @@
 
 </div>
 
-We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](docs/docs/concepts/enclaves)!
+We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](https://blind-chat.readthedocs.io/en/docs-merger/docs/concepts/enclaves/)!
 
 
 ## What are our main solutions?
@@ -39,15 +39,11 @@ Before each connection with BlindChat, we verify the system, providing **technic
 
 You can test BlindChat [here](https://chat.mithrilsecurity.io/).
 
-Fore more information about the design of BlindChat, check out our dedicated page [here](docs/blind_chat_page.md).
-
 ![demo](./assets/demo_blind_chat.gif)
 
 ### 🦙 BlindLlama
 
 **BlindLlama** is the core technology behind BlindChat. It enables AI providers to deploy easy-to-use AI APIs within a **privacy-by-design system** using **enclaves**. With BlindLlama, AI providers can provide **cryptograhic guarantees** that they will not be able to access user data. 
-
-Fore more information about the design of BlindLlama, check out our dedicated page [here](docs/blind_chat_page.md).
 
 ### 🐈 BlindChat Local
 
@@ -70,8 +66,7 @@ You can try BlindChat local [here](https://huggingface.co/spaces/mithril-securit
 ---
 
 - [Try out BlindChat](https://chat.mithrilsecurity.io/)
-- Learn more about [how we protect your data](docs/docs/getting-started/how-we-protect-your-data.md)
-- Discover the [technologies behind BlindChat](docs/docs/concepts/overview.md)
+- Discover the [technologies behind BlindChat](https://blind-chat.readthedocs.io/en/docs-merger/docs/concepts/overview/)
 
 ## 📇 Get in touch
 
