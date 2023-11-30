@@ -11,6 +11,11 @@ The concepts we will cover are:
   2. [**Attestation**](./attestation.md): We discuss how we provide cryptographic guarantees that our security measures are in place
   3. [**Attested TLS**](./TPMs.md): We describe how we verify the identity of our enclave before enabling secure communications to proceed
 
+You can also watch our video to learn about these concepts and how they relate to BlindChat:
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bfFnNCI9Vq8?si=5thZFUKTMbxGKMXk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+
+
 <div style="text-align: right;">
   <a href="../enclaves" class="btn">Next</a>
 </div>
