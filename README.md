@@ -6,7 +6,7 @@
     <img src="https://github.com/mithril-security/blindai/raw/main/docs/assets/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h1 align="center">BlindChat</h1>
+<h1 align="center">🔐 Confidential and trustable AI solutions </h1>
 
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
@@ -14,184 +14,63 @@
 
 </div>
 
- <p align="center">
-    <b>Open-source and privacy-by-design alternative to ChatGPT</b><br /><br />
-   <!-- 
-    <a href="https://blindllama.mithrilsecurity.io/en/latest"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://aicert.mithrilsecurity.io/en/latest/docs/getting-started/quick-tour/">Get started</a>
-    ·
-    <a href="https://github.com/mithril-security/aicert/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/mithril-security/aicert/issues">Request Feature</a>
-  </p>
-</div>
+We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](https://blind-chat.readthedocs.io/en/docs-merger/docs/concepts/enclaves/)!
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li><a href="#-about-the-project">About the project</a></li>
-    <li><a href="#-roadmap">Roadmap</a></li>
-    <li><a href="#-design">Design</a></li>
-    <li><a href="#-comparisons">Comparisons</a></li>
-    <li><a href="#-get-in-touch">Contact</a></li>
-  </ol>
-</details>
 
-## 📜 About the project
+## What are our main solutions?
 
-### What is BlindChat?
+---
 
-🐱 **BlindChat** is an open-source project to develop **the first fully in-browser and private Conversational AI**.
+![our-solutions](docs/assets/blind-chat-llama-light.jpg#gh-light-mode-only)
+![our-solutions-dark](docs/assets/blind-chat-llama-dark.jpg#gh-dark-mode-only)
+### 🐱 BlindChat
 
-Most conversational AI solutions today require users to send their data to AI providers who serve AI models as a Service. This poses privacy issues for users who **lose control over their data**.
+**BlindChat** is a **confidential & verifiable Conversational AI**.
 
-⚠️ Because data is a key asset to improve LLMs, **many solutions more or less implicitly fine-tune users’ data to improve their model**.
+It is available via an easy-to-use web API similar to ChatGPT, Bard, or Claude, but with BlindChat, users have cryptographic guarantees that their prompts remain private from the AI provider (in this case Mithril Security). Not even our admins can access user data.
 
-This creates privacy risks for users as LLMs might learn their data by heart. Carlini et al. [1] showed that LLMs such as GPT-J could learn at least 1% of their training set by heart.
+We achieve this by leveraging a **privacy-enhacing technology called enclaves** with our **underlying core solution, BlindLlama**.
 
-🔐 BlindChat solves this issue as users have guarantees that their data remains private at all times and have full control over it, either by doing local inference or using secure isolated environments called secure enclaves.
+Before each connection with BlindChat, we verify the system, providing **technical proofs** that:
 
-### Local conversations
+- **we cannot see your data**
+- **we cannot train on your data** 
+- **we cannot leak your data.**
 
-### Demo
+You can test BlindChat [here](https://chat.mithrilsecurity.io/).
 
 ![demo](./assets/demo_blind_chat.gif)
 
-#### 👩‍💻 You can try out BlindChat [here](https://chat.mithrilsecurity.io)!
+### 🦙 BlindLlama
 
-We enable users to interact with a [Flan-T5 model](https://huggingface.co/docs/transformers/model_doc/flan-t5) locally through their browser: the model is pulled and used for local inference using [transformers.js](https://huggingface.co/docs/transformers.js/index).
+**BlindLlama** is the core technology behind BlindChat. It enables AI providers to deploy easy-to-use AI APIs within a **privacy-by-design system** using **enclaves**. With BlindLlama, AI providers can provide **cryptograhic guarantees** that they will not be able to access user data. 
 
-### Who is BlindChat for?
+### 🐈 BlindChat Local
 
-BlindChat aims to serve two users:
+BlindChat Local is a variant of the BlindChat project, but instead of protecting user data by deploying our conversational AI server within an enclave - we eliminate the need for a remote server altogether! Instead, BlindChat Local operates entirely in your browser, using [transformers.js](https://github.com/xenova/transformers.js) for local inference and saving conversations in the browser cache - this means **your data never leaves your device**!
 
-- **End users:** We want to provide privacy-by-design alternatives to change the current status quo. Most users today are forced to give up their data to leverage AI services, and opaque or inexistent privacy controls are the norm.
+You can try BlindChat local [here](https://huggingface.co/spaces/mithril-security/blind_chat)
 
-- **Developers:** We want to help developers easily serve privacy-by-design Conversational AI, which is why we are focused on making BlindChat easy to customize and deploy.
+> Note that the models and performance with BlindChat Local are restricted by the user's device. For best performance, we recommend remote inference with our standard BlindChat solution.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+### 📊 Comparisons
 
-## Roadmap
+|                         | Client-side bandwidth requirements | Client-side computing requirements | Model capabilities | Privacy |
+| --------------------    | ---------------------------------- | ---------------------------------- | ------------------ | ------- |
+| ⭐ BlindChat with BlindLlama  | Low                                | Low                                | High               | High    |
+| BlindChat Local         | High                               | High                               | Low                | High    |
+| Regular AI APIs         | Low                                | Low                                | High               | ⚠️ Low     |
 
-You can check out our progress in more detail on our [official roadmap](https://github.com/orgs/mithril-security/projects/2/views/4). We highlight feature on which we would love help from contributors in our [help wanted section](https://github.com/orgs/mithril-security/projects/2/views/3).
 
-Roadmap quick summary:
+## Getting started
+---
 
-- [x] Revamping of Hugging Face Chat UI to make it entirely client-side (removal of telemetry, data sharing, server-side history of conversations, server-side inference, etc.)
-- [x] Integration of privacy-by-design inference with local model
-- [x] Local caching of conversations
-- [x] Integration of more advanced local models (e.g. [phi-1.5](https://huggingface.co/microsoft/phi-1_5)) and more advanced inference (e.g. [Web LLM](https://github.com/mlc-ai/web-llm))
-- [ ] Integration of privacy-by-design inference with remote enclaves using BlindLlama for powerful models such as [Llama 2 70b](https://huggingface.co/meta-llama/Llama-2-70b-chat-hf) & [Falcon 180b](https://huggingface.co/tiiuae/falcon-180B)
-- [ ] Integration with [LlamaIndex TS](https://github.com/run-llama/LlamaIndexTS) for local Retrieval Augmented Generation (RAG)
-- [ ] Internet search
-- [ ] Connectors to pull data from different sources
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## 🔧 Setup
-
-Before going any further, please make sure you have [Node JS 18.0](https://nodejs.org/en) installed on your system.
-
-To run the chat user interface in dev/debug mode for testing purposes, execute the following commands in the root folder of your BlindChat code repo.
-
-```bash
-npm install
-npm run dev
-```
-
-This will install the dependencies of the project and launch the dev environment.
-
-The chat can be deployed in production mode with the following commands:
-
-```bash
-npm run build
-node build
-```
-
-The chat-ui uses server-side rendering, so building the pages before deploying them is mandatory.
-
-> ⚠️ Note that the command `node build` will run the server in `HTTP mode`.
-> If you wish to add TLS, please use a proxy server, such as NGINX.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## 🧑‍🎨 Design
-
-### Principles
-
-🤗 **BlindChat** is a fork from [**Hugging Face Chat UI project**](https://huggingface.co/spaces/huggingchat/chat-ui).
-
-We modified the code so that various tasks usually handled by the server are done by the browser. This is to **ensure privacy** as we do not want to send user data to the server/AI provider as our solution **places the AI provider outside of our trust model**.
-
-### Philosophy
-
-To make AI transparent and confidential, (almost) all of the logic is transported from the server-side to the client-side browser.
-
-This ensures end-users’ privacy and gives them control over what happens to their data. For instance, the inference can be done locally using transformers.js, and conversations can be stored in the user's browser chat. This means the operators of the AI service are blind to the user's data, hence the name BlindChat!
-
-Data is only sent server-side where our remote enclave mode is selected. With this mode, the server is deployed within a hardened and verifiable environment called an enclave which provides end-to-end protection and prevents external access. Not even the AI provider admins operating the enclave can read users’ data.
-
-Note that while our hardened environments don’t fit in with all definitions of an “enclave”, we will use it for convenience’s sake here to describe an environment that allows a server to process data without exposing its contents to service providers.
-
-### Private inference
-
-We offer two modes to ensure users’ data remains private:
-
-#### BlindChat Local: On-device inference
-
-![on-device-mode-dark](./assets/on-device-dark.png#gh-dark-mode-only)
-![on-device-mode-light](./assets/on-device-light.png#gh-light-mode-only)
-
-With BlindChat Local, the model is sent locally to the users’ browser, and **inference is performed on-device**.
-
-This mode is **generally suitable for smaller models** as large models may require too much bandwidth and computational resources.
-
-#### BlindChat Enclave: Confidential AI APIs with enclaves
-
-![zero-trust-mode-dark](./assets/zero-trust-dark.png#gh-dark-mode-only)
-![zero-trust-mode-light](./assets/zero-trust-light.png#gh-light-mode-only)
-
-With BlindChat Enclave, data is sent to a **secure environment** called an **enclave** containing the model for remote inference.
-
-These environments provide **end-to-end protection** through robust **isolation and verification**. User data is **never accessible in clear** to the AI provider admins.
-
-> You can find out more about Confidential and transparent AI APIs with enclaves in the [guide](https://blindllama.mithrilsecurity.io/en/latest/docs/concepts/hardened-systems/) we provide with our [BlindLlama project](https://blindllama.mithrilsecurity.io/en/latest/), which is the underlying technology for this mode of BlindChat.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Architecture
-
-The project currently has three major components:
-
-- **UI:** This is the Chat interface that the end user interacts with. It contains the Chat box, and will contain plugins and other widgets for more complex interaction, such as loading documents or enabling voice commands.
-- **Private LLM:** Developers can customize which LLM they choose to answer users’ queries. Current options are either local models or remote enclaves to ensure transparent and private inference.
-- **Storage:** Developers can customize what kind of storage is used to save information such as conversation history and, in the future, embeddings for RAG.
-
-**\*Coming soon:**
-
-- **Connectors:** Connectors will allows users to pull documents from various sources, e.g. PDF upload, and share outputs
-- **Integration with Llama Index TS:** This will allow users to index documents with local models, store them in local storage and use them for RAG (query the LLMs based on the information contained in their documents).
-
-## 📊 Comparisons
-
-|                      | Client-side bandwidth requirements | Client-side computing requirements | Model capabilities | Privacy |
-| -------------------- | ---------------------------------- | ---------------------------------- | ------------------ | ------- |
-| On-device prediction | High                               | High                               | Low                | High    |
-| Regular AI APIs      | Low                                | Low                                | High               | Low     |
-| Zero-trust AI APIs   | Low                                | Low                                | High               | High    |
-
-**On-device predictions and Confidential AI APIs both provide privacy** contrary to most existing Conversational AI solutions that expose data to privacy risks.
-
-**On-device prediction** has the advantage of providing the highest level of privacy as data does not leave the device but requires downloading models that are several hundreds of MBs to several GBs and require heavy memory and computing resources. For many users, this option will not be possible with larger, higher-performing models due to these device requirements.
-
-**Confidential AI APIs** are deployed remotely, meaning the size of models is not restricted by the specifications of user devices. Users are able to query large models while still having robust privacy guarantees.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+- [Try out BlindChat](https://chat.mithrilsecurity.io/)
+- Discover the [technologies behind BlindChat](https://blind-chat.readthedocs.io/en/docs-merger/docs/concepts/overview/)
 
 ## 📇 Get in touch
+
+---
 
 We would love to hear your feedback or suggestions, here are the ways you can reach us:
 
@@ -205,12 +84,6 @@ Want to hear more about our work on privacy in the field AI?
 - Subscribe to our newsletter [here](https://blog.mithrilsecurity.io/)
 
 Thank you for your support!
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## References
-
-[1] Carlini, N., Ippolito, D., Jagielski, M., Lee, K., Tramer, F., & Zhang, C. (2022). Quantifying Memorization Across Neural Language Models. ArXiv. /abs/2202.07646
 
 <!-- MARKDOWN LINKS & IMAGES -->
 

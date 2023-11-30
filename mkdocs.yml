@@ -96,7 +96,33 @@ markdown_extensions:
 
 
 nav:
-  - 🏠 Home:
-      - 🐱 BlindChat: "./index.md"
-      - 🧑‍🎨 Design: "./docs/getting-started/design.md"
-      - 🛠️ Set-up: "./docs/getting-started/setup.md"
+- 🏠 Home: "./index.md"
+    # - 🧑‍🎨 Design: "./docs/getting-started/design.md"
+    # - 🛠️ Set-up: "./docs/getting-started/setup.md"
+
+  # - 🦙 What is BlindLlama?:
+  # - Architecture: './docs/blind_llama/architecture.md'
+
+# - 🚀 Getting Started:
+#   - Architecture: 'docs/getting-started/design.md'
+#   - How it works: 'docs/getting-started/how-we-protect-your-data.md'
+  #  - Quick tour: 'docs/getting-started/quick-tour.ipynb'
+
+- 💡 Concepts:
+  - Overview: 'docs/concepts/overview.md'
+  - Enclaves: 'docs/concepts/enclaves.md'
+  # - Trusted Computing Base: 'docs/concepts/TCB.md'
+  - Attestation: 'docs/concepts/attestation.md'
+ # - Trusted Platform Modules: 'docs/concepts/TPMs.md'
+  - Attested TLS: 'docs/concepts/attested-tls.md'
+
+- 🔒 Security:
+  - Whitepaper: 'docs/security/whitepaper.md'
+  - Trust model: './docs/security/trust-model.md'
+
+# - 🛠️ Advanced:
+#   - Contribution guide: 'docs/advanced/contribute.md'
+#   - Deploy APIs with BlindLlamas: 'docs/advanced/deploy-with-blind-llama.md'
+
+# - 💫 Archives: 
+#   - Archives: 'docs/past-projects/library.md'
