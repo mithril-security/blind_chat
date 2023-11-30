@@ -289,6 +289,8 @@
         <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5">
         <button class="bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full"
         on:click={setMagicView}>Sign in with magic link ✨</button>
+        <a href="https://cloud.mithrilsecurity.io/api/auth/github" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign in with Github</a>
+        <a href="https://cloud.mithrilsecurity.io/api/auth/google" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign in with Google</a>
         </div>
         </div>
         <!-- VIEW #2 Magic link -->
@@ -331,6 +333,8 @@
         <div class="flex justify-center items-center flex-wrap gap-2.5 border-1 order-gray">
             <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             on:click={registerUser}>Sign up</button>
+            <a href="https://cloud.mithrilsecurity.io/api/auth/github" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign up with Github</a>
+            <a href="https://cloud.mithrilsecurity.io/api/auth/google" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign up with Google</a>
             {#if magicSuccess}
             <TextModal title="Thank you" text="✅ Please click on the magic link we have sent you to access your account"  on:close={() => (magicSuccess = false)}/>
             {:else if magicFail}
