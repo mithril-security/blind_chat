@@ -31,15 +31,11 @@ Before each connection with BlindChat, we verify the system, providing **technic
 
 You can test BlindChat [here](https://chat.mithrilsecurity.io/).
 
-Fore more information about the design of BlindChat, check out our dedicated page [here](./blind_chat_page.md).
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CNqStjJ7EVE?si=wKz_Yg_NBKOaotF6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ### 🦙 BlindLlama
 
 **BlindLlama** is the core technology behind BlindChat. It enables AI providers to deploy easy-to-use AI APIs within a **privacy-by-design system** using **enclaves**. With BlindLlama, AI providers can provide **cryptograhic guarantees** that they will not be able to access user data. 
-
-Fore more information about the design of BlindLlama, check out our dedicated page [here](/blind_chat_page.md).
 
 ### 🐈 BlindChat Local
 

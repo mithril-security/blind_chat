@@ -20,7 +20,7 @@ The client performs two main tasks:
 
 The server is split into three components:
 
-+ The **hardened AI container**: This element serves our AI API in an isolated [hardened environment](../concepts/hardened-systems.md).
++ The **hardened AI container**: This element serves our AI API in an isolated [hardened environment](../concepts/enclaves.md).
 + The **attesting launcher**: The launcher loads the hardened AI container and creates a proof file which is used to verify the API's code and model using [TPM-based attestation](../concepts/TPMs.md). 
 + The **reverse proxy**: The reverse proxy handles communications to and from the client and the container and launcher using [atested TLS](../concepts/attested-tls.md).
 

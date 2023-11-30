@@ -8,7 +8,7 @@ Each section in our 'concepts' guide contains an introduction to the concept its
 The concepts we will cover are:
 
   1. [**Enclaves**](./enclaves.md): We introduce the highly isolated secure environments keeping user data private
-  2. [**Attestation**](./attesation.md): We discuss how we provide cryptographic guarantess that our security measures are in place
+  2. [**Attestation**](./attestation.md): We discuss how we provide cryptographic guarantees that our security measures are in place
   3. [**Attested TLS**](./TPMs.md): We describe how we verify the identity of our enclave before enabling secure communications to proceed
 
 <div style="text-align: right;">

@@ -14,7 +14,7 @@ We found that open source LLM StarCoder memorized at least 8% of the training sa
 
 This demonstrates the very real risks to users' privacy at a time when many large-scale Conversational AI available are commercially collecting users' data at scale and fine-tuning their models on it.
 
-![Training-data-memorization-checker-demo](../../assets/memorization.png)
+![Training-data-memorization-checker-demo](TODO)
 
 See our demo [here](https://huggingface.co/spaces/mithril-security/starcoder_memorization_checker).
 
