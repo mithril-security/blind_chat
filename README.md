@@ -14,7 +14,7 @@
 
 </div>
 
-We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](https://blind-chat.readthedocs.io/en/docs-merger/docs/concepts/enclaves/)!
+We are on a mission to **democratize confidential and trustable AI** through **enclave-based solutions**. **Enclaves** are secure computing environments that combine **confidentiality** and **verifiability** to protect critical data during analysis. Learn more about them [here](https://blind-chat.readthedocs.io/en/latest/docs/concepts/enclaves/)!
 
 
 ## What are our main solutions?
@@ -66,7 +66,7 @@ You can try BlindChat local [here](https://huggingface.co/spaces/mithril-securit
 ---
 
 - [Try out BlindChat](https://chat.mithrilsecurity.io/)
-- Discover the [technologies behind BlindChat](https://blind-chat.readthedocs.io/en/docs-merger/docs/concepts/overview/)
+- Discover the [technologies behind BlindChat](https://blind-chat.readthedocs.io/en/latest/docs/concepts/overview/)
 
 ## 📇 Get in touch
 
