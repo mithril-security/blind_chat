@@ -123,7 +123,7 @@ style = "background-color: #141c2a !important;"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
-    {email_addr.length > 0 ? email_addr : "Not logged in"}
+    {email_addr.length > 0 ? email_addr.substring(0, 20) : "Not logged in"}
 </div>
 
 {#if isSubMenuOpen}
