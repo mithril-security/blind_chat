@@ -132,13 +132,6 @@ style = "background-color: #141c2a !important;"
 </script>
 <div class="justify-center items-center rounded-2xl {isSubMenuOpen ? 'open' : ''}" style="position: absolute; bottom: 100%; width: 96%; background-color: #0d1830 !important;">
 	<div>
-		<button
-			on:click={() => dispatch("clickSettings")}
-			type="button"
-			class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" style="width: 100%;"
-		>
-			Settings
-		</button>
 		<div class="flex justify-center" style="position: relative;">
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
 		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl w-[100%]">

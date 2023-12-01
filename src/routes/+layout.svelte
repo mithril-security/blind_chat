@@ -164,7 +164,12 @@
 					"Content-Type": "application/json",
 				},
 			});
-			dataLayer.push({'event': 'login'});
+			try {
+				dataLayer.push({'event': 'login'});
+			}
+			catch (err) {
+				console.error(err);
+			}
 			if (response.ok) {
 				const res = await response.text()
 				const json: JSON = JSON.parse(res)

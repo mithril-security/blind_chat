@@ -220,77 +220,34 @@
         <form on:submit={submitForm}>
         <div class="pt-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray">
          <!-- Classic sign in view -->
-        <input id="email1" 
-        class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
-        type="email" bind:value={email} placeholder="Email" />
-        </div>
-        <div class="py-4 flex justify-between items-center flex-wrap gap-2.5 border-1 border-gray relative">
-            <!-- Text input for the "shown" password -->
-                <input 
-                type="text"
-                class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
-                bind:value={password} 
-                placeholder="Password" 
-                class:hidden={!showPassword}
-                />
-                <!-- Password input for the "hidden" password -->              
-                <input
-                class="bg-login rounded-2xl text-white border border-mithril-border p-2 w-full"
-                type="password" 
-                bind:value={password} 
-                placeholder="Password" 
-                class:hidden={showPassword}
-            />
-            {#if !showPassword}
-             <!-- show password icon -->    
-             <img
-             class="css-vubbuv toggle-visibility-icon absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-             alt="show password button"
-             src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/show-password.png"
-             title="show password button"
-             width="20"  
-             height="20"
-             on:click={handleClickShowPassword}
-            />
-            {:else}
-             <!-- TODO: hide password icon -->    
-             <img
-             class="css-vubbuv toggle-visibility-icon absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-             alt="help password button"
-             src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/hide-password.png"
-             title="hide password button"
-             width="20"  
-             height="20"
-             on:click={handleClickShowPassword}
-            />
-            {/if}
-        </div>
-        <!-- Sign in button -->
-        <div class="py-3 flex justify-center items-center flex-wrap gap-2.5 border-1 border-gray">
-            <button class="p-3 flex justify-right content-center bg-mithril-yellow text-black rounded-lg min-w-36 py-2 px-3 text-center" 
-            type="submit">
-            Sign in
-            </button>
-        </div>
         {#if loginFail}
                 <TextModal title="Login failed" text="Please check your credentials try again"  on:close={() => (loginFail = false)}/>    
         {/if}
-        <div class="p-3 underline justify-right text-right">
-            <!-- TODO Add in forgotten password later
-            <button on:click={resetPassword}>Forgot Password?</button>
-            -->
-        </div>
     </form>
-        <div class="flex items-center justify-center relative">
-            <div class="absolute top-1/2 left-0 right-0 h-px bg-gray-300"></div>
-            <span class="MuiDivider-wrapper css-c1ovea relative z-10 px-4 bg-login">OR</span>
-        </div>
         <!-- Magic link screen button -->
         <div class="pt-4 pb-0 flex justify-center items-center flex-wrap gap-2.5">
+            <a href="https://cloud.mithrilsecurity.io/api/auth/google" class="space-x-2 flex justify-center text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">
+                <img
+                    alt=""
+                    src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                    class="h-6 rounded-full"
+                />
+                    <div>
+                        Sign in with Google
+                    </div>
+                </a>
+            <a href="https://cloud.mithrilsecurity.io/api/auth/github" class="space-x-2 flex justify-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">
+        <img
+			alt=""
+			src="https://camo.githubusercontent.com/b079fe922f00c4b86f1b724fbc2e8141c468794ce8adbc9b7456e5e1ad09c622/68747470733a2f2f6564656e742e6769746875622e696f2f537570657254696e7949636f6e732f696d616765732f7376672f6769746875622e737667"
+			class="h-6 rounded-full"
+		/>
+        <div>
+            Sign in with Github
+        </div>
+        </a> 
         <button class="bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full"
-        on:click={setMagicView}>Sign in with magic link ✨</button>
-        <a href="https://cloud.mithrilsecurity.io/api/auth/github" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign in with Github</a>
-        <a href="https://cloud.mithrilsecurity.io/api/auth/google" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign in with Google</a>
+        on:click={setMagicView}>✨ Sign in with magic link</button>
         </div>
         </div>
         <!-- VIEW #2 Magic link -->
@@ -333,8 +290,26 @@
         <div class="flex justify-center items-center flex-wrap gap-2.5 border-1 order-gray">
             <button class="p-3 flex content-center bg-yellow-500 text-black rounded-lg min-w-36 py-2 px-3 text-center" 
             on:click={registerUser}>Sign up</button>
-            <a href="https://cloud.mithrilsecurity.io/api/auth/github" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign up with Github</a>
-            <a href="https://cloud.mithrilsecurity.io/api/auth/google" class="text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">Sign up with Google</a>
+        <a href="https://cloud.mithrilsecurity.io/api/auth/google" class="space-x-2 flex justify-center text-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">
+                <img
+                    alt=""
+                    src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"
+                    class="h-6 rounded-full"
+                />
+                    <div>
+                        Sign in with Google
+                    </div>
+        </a> 
+        <a href="https://cloud.mithrilsecurity.io/api/auth/github" class="space-x-2 flex justify-center bg-login rounded-2xl text-white border border-mithril-yellow p-2 w-full">
+        <img
+			alt=""
+			src="https://camo.githubusercontent.com/b079fe922f00c4b86f1b724fbc2e8141c468794ce8adbc9b7456e5e1ad09c622/68747470733a2f2f6564656e742e6769746875622e696f2f537570657254696e7949636f6e732f696d616765732f7376672f6769746875622e737667"
+			class="h-6 rounded-full"
+		/>
+        <div>
+            Sign in with Github
+        </div>
+        </a>            
             {#if magicSuccess}
             <TextModal title="Thank you" text="✅ Please click on the magic link we have sent you to access your account"  on:close={() => (magicSuccess = false)}/>
             {:else if magicFail}
