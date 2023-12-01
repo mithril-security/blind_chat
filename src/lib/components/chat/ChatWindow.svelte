@@ -1,10 +1,13 @@
 <script lang="ts">
 	import type { Message } from "$lib/types/Message";
+	import { base } from "$app/paths";
+	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
 	import { createEventDispatcher } from "svelte";
 	import Help from "$lib/components/icons/Help.svelte"
 	import CarbonSendAltFilled from "~icons/carbon/send-alt-filled";
 	import CarbonStopFilledAlt from "~icons/carbon/stop-filled-alt";
 	import EosIconsLoading from "~icons/eos-icons/loading";
+	import { page } from "$app/stores";
 	import CarbonClose from "~icons/carbon/close";
 	import { helpMenu } from "../../../routes/LayoutWritable";
 	import ChatMessages from "./ChatMessages.svelte";
@@ -197,27 +200,29 @@
 		<script type="text/javascript">
 			document.getElementById("helpMenu").style.display = "block";
 		</script>
-			<div id="helpMenu" class="bottom-[80%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-22%] p-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-[#0d1830] {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
+			<div id="helpMenu" class="bottom-[80%] right-[0%] md:bottom-[45%] md:right-[0%] xl:bottom-[50%] xl:right-[-19%] p-2 border border-gray-600 flex justify-center items-center rounded-2xl bg-[#0d1830] {isHelpMenuOpen ? 'open' : ''}" style="position: absolute;">
 				<div>
-					<div class="justify-center items-center text-center flex-1">
-					<div class="flex justify-between px-2">
-					<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block py-3 text-center h-11 text-white hover:bg-gray-600" style="width: 100%;">
-					Help ⤵️
-					</a>
-					<button type="button" class="pt-2" style="align-self: flex-start;" on:click={closeHelpMenu}>
-						<CarbonClose class="text-white" />
+					<button type="button" class="flex ml-auto" on:click={closeHelpMenu}>
+						<CarbonClose class="text-gray-400" />
 					</button>
-					</div>
-					</div>
-					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="rounded-2xl px-8 block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Give Feedback ⤵️
+					<div class="justify-center items-center text-center flex-1 px-2 py-2">
+					<a href="https://www.mithrilsecurity.io/contact" target="_blank" rel="noopener noreferrer" class="flex items-center text-white bg-[#0d1830] hover:bg-gray-400 rounded-md p-2">
+					Help
+					<img class="max-w-3 max-h-3 ml-auto" alt="redirect to page in new tab icon" src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png" title="link to open new page" />
 					</a>
-					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="rounded-xl block text-center h-11 py-3 text-white hover:bg-gray-600" style="width: 100%;">
-					FAQ ⤵️
+					<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" class="flex items-center text-white bg-[#0d1830] hover:bg-gray-400 rounded-md p-2">
+						<span class="mr-2">Give feedback</span>
+						<img class="max-w-3 max-h-3 ml-auto" alt="redirect to page in new tab icon" src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png" title="link to open new page" />
+					  </a>
+					<a href="https://www.mithrilsecurity.io/faq" target="_blank" rel="noopener noreferrer" class="flex items-center text-white bg-[#0d1830] hover:bg-gray-400 rounded-md p-2">
+					FAQ
+					<img class="max-w-3 max-h-3 ml-auto" alt="redirect to page in new tab icon" src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png" title="link to open new page" />
 					</a>
-					<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="rounded-2xl block text-center h-11 pt-3 text-white hover:bg-gray-600" style="width: 100%;">
-					Report an issue ⤵️
+					<a href="https://github.com/mithril-security/blind_chat/issues" target="_blank" rel="noopener noreferrer" class="flex items-center text-white bg-[#0d1830] hover:bg-gray-400 rounded-md p-2">
+					Report a bug
+					<img class="max-w-3 max-h-3 ml-auto" alt="redirect to page in new tab icon" src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png" title="link to open new page" />
 					</a>
+				</div>
 				</div>
 			</div>
 	{/if}
