@@ -4,7 +4,7 @@
 	import Login from "$lib/components/Login.svelte";
 	import Logo from "$lib/components/icons/Logo.svelte";
 	import { page } from "$app/stores";
-	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
+	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS, PUBLIC_DISABLE_LOGIN } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
 	import type { LayoutData } from "../../routes/$types";
 	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable } from "../../routes/LayoutWritable";
@@ -29,7 +29,10 @@
 
 	let isSubMenuOpen: boolean = false;
 	let magic = false;
-	let isLogged = false;
+	let disableLogin = PUBLIC_DISABLE_LOGIN === "true" ? true : false;
+	let isLogged = disableLogin ? true : false;
+
+	console.log(disableLogin)
 
 	is_magic_writable.subscribe((val) => {
 		magic = val;
@@ -88,7 +91,7 @@
         is_magic_writable.set(false);
     }
 </script>
-{#if !$is_logged_writable}
+{#if disableLogin == false || !$is_logged_writable}
     <Login/>
 {/if}
 <!-- top left corner - remove from class bg-[#141c2a] -->
@@ -117,7 +120,9 @@ style = "background-color: #141c2a !important;"
 		</div>
 	{/each}
 </div>
+
 <div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
+	{#if !disableLogin}
 	<div
     class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold"
     on:click={toggleSubMenu}
@@ -125,6 +130,15 @@ style = "background-color: #141c2a !important;"
 >
     {email_addr.length > 0 ? email_addr.substring(0, 20) : "Not logged in"}
 </div>
+{:else}
+<div
+	class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold">
+	<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
+	class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl w-[100%]">
+		Give Feedback
+	</a>
+</div>
+{/if}
 
 {#if isSubMenuOpen}
 <script type="text/javascript">

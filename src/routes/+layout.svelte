@@ -9,6 +9,8 @@
 		PUBLIC_ORIGIN,
 		PUBLIC_APP_DISCLAIMER,
 		PUBLIC_SHOW_LOCAL_MODELS_WARNING,
+		PUBLIC_DISABLE_LOGIN,
+		PUBLIC_API_KEY,
 	} from "$env/static/public";
 
 	import { shareConversation } from "$lib/shareConversation";
@@ -49,6 +51,7 @@
 	export let data;
 	let isloading = false;
 	let isInit = false;
+	let disableLogin = PUBLIC_DISABLE_LOGIN === "true" ? true : false;
 	let showWarning = PUBLIC_SHOW_LOCAL_MODELS_WARNING === "true" ? true : false;
 	let shouldLogin = false;
 
@@ -57,7 +60,7 @@
 	let conversations_list = [];
 
 	showLoggedPopup_writable.subscribe((value) => {
-		shouldLogin = value;
+		shouldLogin = disableLogin ? false : value;
 	});
 
 	is_init_writable.subscribe((value) => {
@@ -156,7 +159,15 @@
 	$: title = env.PUBLIC_APP_NAME;
 	let loggedIn = false;
 	async function isLogged() {
-		try {
+		if (disableLogin) {
+			email_addr_writable.set("BlindChat")
+			loggedIn = true;
+			is_logged_writable.set(true);
+			is_magic_writable.set(true);
+			api_key_writable.set(PUBLIC_API_KEY);
+		}
+		else {
+			try {
 			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/getUserInfo", {
 				method: "GET",
 				credentials: "include",
@@ -181,6 +192,7 @@
 				loggedIn = true;
 				is_logged_writable.set(loggedIn);
 				api_key_writable.set(apiKey);
+				is_magic_writable.set(true);
 			} 
 			else {
 				// Handle errors here
@@ -192,6 +204,7 @@
 
 		}
 		is_magic_writable.set(true);
+		}
 	}
 	isLogged();
 </script>
