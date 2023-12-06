@@ -9,6 +9,7 @@
 		PUBLIC_ORIGIN,
 		PUBLIC_APP_DISCLAIMER,
 		PUBLIC_SHOW_LOCAL_MODELS_WARNING,
+		PUBLIC_DISABLE_LOGIN
 	} from "$env/static/public";
 
 	import { shareConversation } from "$lib/shareConversation";
@@ -49,6 +50,7 @@
 	export let data;
 	let isloading = false;
 	let isInit = false;
+	let disableLogin = PUBLIC_DISABLE_LOGIN === "true" ? true : false;
 	let showWarning = PUBLIC_SHOW_LOCAL_MODELS_WARNING === "true" ? true : false;
 	let shouldLogin = false;
 
@@ -57,7 +59,7 @@
 	let conversations_list = [];
 
 	showLoggedPopup_writable.subscribe((value) => {
-		shouldLogin = value;
+		shouldLogin = disableLogin ? false : value;
 	});
 
 	is_init_writable.subscribe((value) => {
@@ -156,7 +158,15 @@
 	$: title = env.PUBLIC_APP_NAME;
 	let loggedIn = false;
 	async function isLogged() {
-		try {
+		if (disableLogin) {
+			email_addr_writable.set("BlindChat")
+			var apiKey = await getApiKey();
+			loggedIn = true;
+			is_logged_writable.set(true);
+			api_key_writable.set("eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjYwNywicm9sZSI6InVzZXIiLCJ1c2VybmFtZSI6IjEwNjY0NDA4NjA2NzY4Nzk3MzE1MEBnb29nbGUuY29tIiwiaWF0IjoxNzAxODYwNzYxLCJleHAiOjE3MDIwMzM1NjF9.fmCPEO3gGr_6GYeuVvJuW7rhfGGzpQgcm1KQomFzEcCbVrV13TCMT6Vc6aBKbAEVEKRmcYoTOrlN--HZnwqJQg");
+		}
+		else {
+			try {
 			const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/getUserInfo", {
 				method: "GET",
 				credentials: "include",
@@ -181,6 +191,7 @@
 				loggedIn = true;
 				is_logged_writable.set(loggedIn);
 				api_key_writable.set(apiKey);
+				is_magic_writable.set(true);
 			} 
 			else {
 				// Handle errors here
@@ -192,6 +203,7 @@
 
 		}
 		is_magic_writable.set(true);
+		}
 	}
 	isLogged();
 </script>

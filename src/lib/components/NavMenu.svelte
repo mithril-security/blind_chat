@@ -4,7 +4,7 @@
 	import Login from "$lib/components/Login.svelte";
 	import Logo from "$lib/components/icons/Logo.svelte";
 	import { page } from "$app/stores";
-	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
+	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS, PUBLIC_DISABLE_LOGIN } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
 	import type { LayoutData } from "../../routes/$types";
 	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable } from "../../routes/LayoutWritable";
@@ -29,7 +29,8 @@
 
 	let isSubMenuOpen: boolean = false;
 	let magic = false;
-	let isLogged = false;
+	let disableLogin = PUBLIC_DISABLE_LOGIN === "true" ? true : false;
+	let isLogged = disableLogin ? true : false;
 
 	is_magic_writable.subscribe((val) => {
 		magic = val;
@@ -88,7 +89,7 @@
         is_magic_writable.set(false);
     }
 </script>
-{#if !$is_logged_writable}
+{#if !$is_logged_writable || !disableLogin}
     <Login/>
 {/if}
 <!-- top left corner - remove from class bg-[#141c2a] -->
