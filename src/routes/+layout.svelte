@@ -9,7 +9,8 @@
 		PUBLIC_ORIGIN,
 		PUBLIC_APP_DISCLAIMER,
 		PUBLIC_SHOW_LOCAL_MODELS_WARNING,
-		PUBLIC_DISABLE_LOGIN
+		PUBLIC_DISABLE_LOGIN,
+		PUBLIC_API_KEY,
 	} from "$env/static/public";
 
 	import { shareConversation } from "$lib/shareConversation";
@@ -160,10 +161,10 @@
 	async function isLogged() {
 		if (disableLogin) {
 			email_addr_writable.set("BlindChat")
-			var apiKey = await getApiKey();
 			loggedIn = true;
 			is_logged_writable.set(true);
-			api_key_writable.set("eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjYwNywicm9sZSI6InVzZXIiLCJ1c2VybmFtZSI6IjEwNjY0NDA4NjA2NzY4Nzk3MzE1MEBnb29nbGUuY29tIiwiaWF0IjoxNzAxODYwNzYxLCJleHAiOjE3MDIwMzM1NjF9.fmCPEO3gGr_6GYeuVvJuW7rhfGGzpQgcm1KQomFzEcCbVrV13TCMT6Vc6aBKbAEVEKRmcYoTOrlN--HZnwqJQg");
+			is_magic_writable.set(true);
+			api_key_writable.set(PUBLIC_API_KEY);
 		}
 		else {
 			try {
