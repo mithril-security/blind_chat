@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { base } from "$app/paths";
+	import Popup from "../components/Popup.svelte"
 	import { createEventDispatcher } from "svelte";
 	import Login from "$lib/components/Login.svelte";
 	import Logo from "$lib/components/icons/Logo.svelte";
@@ -91,9 +92,10 @@
         is_magic_writable.set(false);
     }
 </script>
-{#if disableLogin == false || !$is_logged_writable}
+<!-- {#if disableLogin == false || !$is_logged_writable}
     <Login/>
-{/if}
+{/if} -->
+<Popup/>
 <!-- top left corner - remove from class bg-[#141c2a] -->
 <div class="bg-[#142343] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
