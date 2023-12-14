@@ -141,9 +141,9 @@ style = "background-color: #141c2a !important;"
 </div>
 {:else}
 <div
-	class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold">
+	class="hover:bg-gradient-to-r from-[#1485e6] to-[#01F8FF] p-0.2 rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] font-semibold">
 	<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
-	class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl w-[100%]">
+	class="bg-[#0d1830] px-8 block py-2 text-center text-white rounded-2xl w-[99%]">
 		Give Feedback
 	</a>
 </div>
@@ -157,7 +157,7 @@ style = "background-color: #141c2a !important;"
 	<div>
 		<div class="flex justify-center" style="position: relative;">
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
-		class="px-8 block py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl w-[100%]">
+		class="px-8 block py-3 text-center h-11 text-white rounded-2xl w-[100%]">
 			Give Feedback
 		</a>
 		<img

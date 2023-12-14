@@ -19,6 +19,7 @@
 	}>();
 </script>
 
+<div class="hover:bg-gradient-to-r from-[#1485e6] to-[#01F8FF] p-0.5 rounded-2xl">
 <a
 	data-sveltekit-noscroll
 	on:mouseleave={() => {
@@ -28,10 +29,10 @@
 		params_writable.set(conv.id);
 	}}
 	href="{base}/conversation/{conv.id}"
-	class="group flex h-11 flex-none items-center gap-1.5 pl-3 pr-2 rounded-2xl hover:bg-gray-100 dark:hover:bg-gray-700 {conv.id ===
+	class="bg-[#142343] group flex h-11 flex-none items-center gap-1.5 pl-3 pr-2 rounded-2xl {conv.id ===
 	$page.params.id
-		? 'border border-[#1E9FE7] dark:text-white'
-		: 'border border-[#0F4A81] dark:text-[#B4B4B4]'}"
+		? 'border border-[#1E9FE7] text-white'
+		: 'border border-[#0F4A81] text-[#B4B4B4]'}"
 >
 <!-- styling for current chat goes just after question mark above-->
 
@@ -91,3 +92,6 @@
 		</button>
 	{/if}
 </a>
+</div>
+
+
