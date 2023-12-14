@@ -35,7 +35,7 @@
         Prompts are end-to-end protected. We cannot see your queries, responses, chat history,
           or any login information to guarantee your privacy.
           <a
-            href="https://www.mithrilsecurity.io/privacy-policy#new-pp"
+            href="https://blindchat.mithrilsecurity.io/en/latest/"
             target="_blank"
             rel="noopener noreferrer"
             class="text-mithril-yellow hover:underline"
