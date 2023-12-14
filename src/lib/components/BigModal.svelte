@@ -5,7 +5,7 @@
 	import Portal from "./Portal.svelte";
 	import { browser } from "$app/environment";
 
-	export let width = "sm-8-10";
+	export let width = "sm-8-40";
 
 	let backdropEl: HTMLDivElement;
 	let modalEl: HTMLDivElement;
@@ -47,7 +47,7 @@
 		bind:this={backdropEl}
 		on:click={handleBackdropClick}
 		transition:fade={{ easing: cubicOut, duration: 300 }}
-		class="fixed inset-0 z-40 flex items-center justify-center bg-black/80 p-8 backdrop-blur-sm dark:bg-black/50"
+		class="fixed inset-0 z-40 flex items-center justify-center bg-black/80 p-8 dark:bg-black/50"
 	>
 		<div
 			role="dialog"
