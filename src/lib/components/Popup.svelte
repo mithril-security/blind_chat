@@ -24,7 +24,7 @@
       >
         <CarbonClose />
       </button>
-      <div class="max-w-2xl mx-auto p-6">
+      <div class="max-w-2xl mx-auto p-3 md:p-6">
         <img
           alt="Ai confidential mode logo"
           src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/ai_mode.png"
@@ -62,8 +62,8 @@
             </button>
           </div>
         </div>
-        <p class="text-center mt-16">
-          AI generated answers may be inaccurate or false.
+        <p class="text md:text-normal text-center mt-10 md:mt-16">
+          AI generated answers may be inaccurate or false
         </p>
       </div>
     </div>
