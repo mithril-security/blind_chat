@@ -72,7 +72,7 @@
 		message = "";
 	};
 </script>
-<div class="relative min-h-0 min-w-0">
+<div class="relative bg-chat min-h-0 min-w-0">
 	{#if isPrivacyBannerOpen}
 	<script type="text/javascript">
 		document.getElementById("PrivacyBanner").style.display = "block";
