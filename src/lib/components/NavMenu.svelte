@@ -8,7 +8,7 @@
 	import { PUBLIC_APP_NAME, PUBLIC_ORIGIN, PUBLIC_APP_ASSETS, PUBLIC_DISABLE_LOGIN } from "$env/static/public";
 	import NavConversationItem from "./NavConversationItem.svelte";
 	import type { LayoutData } from "../../routes/$types";
-	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable } from "../../routes/LayoutWritable";
+	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable, first_time_writable} from "../../routes/LayoutWritable";
 
 	const dispatch = createEventDispatcher<{
 		shareConversation: { id: string; title: string };
@@ -21,8 +21,8 @@
 		title: string;
 	}> = [];
 
-
 	export let canLogin: boolean;
+	export let isFirstTime: boolean;
 	export let signedIn: boolean;
 	export let user: LayoutData["user"];
 
@@ -41,6 +41,10 @@
 
 	is_logged_writable.subscribe((val) => {
 		isLogged = val;
+	})
+
+	first_time_writable.subscribe((val) => {
+		isFirstTime = val;
 	})
 
 	let email_addr = ""
@@ -95,7 +99,10 @@
 <!-- {#if disableLogin == false || !$is_logged_writable}
     <Login/>
 {/if} -->
-<Popup/>
+{#if isFirstTime == true}
+	<Popup/>
+{/if}
+
 <!-- top left corner - remove from class bg-[#141c2a] -->
 <div class="bg-[#142343] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0">
 	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">

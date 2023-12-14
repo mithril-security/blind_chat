@@ -10,6 +10,7 @@ export const curr_model_writable_string = writable("");
 export const api_key_writable = writable("");
 export const jwt_writable = writable("");
 export const is_logged_writable = writable(false);
+export const first_time_writable = writable(true);
 export const email_addr_writable = writable("");
 export const is_magic_writable = writable(false);
 export const showLoggedPopup_writable = writable(false);

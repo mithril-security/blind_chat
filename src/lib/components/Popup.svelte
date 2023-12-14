@@ -1,11 +1,15 @@
 <script lang="ts">
     import { base } from "$app/paths";
 	import { PUBLIC_ORIGIN, PUBLIC_APP_ASSETS } from "$env/static/public";
-    import { createEventDispatcher } from "svelte";
     import { page } from "$app/stores";
     import CarbonClose from "~icons/carbon/close";
 	import Modal from "$lib/components/BigModal.svelte";
-    const dispatch = createEventDispatcher<{ close: void; }>();
+	import { first_time_writable } from "../../routes/LayoutWritable";
+    
+    function closePopUp() {
+		first_time_writable.set(false);
+	}
+    
     function openContactPage() {
     window.open("https://www.mithrilsecurity.io/contact", "_blank");
     }
@@ -16,7 +20,7 @@
       <button
         type="button"
         class="absolute top-2 right-2 text-[#52a1e3] group-hover:text-gray-500"
-        on:click={() => dispatch("close")}
+        on:click={(closePopUp)}
       >
         <CarbonClose />
       </button>
@@ -41,17 +45,11 @@
           >
             Learn more
           </a>
-          <img
-            class="w-3 h-3 ml-1"
-            alt="redirect to page in new tab icon"
-            src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/link.png"
-            title="link to open new page"
-          />
         </div>
         <div class="text-center mt-8">
           <button
             class="bg-[#52a1e3] text-white rounded-2xl py-2 px-3 text-center"
-            on:click={() => dispatch("close")}
+            on:click={(closePopUp)}
           >
             Get started
           </button>
