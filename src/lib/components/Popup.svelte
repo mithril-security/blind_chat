@@ -24,7 +24,7 @@
       >
         <CarbonClose />
       </button>
-      <div class="max-w-2xl mx-auto p-3 md:p-6">
+      <div class="max-w-2xl mx-auto p-3 md:p-10">
         <img
           alt="Ai confidential mode logo"
           src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/ai_mode.png"
