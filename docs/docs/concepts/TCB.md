@@ -7,7 +7,7 @@ Normally, when you run an application on a machine, you need to trust multiple e
 
 These trusted elements make up what we call the **Trusted Computing Base** or **TCB** of our application.
 
-In the context of a regular AI API deployed in the Cloud, the TCB is made of: 
+In the context of a regular AI API deployed in the Cloud, the TCB is made of:
 
 + The hardware: the physical infrastructure on which everything runs. This includes the actual servers, the networking equipment, storage devices, etc. If there's a hardware vulnerability (like the well-known Meltdown or Spectre vulnerabilities that affected many modern processors), it can undermine the security of everything running on that hardware.
 + The hypervisor: it is responsible for creating, managing, and isolating virtual machines (VMs) on a single physical host. If there's a vulnerability in the hypervisor, malicious entities might escape their VM and affect other VMs on the same host. In the cloud, the hypervisor is the responsibility of the cloud provider.
