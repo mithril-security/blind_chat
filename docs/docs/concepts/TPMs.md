@@ -1,7 +1,7 @@
 # Trusted Platform Modules (TPMs)
 ________________________________________________________
 
-### What is a TPM?
+### What is a TPM? 
 
 TPMs are secure hardware components (usually in the form of a small chip), with built-in cryptographic capabilities and secure storage in the form of Platform Configuration Registers (PCRs). They are generally used to protect secrets such as encryption keys with enhanced security since they cannot be directly accessed or tampered with by the OS. 
 
