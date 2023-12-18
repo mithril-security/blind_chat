@@ -21,7 +21,7 @@ With BlindLlama, like with a typical API set-up, we still have to trust the **Cl
 ![tcb-dark](../../assets/tcb-dark.png#only-dark)
 ![tcb-light](../../assets/tcb-light.png#only-light)
 
-> Note, this is simplified as there are many more components that are part of the stack we could have included, such as the bootloader, kernel, etc.
+> Note, this is simplified as there are many more components that are part of the stack we could have included, such as the bootloader, kernel, etc. 
 
 <div style="text-align: left;">
   <a href="../hardened-systems" class="btn">Back</a>
