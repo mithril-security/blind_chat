@@ -5,7 +5,7 @@ ________________________________________________________
 
 Normally, when you run an application on a machine, you need to trust multiple elements: from the hardware of the machine you deploy your application on, to the application itself, through the operating system, hypervisor, etc. This doesn't mean we "trust" them in the everyday sense of the word- this means that our application could be affected by a bug or vulnerability in these elements! 
 
-These trusted elements make up what we call the **Trusted Computing Base** or **TCB** of our application. 
+These trusted elements make up what we call the **Trusted Computing Base** or **TCB** of our application.
 
 In the context of a regular AI API deployed in the Cloud, the TCB is made of: 
 
