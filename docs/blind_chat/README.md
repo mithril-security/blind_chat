@@ -6,7 +6,7 @@
     <img src="https://github.com/mithril-security/blindai/raw/main/docs/assets/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h1 align="center">BlindChat</h1>
+<h1 align="center">BlindChat</h1> 
 
 [![Website][website-shield]][website-url]
 [![Blog][blog-shield]][blog-url]
