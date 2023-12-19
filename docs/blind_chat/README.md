@@ -40,7 +40,7 @@
   </ol>
 </details>
 
-## 📜 About the project
+## 📜 About the project 
 
 ### What is BlindChat?
 
