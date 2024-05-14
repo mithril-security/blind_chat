@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { base } from "$app/paths";
-	import Popup from "../components/Popup.svelte"
+	import PopupMaintenance from "../components/PopupMaintenance.svelte"
 	import { createEventDispatcher } from "svelte";
 	import Login from "$lib/components/Login.svelte";
 	import Logo from "$lib/components/icons/Logo.svelte";
@@ -9,6 +9,7 @@
 	import NavConversationItem from "./NavConversationItem.svelte";
 	import type { LayoutData } from "../../routes/$types";
 	import { api_key_writable, is_logged_writable, is_magic_writable, email_addr_writable, first_time_writable} from "../../routes/LayoutWritable";
+	import Popup from "./Popup.svelte";
 
 	const dispatch = createEventDispatcher<{
 		shareConversation: { id: string; title: string };
@@ -96,11 +97,8 @@
         is_magic_writable.set(false);
     }
 </script>
-<!-- {#if disableLogin == false || !$is_logged_writable}
-    <Login/>
-{/if} -->
 {#if isFirstTime == true}
-	<Popup/>
+	<PopupMaintenance/>
 {/if}
 
 <!-- top left corner - remove from class bg-[#141c2a] -->

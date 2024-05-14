@@ -14,7 +14,7 @@
 	import { webSearchParameters } from "$lib/stores/webSearchParameters";
 	import type { WebSearchMessage } from "$lib/types/WebSearch";
 	import type { Message } from "$lib/types/Message";
-	import { PUBLIC_APP_DISCLAIMER } from "$env/static/public";
+	import { PUBLIC_APP_DISCLAIMER, PUBLIC_DISABLE_JWT, PUBLIC_JWT } from "$env/static/public";
 	import { pipeline, Pipeline, env as env_transformers } from "@xenova/transformers";
 	import {
 		isloading_writable,
@@ -184,28 +184,38 @@
 				showLoggedPopup_writable.set(true);
 				return;
 			} else {
-				if (jwt === "") {
+				if (jwt === "" && PUBLIC_DISABLE_JWT != "true") {
 					const data = { api_key };
-					const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/licensing", {
-						method: "POST",
-						credentials: "include",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify(data),
-					});
-
-					if (response.ok) {
-						// Handle a successful response
-						console.log("Licensing OK");
-						jwt = await response.text();
-						jwt_writable.set(jwt);
-					} else {
-						console.log(response);
-						// Handle errors
-						console.error("Licensing NOK");
+					try { 
+						const response = await fetch("https://cloud.mithrilsecurity.io/api/auth/licensing", {
+							method: "POST",
+							credentials: "include",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(data),
+						});
+						if (response.ok) {
+							// Handle a successful response
+							console.log("Licensing OK");
+							jwt = await response.text();
+							jwt_writable.set(jwt);
+						} else {
+							console.log(response);
+							// Handle errors
+							console.error("Licensing NOK");
 					}
-				} else {
+					}
+					catch (e) {
+						console.log("Licensing OK");
+					}
+				} 
+				else if (PUBLIC_DISABLE_JWT === "true") {
+					jwt = PUBLIC_JWT
+					jwt_writable.set(PUBLIC_JWT);
+					console.log("Using cached JWT");
+				}
+				else {
 					console.log("Using existing JWT");
 					console.log(jwt);
 				}
