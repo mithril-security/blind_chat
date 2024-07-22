@@ -16,50 +16,51 @@
 </script>
 
 <Modal on:close>
-    <div class="w-600 relative border rounded-2xl border-[#52a1e3] bg-[#030e1a] text-white">
-      <button
+    <div class=" max-h-[90vh] overflow-y-auto  border rounded-2xl  bg-secondary text-white ">
+    
+      <div class="max-w-3xl p-6 py-10  m-4 md:m-10 rounded-2xl bg-newPrimary relative ">
+        <button
         type="button"
-        class="absolute top-2 right-2 text-[#52a1e3] group-hover:text-gray-500"
+        class="absolute top-3 right-3 text-customBlack group-hover:text-gray-500"
         on:click={(closePopUp)}
       >
-        <CarbonClose />
+        <CarbonClose class='text-xl customHover' />
       </button>
-      <div class="max-w-2xl mx-auto p-3 md:p-10">
         <img
           alt="Ai confidential mode logo"
-          src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/ai_mode.png"
-          class="w-30 h-20 mx-auto mt-5"
+          src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/popup_confidential.png"
+          class=" w-[80px] h-[68px]  md:w-[192px] md:h-[161.68px] mx-auto "
         />
-        <h2 class="text-2xl text-center font-semibold pt-8 pb-4 md:pb-8">You are entering Confidential AI mode</h2>
-        <p class="text-center text-gray-400">
+        <h2 class="text-2xl sm:text-4xl text-center font-semibold pt-8 pb-4 md:pb-8 text-tertiary">You are entering Confidential AI mode</h2>
+        <p class="text-center text-customBlack mx-2 text-sm sm:text-base ">
         Prompts are end-to-end protected. We cannot see your queries, responses, chat history,
           or any login information to guarantee your privacy.
           <a
             href="https://blindchat.mithrilsecurity.io/en/latest/"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-mithril-yellow hover:underline"
+            class="text-tertiary hover:underline"
           >
             Learn more
           </a>
         </p>
         <div class="text-center pt-8 md:pt-14">
           <button
-            class="w-60 bg-[#52a1e3] text-white rounded-2xl py-3 px-3 text-center p-8"
+            class="sm:w-60 bg-tertiary w-[93%] font-semibold text-white rounded-2xl py-3 px-3 text-center p-8 customHover"
             on:click={(closePopUp)}
           >
             Get started
           </button>
           <div class="pt-4 md:pt-6">
             <button
-              class="w-60 border border-[#52a1e3] text-white rounded-2xl py-3 px-3 text-center"
+              class="sm:w-60 border w-[93%]   border-tertiary text-tertiary rounded-2xl py-3  text-center customHover"
               on:click={openContactPage}
             >
               Contact us for more
             </button>
           </div>
         </div>
-        <p class="text-gray-400 md:text-normal text-center pt-20 md:mt-16">
+        <p class="text-customBlack text-xs sm:text-base text-center pt-20 md:mt-16">
           AI generated answers may be inaccurate or false
         </p>
       </div>

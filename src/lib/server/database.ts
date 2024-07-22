@@ -1,4 +1,4 @@
-let client = undefined;
+const client = undefined;
 export const connectPromise = undefined;
 
 const db = undefined;
