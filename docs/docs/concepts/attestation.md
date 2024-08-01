@@ -14,7 +14,7 @@ The process of receieving and verifying these proofs is called **attestation**, 
 
     The goal of this process is to check that the code running is indeed the code of the application we are expecting and has not been tampered with. It isn't to audit the application code itself. You can think of this a bit like a checksum when you download a software!
 
-## How do we implemet attestation in BlindLlama?
+## How do we implement attestation in BlindLlama?
 
 With BlindLlama, we measure our enclave code using a virtual TPM (vTPM). We are able to measure the whole software stack of our enclave, from the UEFI to our custom OS, which can then be verified (or **attested**).We also measure and attest additional custom data such as the enclave's application code and TLS certificate.
 
@@ -29,7 +29,7 @@ With BlindLlama, we measure our enclave code using a virtual TPM (vTPM). We are 
 
 ### Server side: Measuring the software stack
 
-Let's firstly takea  look at how the server provides cryptographic proof of its codebase.
+Let's firstly take a  look at how the server provides cryptographic proof of its codebase.
 
 When the TPM-enabled machine used for server deployment is booted, various default measurements are taken, such as hashes of firmware, boot loaders, and critical system files. These hashes are stored in the TPM's PCRs (Platform Configuration Registers), a set of registers, or locations in memory, within the TPM itself.
 
@@ -63,7 +63,7 @@ The BlindLlama server includes this TPM's quote in a cryptographic proof file, w
 
 When an end user queries our BlindLlama API, before a secure connection can be established with the server, the client will receive and verify the server's **cryptographic proof file**, which contains **the TPM's quote** signed by the private AK. 
 
-The client also receives a [cert chain](https://www.ibm.com/docs/en/ztpf/1.1.0.15?topic=ca-certificate-chain-verification), a chain of certificates, which is used to verify the TPM quote’s signature.
+The client also receives a [cert chain](https://www.ibm.com/docs/en/ztpf/2024?topic=ca-certificate-chain-verification), a chain of certificates, which is used to verify the TPM quote’s signature.
 
 Verification is done in done in three steps:
 

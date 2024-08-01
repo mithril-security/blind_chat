@@ -17,15 +17,12 @@ At the end of this process, users will know that when using our Python SDK, **th
 
 ## Server side
 
-[TODO: UPDATE THIS IMAGE]
-
 ![toolchain-light](../../assets/secure-tooling-light.png#only-light)
 ![toolchain-dark](../../assets/secure-tooling-dark.png#only-dark)
 
 ### 1. Deploying the API in an enclave
 
-[TEXT TODO]
-
+<!-- [TEXT TODO] -->
 We provide more details about **enclaves** in our [concepts guide](../concepts/enclaves.md).
 
 ### 2. Proving privacy controls are applied
@@ -37,8 +34,6 @@ With BlindLlama, we use secure hardware, [Trusted Platform Modules (TPMs)](../co
 Not only do we attest the code loaded in our backend.
 
 You can learn more about attestation and attested TLS in our [concepts guide](../concepts/attestation.md).
-
-
 
 
 ### 3. Auditing the whole stack
@@ -67,7 +62,7 @@ This is done by verifying the proof file provided by the server. This file is de
 
 ### 2. Attested TLS
 
-The server also provides the client with its TLS certificate. This is unique to the server and is used by the client to verify they are talking to the genuine BlindLLama server. If the verification is succesful, the TLS certificate is used to communicate with the hardened AI server using TLS. 
+The server also provides the client with its TLS certificate. This is unique to the server and is used by the client to verify they are talking to the genuine BlindLLama server. If the verification is successful, the TLS certificate is used to communicate with the hardened AI server using TLS. 
 
 > The TLS certificate is signed by a private key that lives inside and never leaves the hardened environment. 
 
