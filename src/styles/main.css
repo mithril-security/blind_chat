@@ -1,12 +1,23 @@
 @import "./highlight-js.css";
-
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+* {
+	font-family: Sora !important;
+}
+
+body {
+	background-color: #f7f8fa;
+}
+
 @layer components {
 	.btn {
 		@apply inline-flex flex-shrink-0 cursor-pointer select-none items-center justify-center whitespace-nowrap outline-none transition-all focus:ring disabled:cursor-default;
+	}
+	.customHover {
+		@apply transition-all duration-150  hover:opacity-80 active:scale-95;
 	}
 }
 
@@ -14,4 +25,8 @@
 	.scrollbar-custom {
 		@apply scrollbar-thin scrollbar-track-transparent scrollbar-thumb-black/10 scrollbar-thumb-rounded-full scrollbar-w-1 hover:scrollbar-thumb-black/20 dark:scrollbar-thumb-white/10 dark:hover:scrollbar-thumb-white/20;
 	}
+}
+
+.blueImg:hover {
+	filter: sepia(100%) saturate(3500%) hue-rotate(225deg);
 }

@@ -45,6 +45,7 @@
 				return [];
 			}
 		}));
+
 </script>
 
 <!-- main chat background-->
@@ -58,6 +59,7 @@
 			<ChatMessage
 				loading={loading && i === messages.length - 1}
 				{message}
+				{messages}
 				{isAuthor}
 				{readOnly}
 				model={currentModel}
@@ -72,6 +74,7 @@
 			<ChatMessage
 				message={{ from: "assistant", content: "", id: randomUUID() }}
 				model={currentModel}
+				{messages}
 				{webSearchMessages}
 			/>
 		{/if}

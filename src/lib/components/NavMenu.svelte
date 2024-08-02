@@ -28,12 +28,12 @@
 
 	export let loginModalVisible;
 
-	let isSubMenuOpen: boolean = false;
+	let isSubMenuOpen = false;
 	let magic = false;
 	let disableLogin = PUBLIC_DISABLE_LOGIN === "true" ? true : false;
 	let isLogged = disableLogin ? true : false;
 
-	console.log(disableLogin)
+
 
 	is_magic_writable.subscribe((val) => {
 		magic = val;
@@ -104,25 +104,32 @@
 {/if}
 
 <!-- top left corner - remove from class bg-[#141c2a] -->
-<div class="bg-[#142343] sticky top-0 flex flex-none items-center justify-between px-3 py-5 max-sm:pt-0">
-	<a class="flex items-center rounded-xl text-lg font-semibold" href="{PUBLIC_ORIGIN}{base}/">
-		<Logo classNames="mr-1" />
-		<div class = "pl-2 text-white"> {PUBLIC_APP_NAME} </div>
+<div class="bg-secondary sticky top-0 flex flex-none items-center justify-between px-6 pt-6 pb-8 max-sm:pt-0">
+	<a class="flex items-center rounded-xl text-xl font-semibold" href="{PUBLIC_ORIGIN}{base}/">
+		<Logo classNames="mr-1 h-[36px] w-[42px]" />
+		<div class = "pl-1 text-customBlack"> {PUBLIC_APP_NAME} </div>
 	</a>
+
+	
 	<a
+	class='customHover'
 		href={`${base}/`}
-		class="flex rounded-lg border bg-white px-2 py-0.5 text-center shadow-sm hover:shadow-none dark:border-mithril-border dark:bg-sidebar"
 	>
-		New Chat
+	<img
+			class="w-8 h-8 blueImg"
+			alt="redirect to page in new tab icon"
+			src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/newChat.png"
+			title="link to open new page"
+		   />
 	</a>
 </div>
 <!-- left side bar 
 style = "background-color: #141c2a !important;"
 -->
 <div
-	class="bg-[#142343] scrollbar-custom flex flex-col gap-1 overflow-y-auto px-3 pb-3 pt-2 dark:from-gray-800/30"
+	class="bg-secondary scrollbar-custom flex flex-col gap-1 overflow-y-auto px-6 pb-3  dark:from-gray-800/30"
 	
->
+>	
 	{#each conversations as conv (conv.id)}
 		<div class="py-1">
 		<NavConversationItem on:editConversationTitle on:deleteConversation {conv}/>
@@ -130,22 +137,45 @@ style = "background-color: #141c2a !important;"
 	{/each}
 </div>
 
-<div class="display position relative inline-block bg-[#142343] flex justify-center items-center pb-4">
+<div class="display position relative  bg-secondary flex justify-center items-center pb-4">
 	{#if !disableLogin}
 	<div
-    class="rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] hover:bg-gray-600 font-semibold"
+    class="rounded-2xl text-center bg-newPrimary flex items-center justify-center group h-11 -lg text-customBlack w-[96%] hover:bg-gray-600 font-semibold"
     on:click={toggleSubMenu}
     on:keydown={handleKeyDown}
 >
     {email_addr.length > 0 ? email_addr.substring(0, 20) : "Not logged in"}
 </div>
 {:else}
+<div class="flex flex-col gap-4 w-full items-center px-6">
+
 <div
-	class="hover:bg-gradient-to-r from-[#1485e6] to-[#01F8FF] p-0.2 rounded-2xl text-center bg-[#0d1830] flex items-center justify-center group h-11 -lg text-white w-[96%] font-semibold">
+	class="border customHover border-tertiary  active:scale-95 transition-all duration-100  rounded-xl text-center bg-newPrimary flex items-center justify-center group h-[62px]   w-[96%] font-semibold">
+	<a href="https://github.com/mithril-security/blind_llama_client/blob/main/docs/docs/whitepaper/blind_llama_whitepaper.pdf" target="_blank" rel="noopener noreferrer" 
+	class="bg-newPrimary py-2 text-center  block text-tertiary rounded-xl w-[99%]">
+	<div class="flex items-center w-full justify-center gap-1 text-lg"><img
+		class="w-8 h-8 transform translate-y-[-1.5px]"
+		alt="shield"
+		src="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/shield.png"
+
+	   />Security manifest</div>
+	
+	</a>
+</div>
+<div
+	class=" customHover  active:scale-95   transition-all duration-100  rounded-xl text-center bg-newPrimary flex items-center justify-center group h-[62px]    text-customBlack w-[96%] font-semibold">
+	<a href="https://blindllama.mithrilsecurity.io/en/latest/docs/getting-started/how-we-achieve-zero-trust/" target="_blank" rel="noopener noreferrer" 
+	class="bg-newPrimary  block py-2 text-center text-customBlack  rounded-xl w-[99%] text-lg">
+	How BlindChat works
+	</a>
+</div>
+<div
+	class=" customHover mb-4   active:scale-95  transition-all duration-100  rounded-xl text-center bg-newPrimary flex items-center justify-center group h-[62px]    text-customBlack w-[96%] font-semibold">
 	<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
-	class="bg-[#0d1830] px-8 block py-2 text-center text-white rounded-2xl w-[99%]">
+	class="bg-newPrimary  block py-2 text-center text-customBlack  rounded-xl w-[99%] text-lg">
 		Give Feedback
 	</a>
+</div>
 </div>
 {/if}
 
@@ -157,7 +187,7 @@ style = "background-color: #141c2a !important;"
 	<div>
 		<div class="flex justify-center" style="position: relative;">
 		<a href="https://1qdag6eehid.typeform.com/to/EFrGfL1u" target="_blank" rel="noopener noreferrer" 
-		class="px-8 block py-3 text-center h-11 text-white rounded-2xl w-[100%]">
+		class="px-8 block py-3 text-center h-11 text-customBlack rounded-2xl w-[100%]">
 			Give Feedback
 		</a>
 		<img
@@ -173,7 +203,7 @@ style = "background-color: #141c2a !important;"
 		<button
 			on:click={logoutSubmit}
 			type="button"
-			class="px-8 py-3 text-center h-11 text-white hover:bg-gray-600 rounded-2xl" 
+			class="px-8 py-3 text-center h-11 text-customBlack hover:bg-gray-600 rounded-2xl" 
 			style="width: 100%;"
 		>
 			<p class="">Log out</p>

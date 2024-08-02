@@ -107,7 +107,7 @@
 	}
 
 	async function deleteConversation(id: string) {
-		await deleteChat(id);
+	 await deleteChat(id);
 
 		if ($page.params.id !== id) {
 			await invalidate(UrlDependency.ConversationList);
@@ -223,7 +223,7 @@
 	/>
 	<link
 		rel="icon"
-		href="https://chat.mithrilsecurity.io/{PUBLIC_APP_ASSETS}/favicon.png"
+		href="{PUBLIC_ORIGIN || $page.url.origin}{base}/{PUBLIC_APP_ASSETS}/favicon.png"
 		type="image/png"
 	/>
 	<!-- Icon Support for iOS Bookmark Home Screen -->
@@ -248,7 +248,7 @@
 </svelte:head>
 
 <div
-	class="grid h-full w-screen grid-cols-1 grid-rows-[auto,1fr] overflow-hidden text-smd dark:text-gray-300 md:grid-cols-[280px,1fr] md:grid-rows-[1fr]"
+	class="grid h-full w-screen grid-cols-1 grid-rows-[auto,1fr] overflow-hidden text-smd dark:text-  md:grid-cols-[320px,1fr]  lg:grid-cols-[368px,1fr] xl:grid-cols-[400px,1fr]  md:grid-rows-[1fr] "
 >
 	<MobileNav
 		isOpen={isNavOpen}
@@ -267,7 +267,7 @@
 			on:editConversationTitle={(ev) => editConversationTitle(ev.detail.id, ev.detail.title)}
 		/>
 	</MobileNav>
-	<nav class="grid max-h-screen grid-cols-1 grid-rows-[auto,1fr,auto] max-md:hidden">
+	<nav class="grid max-h-screen grid-cols-1 grid-rows-[auto,1fr,auto] max-md:hidden md:w-[320px] lg:w-[368px] xl:w-[400px]">
 		<NavMenu
 			conversations={conversations_list}
 			user={data.user}
