@@ -30,7 +30,7 @@ You can learn more about attestation and attested TLS in our [concepts guide](..
 
 ### 2. Deploying the API in an enclave
 
-We use Blindllama to deploy our AI API. The API is deployed within an enclave that ensures confidentiality by using a container with strict isolation policies, along with a custom minimal OS loaded into RAM.
+The AI API is deployed within an enclave, BlindLlama, that ensures confidentiality by using a container with strict isolation policies, along with a custom minimal OS loaded into RAM.
 
 The custom OS generates measurements of itself and update the Platform Configuration Registers (PCRs). It uses these measurements to generate an attestion report, which serves as cryptographic proof that the enclave and its code are as expected. Upon deployment, a secure TLS-terminating reverse proxy using Caddy is created to handle the generation of the TLS certificate required for a TLS tunnel.
 
