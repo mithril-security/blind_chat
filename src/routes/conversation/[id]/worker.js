@@ -170,11 +170,11 @@ self.addEventListener("message", async (event) => {
 			userMessageEndToken: event.data.model_obj.userMessageEndToken,
 			assistantMessageToken: event.data.model_obj.assistantMessageToken,
 			assistantMessageEndToken: event.data.model_obj.assistantMessageEndToken,
-		}
-		console.log(event.data.model_obj.chatPromptTemplate)
-		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m)
-		const res = t({messages: event.data.messages, preprompt: m.preprompt})
-		console.log(res)
+		};
+
+		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m);
+		const res = t({ messages: event.data.messages, preprompt: m.preprompt });
+
 		controller = new AbortController();
 		const context = buildContext(event.data);
 		const newParameters = {
@@ -188,7 +188,8 @@ self.addEventListener("message", async (event) => {
 			parameters: newParameters,
 		});
 		let text_output = "";
-		const server_addr = event.data.model_obj.server_addr ?? ""
+		const server_addr = event.data.model_obj.server_addr ?? "";
+
 		try {
 			let resp = await fetch(server_addr + "/generate_stream", {
 				headers: {
@@ -199,6 +200,7 @@ self.addEventListener("message", async (event) => {
 				body: body,
 				signal: controller.signal,
 			});
+
 			if (resp.ok) {
 				let stream1 = resp.body;
 				for await (const input of streamToAsyncIterable(stream1)) {
@@ -251,28 +253,27 @@ self.addEventListener("message", async (event) => {
 					output: text_output,
 					searchID: event.data.searchID,
 					id_now: event.data.id_now,
-				})
+				});
 				self.postMessage({
 					status: "error",
 					output: text_output,
 					error: "Error while trying to communicate with the server",
-				})
+				});
 				return;
 			}
 		} catch (e) {
-			console.log(e)
 			self.postMessage({
 				status: "aborted",
 				output: text_output,
 				searchID: event.data.searchID,
 				id_now: event.data.id_now,
-			})
+			});
 			if (e.name != "AbortError") {
 				self.postMessage({
 					status: "error",
 					output: text_output,
 					error: "Error while trying to communicate with the server",
-				})
+				});
 			}
 			return;
 		}

@@ -20,6 +20,7 @@
 	let api_key = "";
 
 	export let data;
+
 	let loading = false;
 	let isLogged = false;
 
@@ -69,8 +70,6 @@
 
 			// Ugly hack to use a store as temp storage, feel free to improve ^^
 			pendingMessage.set(message);
-
-			console.log(conversationId);
 			params_writable.set(conversationId);
 			// invalidateAll to update list of conversations
 			await goto(`${base}/conversation/${conversationId}`, { invalidateAll: true });

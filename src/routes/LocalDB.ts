@@ -45,7 +45,7 @@ export async function createChat(
 	try {
 		let title_f = "";
 		if (title === undefined) {
-			let count = (await db.chats.count()) + 1;
+			const count = (await db.chats.count()) + 1;
 			title_f = "Untitled " + count;
 		} else title_f = title;
 		const chat = {
@@ -59,7 +59,7 @@ export async function createChat(
 	} catch (error) {
 		console.log(error);
 	}
-	let push = await getChats();
+	const push = await getChats();
 	refresh_chats_writable.set(push);
 }
 
@@ -70,9 +70,9 @@ export async function deleteAllChats() {
 
 export async function deleteChat(id_chat: string) {
 	const chat_ret = await db.chats.where("id").equals(id_chat).delete();
-	let count = await db.chats.count();
+	const count = await db.chats.count();
 	if (count > 0) {
-		let push = await getChats();
+		const push = await getChats();
 		refresh_chats_writable.set(push);
 	} else {
 		refresh_chats_writable_empty.set(true);
@@ -81,18 +81,18 @@ export async function deleteChat(id_chat: string) {
 
 export async function modifyTitle(id_chat: string, newTitle: string) {
 	const chat_ret = db.chats.where("id").equals(id_chat);
-	let count = await chat_ret.count();
+	const count = await chat_ret.count();
 	if (count > 0) {
-		let res = await chat_ret.first();
+		const res = await chat_ret.first();
 		chat_ret.modify({ title: newTitle });
-		let push = await getChats();
+		const push = await getChats();
 		refresh_chats_writable.set(push);
 	}
 }
 
 export async function addMessageToChat(id_chat: string, msg: MessageDb, model: string) {
 	const chat_ret = db.chats.where("id").equals(id_chat);
-	let count = await chat_ret.count();
+	const count = await chat_ret.count();
 	if (count < 1) {
 		createChat(id_chat, msg, model);
 	} else {
@@ -123,7 +123,7 @@ export async function getMessages(id_chat: string) {
 	try {
 		const chat_ret = await db.chats.where("id").equals(id_chat).first();
 		const msg = chat_ret?.message;
-		return [...msg];
+		return msg ? [...msg] : [];
 	} catch (err) {
 		console.log(err);
 	}
@@ -133,7 +133,7 @@ export async function getMessages(id_chat: string) {
 export async function getModel(id_chat: string) {
 	try {
 		const chat_ret = await db.chats.where("id").equals(id_chat).first();
-		let model = chat_ret?.model;
+		const model = chat_ret?.model;
 		if (model === undefined) return "";
 		return model;
 	} catch (err) {
@@ -143,7 +143,7 @@ export async function getModel(id_chat: string) {
 }
 
 export async function getChats() {
-	let titles = [];
+	const titles = [];
 	try {
 		const all = (await db.chats.orderBy("createdAt").toArray()).forEach(function (chat) {
 			titles.push({

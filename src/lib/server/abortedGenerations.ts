@@ -15,10 +15,11 @@ async function maintainAbortedGenerations() {
 		await setTimeout(1000);
 
 		try {
-			const aborts = await collections.abortedGenerations.find({}).sort({ createdAt: 1 }).toArray();
-
+			const aborts = collections?.abortedGenerations;
+			if (!aborts) return;
+			const sortedAborts = aborts.find({}).sort({ createdAt: 1 }).toArray();
 			abortedGenerations = new Map(
-				aborts.map(({ conversationId, createdAt }) => [conversationId.toString(), createdAt])
+				sortedAborts.map(({ conversationId, createdAt }) => [conversationId.toString(), createdAt])
 			);
 		} catch (err) {
 			console.error(err);
