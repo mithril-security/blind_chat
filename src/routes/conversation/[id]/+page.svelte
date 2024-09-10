@@ -265,7 +265,6 @@
 	}
 
 	async function writeMessage(message: string, messageId = randomUUID()) {
-		console.log('retryinenenen')
 		if (!message.trim()) return;
 
 		try {
