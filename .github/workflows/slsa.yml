@@ -1,0 +1,69 @@
+name: Build with SLSA
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - updates-docs
+env:
+  IMAGE_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.image.outputs.image }}
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2.3.4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2.0.0
+
+      - name: Authenticate Docker
+        uses: docker/login-action@v2.0.0
+        with:
+          registry: ${{ env.IMAGE_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v3.0.0
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ steps.meta.outputs.labels }}
+          outputs: type=digest
+
+  generate:
+    needs: [ build ]
+    permissions:
+      actions: read
+      id-token: write
+      packages: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v2.0.0
+    with:
+      image: ${{ needs.build.outputs.image }}
+      digest: ${{ needs.build.outputs.digest }}
+      registry-username: ${{ github.actor }}
+    secrets:
+      registry-password: ${{ secrets.GITHUB_TOKEN }}
+
+  verify:
+    needs: [ generate ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3
+        with:
+          cosign-release: 'v2.1.1'
+      - name: Verify SLSA Provenance
+        run: |
+          cosign verify-attestation ghcr.io/ianlewis/actions-test:latest
