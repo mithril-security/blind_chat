@@ -174,6 +174,7 @@ self.addEventListener("message", async (event) => {
 
 		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m);
 		const res = t({ messages: event.data.messages, preprompt: m.preprompt });
+		// const re
 
 		controller = new AbortController();
 		const context = buildContext(event.data);
@@ -183,24 +184,40 @@ self.addEventListener("message", async (event) => {
 			truncate: event.data.model_obj.parameters?.truncate ?? 2048,
 			return_full_text: false,
 		};
+		// let body = JSON.stringify({
+		// 	inputs: res,
+		// 	parameters: newParameters,
+		// });
 		let body = JSON.stringify({
-			inputs: res,
-			parameters: newParameters,
+			model: event.data.model,
+			prompt: res, 
+			max_tokens: 2048,
+			temperature: 0.8
 		});
+		console.log(body);
 		let text_output = "";
 		const server_addr = event.data.model_obj.server_addr ?? "";
-
+		console.log(server_addr);
 		try {
-			let resp = await fetch(server_addr + "/generate_stream", {
+			// let resp = await fetch(server_addr + "/generate_stream", {
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 		accesstoken: event.data.jwt,
+			// 	},
+			// 	method: "POST",
+			// 	body: body,
+			// 	signal: controller.signal,
+			// });
+			let resp = await fetch(server_addr + "/v1/completions", {
 				headers: {
 					"Content-Type": "application/json",
-					accesstoken: event.data.jwt,
+					// accesstoken: event.data.jwt,
 				},
 				method: "POST",
 				body: body,
-				signal: controller.signal,
+				// signal: controller.signal,
 			});
-
+			console.log("response is : ", resp);
 			if (resp.ok) {
 				let stream1 = resp.body;
 				for await (const input of streamToAsyncIterable(stream1)) {
