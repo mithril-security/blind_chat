@@ -191,8 +191,8 @@ self.addEventListener("message", async (event) => {
 		let body = JSON.stringify({
 			model: event.data.model,
 			prompt: res, 
-			max_tokens: 2048,
-			temperature: 0.8
+			max_tokens: newParameters.max_new_tokens,
+			temperature: newParameters.temperature
 		});
 		console.log(body);
 		let text_output = "";
