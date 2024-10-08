@@ -45,14 +45,14 @@
 	$: title = env.PUBLIC_APP_NAME;
 </script>
 
-<div class="my-auto grid gap-8 lg:grid-cols-2">
-	<div class="lg:col-span-1">
+<div class="my-auto  gap-8 ">
+	<div class=" text-customBlack flex justify-center">
 		<div>
-			<div class="mb-3 flex items-center text-2xl font-semibold">
-				<Logo classNames="mr-1flex-none" />
-				<div class = "pl-2 text-white"> {PUBLIC_APP_NAME} </div>
+			<div class="mb-3 flex items-center justify-center text-[42px]  font-semibold">
+				<Logo classNames="mr-1 flex-none w-[73px] h-[62px]" />
+				<div class = "pl-2  "> {PUBLIC_APP_NAME} </div>
 			</div>
-			<p class="text-base text-gray-600 dark:text-gray-400">
+			<p class="text-xl  ">
 				Enjoying the best AI models, with privacy
 			</p>
 		</div>
@@ -99,24 +99,22 @@
 		{/if}
 	</div> -->
 	{#if currentModelMetadata.promptExamples}
-		<div class="lg:col-span-2 lg:mt-6">
+		<div class="lg:col-span-2 mt-14">
 			<div class="grid gap-3 lg:grid-cols-3 lg:gap-5">
 				{#each currentModelMetadata.promptExamples as example}
 					<button
 						type="button"
-						class="rounded-xl border bg-gray-50 p-2.5 text-gray-600 hover:bg-gray-100 dark:border-gray-800 dark:bg-prompts dark:text-gray-300 dark:hover:bg-gray-700 sm:p-4"
+						class="rounded-xl p-2.5 text-newPrimary hover:bg-gray-100  dark:bg-tertiary dark:text-newPrimary dark:customHover sm:p-4"
 						on:click={() => {
 							dataLayer.push({ event: "prompt", titre_prompt: [example.title] });
 							dispatch("message", example.prompt)}
 					}
 					>
-					{#each [...getTitles(example.title)] as [key, value]}
-						{#if key < 3}
-							<b>{value + " "} </b>
-						{:else}
-							{value + " "} 
-						{/if}
-					{/each}
+				
+						
+							{example.title + " "} 
+				
+			
 					</button>
 				{/each}
 			</div>
