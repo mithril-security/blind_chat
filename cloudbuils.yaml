@@ -1,0 +1,9 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/amd-sev-356012/quickstart-docker-repo/blindllama-server-builder-output:latest', '.']
+  env:
+  - "DOCKER_BUILDKIT=1"
+images:
+- 'europe-west1-docker.pkg.dev/amd-sev-356012/mithril-os/blindchat-ui:latest'
+options:
+  requestedVerifyOption: VERIFIED

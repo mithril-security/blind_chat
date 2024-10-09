@@ -170,11 +170,12 @@ self.addEventListener("message", async (event) => {
 			userMessageEndToken: event.data.model_obj.userMessageEndToken,
 			assistantMessageToken: event.data.model_obj.assistantMessageToken,
 			assistantMessageEndToken: event.data.model_obj.assistantMessageEndToken,
-		}
-		console.log(event.data.model_obj.chatPromptTemplate)
-		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m)
-		const res = t({messages: event.data.messages, preprompt: m.preprompt})
-		console.log(res)
+		};
+
+		const t = compileTemplate2(event.data.model_obj.chatPromptTemplate, m);
+		const res = t({ messages: event.data.messages, preprompt: m.preprompt });
+		// const re
+
 		controller = new AbortController();
 		const context = buildContext(event.data);
 		const newParameters = {
@@ -183,22 +184,40 @@ self.addEventListener("message", async (event) => {
 			truncate: event.data.model_obj.parameters?.truncate ?? 2048,
 			return_full_text: false,
 		};
+		// let body = JSON.stringify({
+		// 	inputs: res,
+		// 	parameters: newParameters,
+		// });
 		let body = JSON.stringify({
-			inputs: res,
-			parameters: newParameters,
+			model: event.data.model,
+			prompt: res, 
+			max_tokens: newParameters.max_new_tokens,
+			temperature: newParameters.temperature
 		});
+		console.log(body);
 		let text_output = "";
-		const server_addr = event.data.model_obj.server_addr ?? ""
+		const server_addr = event.data.model_obj.server_addr ?? "";
+		console.log(server_addr);
 		try {
-			let resp = await fetch(server_addr + "/generate_stream", {
+			// let resp = await fetch(server_addr + "/generate_stream", {
+			// 	headers: {
+			// 		"Content-Type": "application/json",
+			// 		accesstoken: event.data.jwt,
+			// 	},
+			// 	method: "POST",
+			// 	body: body,
+			// 	signal: controller.signal,
+			// });
+			let resp = await fetch(server_addr + "/v1/completions", {
 				headers: {
 					"Content-Type": "application/json",
-					accesstoken: event.data.jwt,
+					// accesstoken: event.data.jwt,
 				},
 				method: "POST",
 				body: body,
-				signal: controller.signal,
+				// signal: controller.signal,
 			});
+			console.log("response is : ", resp);
 			if (resp.ok) {
 				let stream1 = resp.body;
 				for await (const input of streamToAsyncIterable(stream1)) {
@@ -251,28 +270,27 @@ self.addEventListener("message", async (event) => {
 					output: text_output,
 					searchID: event.data.searchID,
 					id_now: event.data.id_now,
-				})
+				});
 				self.postMessage({
 					status: "error",
 					output: text_output,
 					error: "Error while trying to communicate with the server",
-				})
+				});
 				return;
 			}
 		} catch (e) {
-			console.log(e)
 			self.postMessage({
 				status: "aborted",
 				output: text_output,
 				searchID: event.data.searchID,
 				id_now: event.data.id_now,
-			})
+			});
 			if (e.name != "AbortError") {
 				self.postMessage({
 					status: "error",
 					output: text_output,
 					error: "Error while trying to communicate with the server",
-				})
+				});
 			}
 			return;
 		}

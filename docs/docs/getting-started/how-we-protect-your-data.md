@@ -20,26 +20,23 @@ At the end of this process, users will know that when using our Python SDK, **th
 ![toolchain-light](../../assets/secure-tooling-light.png#only-light)
 ![toolchain-dark](../../assets/secure-tooling-dark.png#only-dark)
 
-### 1. Deploying the API in an enclave
+### 1. Proving privacy controls are applied
 
-To deploy our AI API, we developed a custom solution using virtual Trusted Platform Modules (TPMs). The API is deployed in an **enclave** that ensures confidentiality by using a container with strict isolation policies, along with a custom minimal OS loaded into RAM to mitigate attacks on the disk.
+We have developed our own type of enclaves, BlindLlama, that uses Trusted Platform Modules (TPMs) to create a cryptographic proof file. This file demonstrates that the expected hardened server is deployed in our backend. Before transmitting any data, end users verify this proof file using our client-side SDK to ensure they are interacting with a privacy-preserving AI infrastructure. This verification process is known as attestation.
+
+While other solutions may also claim to put similar controls in place, they usually provide no technical evidence regarding how AI providers will handle or use data. Even where a code base is open-source, users cannot check the server they connect to hosts the application they expect and nothing else.
+
+You can learn more about attestation and attested TLS in our [concepts guide](../concepts/attestation.md).
+
+### 2. Deploying the API in an enclave
+
+The AI API is deployed within an enclave, BlindLlama, that ensures confidentiality by using a container with strict isolation policies, along with a custom minimal OS loaded into RAM.
 
 The custom OS generates measurements of itself and update the Platform Configuration Registers (PCRs). It uses these measurements to generate an attestion report, which serves as cryptographic proof that the enclave and its code are as expected. Upon deployment, a secure TLS-terminating reverse proxy using Caddy is created to handle the generation of the TLS certificate required for a TLS tunnel.
 
 The client connects to this reverse proxy, verifies the attestation report, and then accesses the AI container that serves the AI API.
 
 We provide more details about **enclaves** in our [concepts guide](../concepts/enclaves.md).
-
-### 2. Proving privacy controls are applied
-
-While other solutions may also claim to put similar controls in place, they usually provide no technical evidence regarding how AI providers will handle or use data. Even where a code base is open-source, users cannot check the server they connect to hosts the application they expect and nothing else.
-
-With BlindLlama, we use secure hardware, [Trusted Platform Modules (TPMs)](../concepts/TPMs.md), to create a cryptographic proof file to show that the expected hardened server really is deployed in our backend. Before sending any data, end users verify this proof file to make sure they are talking to a privacy-preserving AI infrastructure using our client-side SDK. This process of verification is called attestation. 
-
-Not only do we attest the code loaded in our backend.
-
-You can learn more about attestation and attested TLS in our [concepts guide](../concepts/attestation.md).
-
 
 ### 3. Auditing the whole stack
 

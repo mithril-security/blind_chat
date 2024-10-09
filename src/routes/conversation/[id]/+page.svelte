@@ -177,7 +177,7 @@
 	) {
 		let conversationId = $page.params.id;
 		const responseId = randomUUID();
-
+		console.log(curr_model_obj.is_local,'aa')
 		const is_local = curr_model_obj.is_local ?? true;
 		if (!is_local) {
 			if (!isLogged) {
@@ -265,6 +265,7 @@
 	}
 
 	async function writeMessage(message: string, messageId = randomUUID()) {
+		console.log('retryinenenen')
 		if (!message.trim()) return;
 
 		try {
@@ -282,7 +283,7 @@
 				...messages.slice(0, retryMessageIndex),
 				{ from: "user", content: message, id: messageId },
 			];
-
+			
 			let searchResponseId: string | null = "";
 			if ($webSearchParameters.useSearch) {
 				webSearchMessages = [];
