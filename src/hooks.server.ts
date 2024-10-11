@@ -1,4 +1,5 @@
 import { COOKIE_NAME, MESSAGES_BEFORE_LOGIN } from "$env/static/private";
+import { env } from "$env/dynamic/private";
 import type { Handle } from "@sveltejs/kit";
 import {
 	PUBLIC_GOOGLE_ANALYTICS_ID,
@@ -10,6 +11,7 @@ import { collections } from "$lib/server/database";
 import { base } from "$app/paths";
 import { refreshSessionCookie, requiresUser } from "$lib/server/auth";
 import { ERROR_MESSAGES } from "$lib/stores/errors";
+import { models } from "./lib/server/models";
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const token = event.cookies.get(COOKIE_NAME);
@@ -85,6 +87,42 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// 	}
 	// }
 
+	const modelsEnv = process.env.MODELS;	
+	if (modelsEnv) {
+	  try {
+		const modelsData = JSON.parse(modelsEnv);
+		if (modelsData.length > 0) {
+			modelsData[0].name = process.env.MODEL_NAME || modelsData[0].name;
+			modelsData[0].is_local = process.env.IS_LOCAL || modelsData[0].is_local;
+			modelsData[0].is_code = process.env.IS_CODE || modelsData[0].is_code;
+			modelsData[0].type = process.env.MODEL_TYPE || modelsData[0].type;
+			modelsData[0].userMessageToken = process.env.USER_MESSAGE_TOKEN || modelsData[0].userMessageToken;
+			modelsData[0].assistantMessageToken = process.env.ASSISTANT_MESSAGE_TOKEN || modelsData[0].assistantMessageToken;
+			modelsData[0].messageEndToken = process.env.MESSAGE_END_TOKEN || modelsData[0].messageEndToken;
+			modelsData[0].preprompt = process.env.PREPROMPT || modelsData[0].preprompt;
+			modelsData[0].server_addr = process.env.SERVER_ADDR || modelsData[0].server_addr;
+			modelsData[0].promptExamples[0] = process.env.PROMPT_1
+			? { title: process.env.PROMPT_1, prompt: process.env.PROMPT_1 } : modelsData[0].promptExamples[0];
+			modelsData[0].promptExamples[1] = process.env.PROMPT_2
+			? { title: process.env.PROMPT_2, prompt: process.env.PROMPT_2 } : modelsData[0].promptExamples[1];
+			modelsData[0].promptExamples[2] = process.env.PROMPT_3
+			? { title: process.env.PROMPT_3, prompt: process.env.PROMPT_3 } : modelsData[0].promptExamples[2];
+			modelsData[0].parameters = {
+				temperature: process.env.TEMPERATURE !== undefined ? parseFloat(process.env.TEMPERATURE) : modelsData[0].parameters.temperature,
+				top_p: process.env.TOP_P !== undefined ? parseFloat(process.env.TOP_P) : modelsData[0].parameters.top_p,
+				repetition_penalty: process.env.REPETITION_PENALTY !== undefined ? parseFloat(process.env.REPETITION_PENALTY) : modelsData[0].parameters.repetition_penalty,
+				top_k: process.env.TOP_K !== undefined ? parseInt(process.env.TOP_K) : modelsData[0].parameters.top_k,
+				truncate: process.env.TRUNCATE !== undefined ? parseInt(process.env.TRUNCATE) : modelsData[0].parameters.truncate,
+				max_new_tokens: process.env.MAX_NEW_TOKENS !== undefined ? parseInt(process.env.MAX_NEW_TOKENS) : modelsData[0].parameters.max_new_tokens,
+			};
+			models[0] = modelsData[0];
+
+		}
+	  } catch (error) {
+		console.error('Error parsing MODELS environment variable:', error);
+	  }
+	}
+	
 	refreshSessionCookie(event.cookies, event.locals.sessionId);
 
 	let replaced = false;
