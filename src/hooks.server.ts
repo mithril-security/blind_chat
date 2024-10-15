@@ -1,5 +1,6 @@
 import { COOKIE_NAME, MESSAGES_BEFORE_LOGIN } from "$env/static/private";
 import { env } from "$env/dynamic/private";
+import { models } from "./lib/server/models";
 import type { Handle } from "@sveltejs/kit";
 import {
 	PUBLIC_GOOGLE_ANALYTICS_ID,
@@ -11,7 +12,6 @@ import { collections } from "$lib/server/database";
 import { base } from "$app/paths";
 import { refreshSessionCookie, requiresUser } from "$lib/server/auth";
 import { ERROR_MESSAGES } from "$lib/stores/errors";
-import { models } from "./lib/server/models";
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const token = event.cookies.get(COOKIE_NAME);
@@ -86,7 +86,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// 		}
 	// 	}
 	// }
-
 	const modelsEnv = process.env.MODELS;	
 	if (modelsEnv) {
 	  try {
@@ -122,7 +121,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		console.error('Error parsing MODELS environment variable:', error);
 	  }
 	}
-	
 	refreshSessionCookie(event.cookies, event.locals.sessionId);
 
 	let replaced = false;
