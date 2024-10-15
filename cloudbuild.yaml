@@ -1,5 +1,5 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
+- name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'europe-west1-docker.pkg.dev/amd-sev-356012/mithril-os/blindchat-ui:latest', '.']
   env:
   - "DOCKER_BUILDKIT=1"
